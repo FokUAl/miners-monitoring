@@ -1,0 +1,150 @@
+*, 
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{ 
+    height: 100%;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+/* BODY */
+
+body{
+    margin: 0;
+    font-family: 'Ubuntu', sans-serif;
+
+    font-size: 16px;
+
+    max-width: 1400px;
+    margin: 0 auto;
+
+}
+
+/* BODY END */
+
+/* NAVBAR */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-block: 20px;
+}
+
+.logo {
+    margin: 10px;
+    cursor: pointer;
+}
+
+/* .logo > img {
+    height: 20px;
+    width: auto;
+} */
+
+.links {
+    display: flex;
+}
+
+.link {
+    padding: 10px 15px;
+    transition: all .2s;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: #999999;
+}
+
+/* NAVBAR END */
+
+/* MAIN */
+
+main {
+    width: 100%;
+}
+
+.main--title {
+    text-align: center;
+    margin-block: 50px;
+}
+
+.main--table {
+    width: 100%;
+}
+
+.table--names > .inner {
+    font-weight: 500;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+}
+/* MAIN END */
+
+/* FORM */
+
+form {
+    margin: 0 auto;
+    width: 35%;
+    padding: 50px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+
+.form--title {
+    font-size: 20px;
+    padding-bottom: 20px;
+}
+
+.form--inputs {
+    display: block;
+}
+
+.form--inputs label {
+    font-weight: 500;
+}
+
+.form--input {
+    width: 100%;
+    margin-block: 10px;
+    padding: 8px 10px;
+}
+
+.grid-50-50 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+
+.grid-50-50 > a {
+    text-align: right;
+    color: #2345b4;
+}
+
+.grid-50-50 > a:visited {
+    color: #2345b4;
+}
+
+.form--submit {
+    width: 100%;
+    background-color: black;
+    color: white;
+
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+
+    cursor: pointer;
+}
+
+/* FORM END */
