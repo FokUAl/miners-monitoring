@@ -1,0 +1,1 @@
+DELETE FROM users WHERE username = "Nick" or username = "Aibek";
