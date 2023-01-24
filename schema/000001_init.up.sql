@@ -13,5 +13,7 @@ CREATE TABLE miner-devices
     area VARCHAR(255) NOT NULL,
     miner_status VARCHAR(255) NOT NULL,
     coin VARCHAR(255) NOT NULL,
+    ip_address VARCHAR(255) NOT NULL,
+    mac_address VARCHAR(255) NOT NULL,
     _pool VARCHAR(255) NOT NULL
 }
