@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	app "github.com/HgCl2/rock_scissors_paper"
+	app "github.com/FokUAl/miners-monitoring"
 	"github.com/gin-gonic/gin"
 )
 

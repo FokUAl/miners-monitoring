@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	app "github.com/HgCl2/rock_scissors_paper"
+	app "github.com/FokUAl/miners-monitoring"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,8 +29,24 @@ func (h *Handler) signUp(c *gin.Context) {
 	})
 }
 
-func (h *Handler) getGoogleLogin(c *gin.Context) {
-	t, err := template.ParseFiles("./ui/template/index.html")
+func (h *Handler) getLogin(c *gin.Context) {
+	t, err := template.ParseFiles("./ui/html/sign-in.html")
+	if err != nil {
+		log.Printf("getSignUp: %s\n", err.Error())
+		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
+		return
+	}
+	err = t.Execute(c.Writer, nil)
+	if err != nil {
+		log.Printf("getSignUp: %s\n", err.Error())
+		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
+	}
+}
+
+func (h *Handler) getSignUp(c *gin.Context) {
+	t, err := template.ParseFiles("./ui/html/sign-up.html")
 	if err != nil {
 		log.Printf("getSignUp: %s\n", err.Error())
 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),

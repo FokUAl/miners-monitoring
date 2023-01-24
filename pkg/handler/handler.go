@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"github.com/HgCl2/rock_scissors_paper/pkg/service"
+	"github.com/FokUAl/miners-monitoring/pkg/service"
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,8 +21,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
+		auth.GET("/sign-up", h.getSignUp)
+		auth.GET("/sign-in", h.getLogin)
 		auth.POST("/google/login", h.googleLogin)
-		auth.GET("/google/login", h.getGoogleLogin)
+
 	}
 
 	hall := router.Group("/hall", h.userIdentity)
@@ -31,6 +34,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		hall.GET("/gameroom", h.getGameRoom)
 		hall.POST("/gameroom", h.postGameRoom)
 	}
+
+	// static routes
+	router.Use(static.Serve("/", static.LocalFile("./ui", true)))
 
 	return router
 }
