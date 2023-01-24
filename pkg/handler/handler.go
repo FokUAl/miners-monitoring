@@ -2,7 +2,6 @@ package handler
 
 import (
 	"github.com/FokUAl/miners-monitoring/pkg/service"
-	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,10 +29,12 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	home := router.Group("/", h.userIdentity)
 	{
 		home.GET("/", h.getHome)
+		home.GET("/add", h.getAddMiner)
+		home.POST("/add", h.addMiner)
 	}
 
 	// static routes
-	router.Use(static.Serve("/", static.LocalFile("./ui", true)))
+	router.Static("/ui", "./ui")
 
 	return router
 }
