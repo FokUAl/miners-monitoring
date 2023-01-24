@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="296488562359-4mh2k9m7sk687sdp6idkfdqq2entjikd.apps.googleusercontent.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
@@ -30,10 +31,22 @@
                 <input name="email" type="text" class="form--input">
                 <label>Password</label>
                 <input name="password" type="text" class="form--input">
-                <a href=""><img src="../img/google.svg" class="g-logo"></a>
+                <!-- <a href=""><img src="../img/google.svg" class="g-logo"></a> -->
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 <input type="submit" class="form--submit" value="Create">
             </div>
         </form>
     </main>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+    </script>
 </body>
 </html>
+<!-- 296488562359-4mh2k9m7sk687sdp6idkfdqq2entjikd.apps.googleusercontent.com -->

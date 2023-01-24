@@ -131,10 +131,30 @@ form {
     vertical-align: middle;
 }
 
+.form--inputs > select {
+    width: 100%;
+    background-color: white;
+    border: 1px solid black;
+    margin-block: 10px;
+    padding: 10px;
+}
+
 .form--input {
     width: 100%;
     margin-block: 10px;
     padding: 8px 10px;
+}
+
+.form--plus-minus {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.plus-minus {
+    padding: 0px 8px;
+    margin-left: 5px;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 .grid-50-50 {

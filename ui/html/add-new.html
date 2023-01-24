@@ -20,6 +20,43 @@
             <div class="link" onclick="window.location.href='/add-new.html'">Sign up</div>
         </div>
     </nav>
+    <form action="/add-new" method="post">
+        <div class="form--title">Add new ASIC</div>
+        <div class="form--inputs">
+            <label>Select model</label>
+            <select>
+                <option selected value>1</option>
+                <option value>2</option>
+            </select>
+            <div class="form--plus-minus">
+            <label>IP</label>
+                <div class="plus-minus" onclick="addIP()">+</div>
+                <div class="plus-minus" onclick="removeIP()">-</div>
+            </div>
+            <div id="ip-container" class="ip-container">
+                <input id="ip" type="text" name="ip" class="form--input">
+            </div>
+            <!-- <input name="nickname" type="text" class="form--input"> -->
+            <input type="submit" class="form--submit" value="Create">
+        </div>
+    </form>
+    <script>
+        const ips = document.getElementById('ip-container')
 
+        const addIP = () => {
+            if (ips.children.length < 4) {
+                const ip = document.getElementById('ip')
+                const clone = ip.cloneNode(true)
+                clone.value=''
+                ips.appendChild(clone)
+            }
+        }
+
+        const removeIP = () => {
+            if (ips.children.length > 1) {
+                ips.removeChild(ips.lastElementChild)
+            }
+        }
+    </script>
 </body>
 </html>
