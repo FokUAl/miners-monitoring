@@ -18,8 +18,8 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 func (r *MinerPostgres) GetDevice(id int) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
-	query := `SELECT INTO miner_devices (miner_type, area, miner_status, coin,
-		ip_address, mac_address) WHERE id = $1`
+	query := `SELECT miner_type, area, miner_status, coin,
+		ip_address, mac_address FROM miner_devices WHERE id = $1`
 
 	err := r.db.Get(&device, query, id)
 
