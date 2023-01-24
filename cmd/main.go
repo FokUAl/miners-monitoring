@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg/handler"
@@ -39,8 +42,26 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(app.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		log.Fatalf("error run http server %s", err.Error())
+	go func() {
+		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			log.Fatalf("error run http server %s", err.Error())
+		}
+	}()
+
+	log.Printf("Server started\n")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	log.Printf("Server shutting down\n")
+
+	if err := srv.Shutdown(context.Background()); err != nil {
+		log.Printf("error occured on server shutting down: %s", err.Error())
+	}
+
+	if err := db.Close(); err != nil {
+		log.Printf("error occured on db connection close: %s", err.Error())
 	}
 }
 

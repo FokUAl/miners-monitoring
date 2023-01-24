@@ -13,10 +13,9 @@ import (
 func (h *Handler) signUp(c *gin.Context) {
 	var input app.User
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
+	input.Email = c.PostForm("email")
+	input.Username = c.PostForm("nickname")
+	input.Password = c.PostForm("password")
 
 	id, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
@@ -69,10 +68,8 @@ type signInInput struct {
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
+	input.Username = c.PostForm("nickname")
+	input.Password = c.PostForm("password")
 
 	token, err := h.services.Authorization.GenerateToken(input.Username, input.Password)
 	if err != nil {
