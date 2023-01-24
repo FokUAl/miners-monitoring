@@ -10,14 +10,16 @@ type Authorization interface {
 	GetUser(username, password string) (app.User, error)
 }
 
-type Room interface{}
+type Miner interface {
+	GetDevice(id int) (app.MinerDevice, error)
+}
 
-type Player interface{}
+type User interface{}
 
 type Repository struct {
 	Authorization
-	Room
-	Player
+	User
+	Miner
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
