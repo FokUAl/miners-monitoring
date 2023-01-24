@@ -43,7 +43,7 @@ func (h *Handler) googleLogin(c *gin.Context) {
 	}
 
 	// create a JWT for OUR app and give it back to the client for future requests
-	tokenString, err := h.services.GenerateToken(claims.FirstName+"_"+claims.LastName, "password")
+	tokenString, err := h.services.GenerateToken(claims.Email, "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")
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, "Couldn't make authentication token")
 		return
