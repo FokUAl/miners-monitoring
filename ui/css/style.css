@@ -96,7 +96,6 @@ table, th, td {
 
 form {
     margin: 0 auto;
-    width: 35%;
     padding: 50px;
     box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
 }
@@ -170,6 +169,25 @@ form {
 
 .grid-50-50 > a:visited {
     color: #2345b4;
+}
+
+.connections {
+    margin-block: 10px;
+}
+
+.input-container {
+    display: flex;
+    margin-block: 10px;
+}
+
+.container--container {
+    width: 100%;
+    margin-right: 10px;
+}
+
+.container--input {
+    width: 100%;
+    padding: 8px 10px;
 }
 
 .form--submit {
