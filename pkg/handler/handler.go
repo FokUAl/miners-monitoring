@@ -27,12 +27,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	}
 
-	hall := router.Group("/hall", h.userIdentity)
+	home := router.Group("/", h.userIdentity)
 	{
-		hall.GET("/", h.hall)
-		hall.POST("/create-room", h.createRoom)
-		hall.GET("/gameroom", h.getGameRoom)
-		hall.POST("/gameroom", h.postGameRoom)
+		home.GET("/", h.getHome)
 	}
 
 	// static routes
