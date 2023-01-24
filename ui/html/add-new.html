@@ -43,33 +43,53 @@
                 <option value>Watsminer M31s</option>
                 <option value>Watsminer M31s68TH</option>
             </select>
+            <div class="connections">
+                <input name="ip" type="radio" class="radio" id="ip-connection" checked>
+                <label for="ip-connection">IP</label>
+                <input name="mac" type="radio" class="radio" id="mac-connection">
+                <label for="mac-connection">MAC</label>
+            </div>
             <div class="form--plus-minus">
-            <label>IP</label>
                 <div class="plus-minus" onclick="addIP()">+</div>
                 <div class="plus-minus" onclick="removeIP()">-</div>
             </div>
-            <div id="ip-container" class="ip-container">
-                <input id="ip" type="text" name="ip" class="form--input">
+            <div id="inputs-fields" class="inputs--fields">
+                <div id="input-container" class="input-container">
+                    <div class="container--container">
+                        <label>IP/MAC</label>
+                        <input name="ip/mac" type="text" class="container--input">
+                    </div>
+                    <div class="container--container">
+                        <label>Shelf</label>
+                        <input name="shelf" type="text" class="container--input">
+                    </div>
+                    <div class="container--container">
+                        <label>Row</label>
+                        <input name="row" type="text" class="container--input">
+                    </div>
+                    <div class="container--container">
+                        <label>Column</label>
+                        <input name="column" type="text" class="container--input">
+                    </div>
+                </div>
             </div>
             <!-- <input name="nickname" type="text" class="form--input"> -->
             <input type="submit" class="form--submit" value="Add">
         </div>
     </form>
     <script>
-        const ips = document.getElementById('ip-container')
+        const containers = document.getElementById('inputs-fields')
 
         const addIP = () => {
-            if (ips.children.length < 4) {
-                const ip = document.getElementById('ip')
-                const clone = ip.cloneNode(true)
-                clone.value=''
-                ips.appendChild(clone)
-            }
+            const container = document.getElementById('input-container')
+            const clone = container.cloneNode(true)
+            clone.value=''
+            containers.appendChild(clone)            
         }
 
         const removeIP = () => {
-            if (ips.children.length > 1) {
-                ips.removeChild(ips.lastElementChild)
+            if (containers.children.length > 1) {
+                containers.removeChild(containers.lastElementChild)
             }
         }
     </script>
