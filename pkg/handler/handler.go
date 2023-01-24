@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/FokUAl/miners-monitoring/pkg/service"
 	"github.com/gin-gonic/gin"
 )
@@ -34,7 +36,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 
 	// static routes
-	router.Static("/ui", "./ui")
+	router.StaticFS("/ui", http.Dir("./ui"))
 
 	return router
 }
