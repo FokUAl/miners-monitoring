@@ -119,29 +119,21 @@ table, th, td {
     font-weight: 500;
 }
 
-.form--inputs > a {
-    padding: 5px 30px 8px;
-    border: 1px solid;
-}
-
-.form--inputs > a:hover {
-    background-color: black;
-}
-
-.form--inputs > a:hover .g-logo {
-    filter: invert(0.9)
-}
-
-.form--inputs > a > img {
-    vertical-align: middle;
-}
-
 .form--inputs > select {
     width: 100%;
     background-color: white;
     border: 1px solid black;
     margin-block: 10px;
     padding: 10px;
+}
+
+.form--inputs > a {
+    text-align: right;
+    color: #2345b4;
+}
+
+.form--inputs > a:visited {
+    color: #2345b4;
 }
 
 .form--input {
