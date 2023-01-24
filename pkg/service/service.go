@@ -12,20 +12,23 @@ type Authorization interface {
 	ValidateGoogleJWT(tokenString string) (GoogleClaims, error)
 }
 
-type Room interface{}
+type Miner interface {
+	GetDevice(id int) (app.MinerDevice, error)
+}
 
-type Player interface {
+type User interface {
 	GetUser(username, password string) (app.User, error)
 }
 
 type Service struct {
 	Authorization
-	Room
-	Player
+	Miner
+	User
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Miner:         NewMinerService(repos.Miner),
 	}
 }
