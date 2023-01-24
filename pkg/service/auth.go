@@ -50,7 +50,7 @@ func (s *AuthService) GenerateToken(username, password string) (string, error) {
 	return token.SignedString([]byte(signingKey))
 }
 
-func (s *AuthService) CreateUser(user app.Player) (int, error) {
+func (s *AuthService) CreateUser(user app.User) (int, error) {
 	user.Password = s.generatePasswordHash(user.Password)
 	return s.repo.CreateUser(user)
 }
