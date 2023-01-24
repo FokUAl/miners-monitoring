@@ -31,8 +31,8 @@ func (p *MinerPostgres) GetDevice(id int) (app.MinerDevice, error) {
 func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 	var devices []app.MinerDevice
 
-	query := `SELECT miner_type, area, miner_status, coin, ip_address,
-		mac_address FROM miner_devices`
+	query := `SELECT miner_type, shelf, _row, column, miner_status, coin, 
+		ip_address, mac_address FROM miner_devices`
 	rows, err := p.db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("GetAllDevices: %w", err)
@@ -43,7 +43,7 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 	for rows.Next() {
 		var device app.MinerDevice
 
-		err = rows.Scan(&device.MinerType, &device.Area, &device.MinerStatus,
+		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.MinerStatus,
 			&device.Coin, &device.IPAddress, &device.MACAddress)
 		if err != nil {
 			return nil, fmt.Errorf("GetAllDevices: %w", err)

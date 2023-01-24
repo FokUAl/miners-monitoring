@@ -10,7 +10,9 @@ CREATE TABLE miner_devices
 {
     id SERIAL PRIMARY KEY,
     miner_type VARCHAR(255) NOT NULL,
-    area VARCHAR(255) NOT NULL,
+    shelf DEFAULT 0 INTEGER,
+    _row DEFAULT 0 INTEGER,
+    column DEFAULT 0 INTEGER,
     miner_status VARCHAR(255) NOT NULL,
     coin VARCHAR(255) NOT NULL,
     ip_address VARCHAR(255) NOT NULL,
