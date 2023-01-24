@@ -6,7 +6,7 @@ CREATE TABLE users
     password_hash VARCHAR(255) NOT NULL
 };
 
-CREATE TABLE miner-devices
+CREATE TABLE miner_devices
 {
     id SERIAL PRIMARY KEY,
     miner_type VARCHAR(255) NOT NULL,
