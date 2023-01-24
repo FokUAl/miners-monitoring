@@ -13,10 +13,11 @@ import (
 func (h *Handler) signUp(c *gin.Context) {
 	var input app.User
 
-	if err := c.BindJSON(&input); err != nil {
-		newErrorResponse(c, http.StatusBadRequest, err.Error())
-		return
-	}
+	input.Email = c.PostForm("email")
+	input.Username = c.PostForm("nickname")
+	input.Password = c.PostForm("password")
+
+	log.Println("%v", input)
 
 	id, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
