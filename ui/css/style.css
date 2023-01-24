@@ -182,6 +182,11 @@ form {
     margin-top: 15px;
 
     cursor: pointer;
+    transition: all .2s;
+}
+
+.form--submit:hover {
+    background-color: #999999;
 }
 
 /* FORM END */
