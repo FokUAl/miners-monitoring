@@ -22,3 +22,7 @@ func (s *MinerService) GetDevice(id int) (app.MinerDevice, error) {
 func (s *MinerService) GetAllDevices() ([]app.MinerDevice, error) {
 	return s.repo.GetAllDevices()
 }
+
+func (s *MinerService) AddNew(dev app.MinerDevice) error {
+	return s.repo.AddNew(dev)
+}
