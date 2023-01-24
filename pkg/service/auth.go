@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"time"
 
-	app "github.com/HgCl2/rock_scissors_paper"
-	"github.com/HgCl2/rock_scissors_paper/pkg/repository"
+	app "github.com/FokUAl/miners-monitoring"
+	"github.com/FokUAl/miners-monitoring/pkg/repository"
 	"github.com/dgrijalva/jwt-go"
 )
 

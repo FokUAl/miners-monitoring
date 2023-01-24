@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/HgCl2/rock_scissors_paper/pkg/service"
+	"github.com/FokUAl/miners-monitoring/pkg/service"
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )

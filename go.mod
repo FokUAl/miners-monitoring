@@ -1,4 +1,4 @@
-module github.com/HgCl2/rock_scissors_paper
+module github.com/FokUAl/miners-monitoring
 
 go 1.19
 
