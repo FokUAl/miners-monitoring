@@ -54,23 +54,41 @@
                 <div class="plus-minus" onclick="removeIP()">-</div>
             </div>
             <div id="inputs-fields" class="inputs--fields">
-                <div id="input-container" class="input-container">
+                <div id="input-container1" class="input-container">
                     <div class="container--container">
                         <label>IP/MAC</label>
-                        <input name="ip/mac" type="text" class="container--input">
+                        <input name="ip/mac" type="text" class="container--input" pattern="(^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$)|(^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)" required>
                     </div>
                     <div class="container--container">
                         <label>Shelf</label>
-                        <input name="shelf" type="text" class="container--input">
+                        <input name="shelf" type="text" class="container--input" required>
                     </div>
                     <div class="container--container">
                         <label>Row</label>
-                        <input name="row" type="text" class="container--input">
+                        <input name="row" type="text" class="container--input" required>
                     </div>
                     <div class="container--container">
                         <label>Column</label>
-                        <input name="column" type="text" class="container--input">
+                        <input name="column" type="text" class="container--input" required>
                     </div>
+                </div>
+            </div>
+            <div id="input-container" class="input-container" style="display: none">
+                <div class="container--container">
+                    <label>IP/MAC</label>
+                    <input name="ip/mac" type="text" class="container--input" required>
+                </div>
+                <div class="container--container">
+                    <label>Shelf</label>
+                    <input name="shelf" type="text" class="container--input" required>
+                </div>
+                <div class="container--container">
+                    <label>Row</label>
+                    <input name="row" type="text" class="container--input" required>
+                </div>
+                <div class="container--container">
+                    <label>Column</label>
+                    <input name="column" type="text" class="container--input" required>
                 </div>
             </div>
             <!-- <input name="nickname" type="text" class="form--input"> -->
@@ -83,7 +101,7 @@
         const addIP = () => {
             const container = document.getElementById('input-container')
             const clone = container.cloneNode(true)
-            clone.value=''
+            clone.style = 'flex'
             containers.appendChild(clone)            
         }
 
