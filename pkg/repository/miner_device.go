@@ -1,10 +1,27 @@
 package repository
 
-import app "github.com/FokUAl/miners-monitoring"
+import (
+	app "github.com/FokUAl/miners-monitoring"
+	"github.com/jmoiron/sqlx"
+)
 
-func (r *AuthPostgres) GetDevice(id int) (app.MinerDevice, error) {
-	var result app.MinerDevice
+type MinerPostgres struct {
+	db *sqlx.DB
+}
 
-	// query := `SELECT ()`
-	return result, nil
+func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
+	return &MinerPostgres{
+		db: db,
+	}
+}
+
+func (r *MinerPostgres) GetDevice(id int) (app.MinerDevice, error) {
+	var device app.MinerDevice
+
+	query := `SELECT INTO miner_devices (miner_type, area, miner_status, coin,
+		ip_address, mac_address) WHERE id = $1`
+
+	err := r.db.Get(&device, query, id)
+
+	return device, err
 }
