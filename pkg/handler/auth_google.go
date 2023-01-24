@@ -31,8 +31,7 @@ func (h *Handler) googleLogin(c *gin.Context) {
 		return
 	}
 
-	user := app.Player{
-		Fullname: claims.FirstName + " " + claims.LastName,
+	user := app.User{
 		Username: claims.FirstName + "_" + claims.LastName,
 		Email:    claims.Email,
 		Password: "password",

@@ -6,7 +6,7 @@ import (
 )
 
 type Authorization interface {
-	CreateUser(user app.Player) (int, error)
+	CreateUser(user app.User) (int, error)
 	GenerateToken(username, password string) (string, error)
 	ParseToken(accessToken string) (int, error)
 	ValidateGoogleJWT(tokenString string) (GoogleClaims, error)
@@ -15,7 +15,7 @@ type Authorization interface {
 type Room interface{}
 
 type Player interface {
-	GetUser(username, password string) (app.Player, error)
+	GetUser(username, password string) (app.User, error)
 }
 
 type Service struct {
