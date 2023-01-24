@@ -54,3 +54,13 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 
 	return devices, nil
 }
+
+func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
+	query := `INSERT INTO miner_devices (miner_type, shelf, _row, column, miner_status,
+		coin, ip_address, mac_address, _pool) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+
+	_, err := p.db.Exec(query, dev.MinerType, dev.Shelf, dev.Row, dev.Column, dev.MinerStatus,
+		dev.Coin, dev.IPAddress, dev.MACAddress, dev.Pool)
+
+	return err
+}
