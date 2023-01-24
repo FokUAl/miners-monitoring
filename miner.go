@@ -3,7 +3,9 @@ package app
 type MinerDevice struct {
 	Id          int
 	MinerType   string
-	Area        string
+	Shelf       int
+	Row         int
+	Column      int
 	MinerStatus string
 	Coin        string
 	IPAddress   string
