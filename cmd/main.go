@@ -54,6 +54,8 @@ func main() {
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
 	<-quit
 
+	log.Printf("Server shutting down\n")
+
 	if err := srv.Shutdown(context.Background()); err != nil {
 		log.Printf("error occured on server shutting down: %s", err.Error())
 	}
