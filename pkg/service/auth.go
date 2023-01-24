@@ -146,7 +146,7 @@ func (s *AuthService) ValidateGoogleJWT(tokenString string) (GoogleClaims, error
 	}
 
 	// YOUR_CLIENT_ID_HERE
-	if claims.Audience != "" {
+	if claims.Audience != "948211742995-u9n88robonne329lsmcjo4dj4oh0juti.apps.googleusercontent.com" {
 		return GoogleClaims{}, errors.New("aud is invalid")
 	}
 
