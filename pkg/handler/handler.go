@@ -36,7 +36,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 
 	// static routes
-	router.StaticFS("/ui", http.Dir("./ui"))
+	router.StaticFS("/static/", http.Dir("./ui/static"))
 
 	return router
 }
