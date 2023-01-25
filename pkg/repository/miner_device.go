@@ -67,6 +67,33 @@ func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
 	return err
 }
 
+func (p *MinerPostgres) GetDeviceFromDB(ip_address string) (app.MinerDevice, error) {
+	var device app.MinerDevice
+
+	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
+		ip_address, mac_address, _pool FROM miner_devices WHERE ip_address = $1`
+
+	err := p.db.QueryRow(query, ip_address).Scan(&device.MinerType, &device.Shelf, &device.Row,
+		&device.Column, &device.MinerStatus, &device.Coin, &device.IPAddress,
+		&device.MACAddress, &device.Pool)
+
+	return device, err
+}
+
+func (p *MinerPostgres) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error) {
+	var device app.MinerDevice
+
+	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
+		ip_address, mac_address, _pool FROM miner_devices 
+		WHERE shelf = $1 AND _row = $2 AND col = $3`
+
+	err := p.db.QueryRow(query, shelfNum, rowNum, columnNum).Scan(&device.MinerType, &device.Shelf, &device.Row,
+		&device.Column, &device.MinerStatus, &device.Coin, &device.IPAddress,
+		&device.MACAddress, &device.Pool)
+
+	return device == app.MinerDevice{}, err
+}
+
 func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
 	var result []app.MinerDevice
 

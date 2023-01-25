@@ -14,6 +14,8 @@ type Miner interface {
 	GetDevice(ip_address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
+	GetDeviceFromDB(ip_address string) (app.MinerDevice, error)
+	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
 	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)

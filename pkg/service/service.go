@@ -20,6 +20,8 @@ type Miner interface {
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
 	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
+	IsDeviceAdded(ip_address string) (bool, error)
+	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 }
 
 type User interface {
