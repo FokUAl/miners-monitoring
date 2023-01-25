@@ -45,7 +45,7 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string)
 		// check to existence of device
 		existedDevice, err := s.GetDevice(connections[i])
 		if isIP && err != nil {
-			return fmt.Errorf("AddDevices: device is not exist")
+			return fmt.Errorf("AddDevices: device is not exist: %w", err)
 		}
 
 		err = s.AddNew(existedDevice)
