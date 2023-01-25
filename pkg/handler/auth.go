@@ -17,15 +17,13 @@ func (h *Handler) signUp(c *gin.Context) {
 	input.Username = c.PostForm("nickname")
 	input.Password = c.PostForm("password")
 
-	id, err := h.services.Authorization.CreateUser(input)
+	_, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
-	})
+	c.Redirect(http.StatusSeeOther, "/auth/sign-in")
 }
 
 func (h *Handler) getLogin(c *gin.Context) {

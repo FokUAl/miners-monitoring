@@ -1,6 +1,7 @@
 package service
 
 import (
+	"database/sql"
 	"fmt"
 	"strconv"
 
@@ -32,10 +33,18 @@ func (s *MinerService) AddNew(dev app.MinerDevice) error {
 
 func (s *MinerService) AddDevices(model string, isIP bool, connections []string, locInfo [][]string) error {
 	for i := 0; i < len(connections); i++ {
-		// check to existence of device
+		// check to existence of device physically
 		existedDevice, err := s.GetDevice(connections[i])
 		if isIP && err != nil {
 			return fmt.Errorf("AddDevices: device is not exist")
+		}
+
+		// check device to existance in database
+		isAdded, err := s.IsDeviceAdded(connections[i])
+		if err != sql.ErrNoRows && err != nil {
+			return err
+		} else if isIP && isAdded {
+			return fmt.Errorf("AddDevices: device has already been added")
 		}
 
 		shelfNum, err := strconv.Atoi(locInfo[0][i])
@@ -50,6 +59,15 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 		if err != nil {
 			return err
 		}
+
+		// is location free
+		isFree, err := s.IsLocationFree(shelfNum, rowNum, columnNum)
+		if err != nil {
+			return err
+		} else if !isFree {
+			return fmt.Errorf("AddDevices: location isn't free")
+		}
+
 		// change device location
 		existedDevice.Shelf = shelfNum
 		existedDevice.Row = rowNum
@@ -63,4 +81,26 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 	}
 
 	return nil
+}
+
+func (s *MinerService) IsDeviceAdded(ip_address string) (bool, error) {
+	device, err := s.repo.GetDeviceFromDB(ip_address)
+
+	return device != app.MinerDevice{}, err
+}
+
+func (s *MinerService) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error) {
+	return s.repo.IsLocationFree(shelfNum, rowNum, columnNum)
+}
+
+func (s *MinerService) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
+	return s.repo.GetDevicesByType(miner_type)
+}
+
+func (s *MinerService) GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error) {
+	return s.repo.GetDevicesByStatus(miner_status)
+}
+
+func (s *MinerService) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
+	return s.repo.GetDevicesByCoin(coin_type)
 }
