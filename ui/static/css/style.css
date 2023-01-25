@@ -69,16 +69,32 @@ nav {
 
 /* NAVBAR END */
 
+/* FILTER */
+
+.filter > select {
+    width: 20%;
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+/* FILTER END */
+
 /* MAIN */
 
-main {
+main, .filter {
     width: 100%;
     margin-top: 115px;
 }
 
+.main-index {
+    padding: 50px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+
 .main--title {
     text-align: center;
-    margin-block: 50px;
+    margin-bottom: 20px;
 }
 
 .main--table {

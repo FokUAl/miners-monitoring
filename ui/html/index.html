@@ -18,7 +18,34 @@
             <div class="link" onclick="window.location.href='/logout'">Logout</div>
         </div>
     </nav>
-    <main>
+    <form action="/" method="post" class="filter">
+    <label>Filter search</label>
+        <select name="category" id="categories" onchange="changeFilter('div', this)">                <option value="Miner Type" selected>Miner Type</option>
+            <option value="Status">Status</option>
+            <option value="Coin">Coin</option>
+        </select>
+        <select name="target" id="choices">
+            <option value="Antminer S17 Pro">Antminer S17 Pro</option>
+            <option value="Antminer S17+">Antminer S17+</option>
+            <option value="Antminer S17+ 67TH">Antminer S17+ 67TH</option>
+            <option value="Antminer S17+ 70TH">Antminer S17+ 70TH</option>
+            <option value="Antminer S17+ 73TH">Antminer S17+ 73TH</option>
+            <option value="Antminer S17+ BOX+">Antminer S17+ BOX+</option>
+            <option value="Antminer S19">Antminer S19</option>
+            <option value="Avalon 1166 Pro 78TH">Avalon 1166 Pro 78TH</option>
+            <option value="Avalon 1166 Pro 81TH">Avalon 1166 Pro 81TH</option>
+            <option value="Avalon 1246 83TH">Avalon 1246 83TH</option>
+            <option value="Avalon 1246 85TH">Avalon 1246 85TH</option>
+            <option value="Watsminer M10">Watsminer M10</option>
+            <option value="Watsminer M10 New PSU">Watsminer M10 New PSU</option>
+            <option value="Watsminer M20s">Watsminer M20s</option>
+            <option value="Watsminer M21s">Watsminer M21s</option>
+            <option value="Watsminer M31s">Watsminer M31s</option>
+            <option value="Watsminer M31s68TH">Watsminer M31s68TH</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+    <main class="main-index">
         <div class="main--title">
             ASICs tables
         </div>
@@ -55,6 +82,11 @@
             {{ end }}
         </table>
     </main>
+    <main class="main-index">
+        <table class="dashboard-table">
+
+        </table>
+    </main>
     <div class="open-chat" onclick="openChat()">Chat Support</div>
     <div class="chat-popup" id="chat">
         <form action="/" class="form--chat">
@@ -73,6 +105,75 @@
         const closeChat = () => {
             chat.style.display = 'none'
         }
+
+        const category = {
+            'MinerType': [
+                    'Antminer S17 Pro',
+                    'Antminer S17+',
+                    'Antminer S17+ 67TH',
+                    'Antminer S17+ 70TH',
+                    'Antminer S17+ 73TH',
+                    'Antminer S17+ BOX+',
+                    'Antminer S19',
+                    'Avalon 1166 Pro 78TH',
+                    'Avalon 1166 Pro 81TH',
+                    'Avalon 1246 83TH',
+                    'Avalon 1246 85TH',
+                    'Watsminer M10',
+                    'Watsminer M10 New PSU',
+                    'Watsminer M20s',
+                    'Watsminer M21s',
+                    'Watsminer M31s',
+                    'Watsminer M31s68TH',
+            ],
+            'Status': ['online', 'offline'],
+            'Coin': ['Bitcoin', 'Litecoin', 'Ethereum']
+        }
+
+        function changeFilter(prefix, chooser) {
+            const selectedOption = (chooser.options[chooser.selectedIndex].value)
+            const choices = document.getElementById('choices')
+            if (selectedOption == 'Miner Type') {
+                if (choices.children.length != 0) {
+                    choices.innerHTML = ''
+                }
+                for (let i = 0; i < category.MinerType.length; i++) {
+                    const temp = document.createElement('option')
+                    temp.value = category.MinerType[i]
+                    temp.innerHTML = category.MinerType[i]
+                    choices.appendChild(temp)
+                }
+            }
+            if (selectedOption == 'Status') {
+                if (choices.children.length != 0) {
+                    choices.innerHTML = ''
+                }
+                for (let i = 0; i < category.Status.length; i++) {
+                    const temp = document.createElement('option')
+                    temp.value = category.Status[i]
+                    temp.innerHTML = category.Status[i]
+                    choices.appendChild(temp)
+                }
+            }
+            if (selectedOption == 'Coin') {
+                if (choices.children.length != 0) {
+                    choices.innerHTML = ''
+                }
+                for (let i = 0; i < category.Coin.length; i++) {
+                    const temp = document.createElement('option')
+                    temp.value = category.Coin[i]
+                    temp.innerHTML = category.Coin[i]
+                    choices.appendChild(temp)
+                }
+            }
+        }
+        // const locationArr = [
+        //     {{range . }}
+        //         {{ .Shelf }}.toString(16) + {{ .Row }}.toString(16) + {{ .Column }}.toString(16),
+        //     {{end}}
+        // ]
+
+        // for (let i = 1; i < )
     </script>
 </body>
 </html>
