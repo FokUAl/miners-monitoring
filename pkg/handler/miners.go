@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -43,4 +44,17 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 }
 
 func (h *Handler) addMiner(c *gin.Context) {
+	isIP := c.PostForm("connection") == "ip"
+
+	connections := c.PostFormArray("ip/mac")
+	shelfData := c.PostFormArray("shelf")
+	rowData := c.PostFormArray("row")
+	columnData := c.PostFormArray("column")
+
+	err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, shelfData, rowData, columnData)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+	}
+
+	c.Redirect(http.StatusSeeOther, "/")
 }
