@@ -17,8 +17,8 @@ func NewMinerService(repo repository.Miner) *MinerService {
 	}
 }
 
-func (s *MinerService) GetDevice(id int) (app.MinerDevice, error) {
-	return s.repo.GetDevice(id)
+func (s *MinerService) GetDevice(ip_address string) (app.MinerDevice, error) {
+	return s.repo.GetDevice(ip_address)
 }
 
 func (s *MinerService) GetAllDevices() ([]app.MinerDevice, error) {

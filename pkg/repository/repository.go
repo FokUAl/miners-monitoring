@@ -11,7 +11,7 @@ type Authorization interface {
 }
 
 type Miner interface {
-	GetDevice(id int) (app.MinerDevice, error)
+	GetDevice(ip_address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
 }

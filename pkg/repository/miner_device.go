@@ -17,13 +17,13 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 	}
 }
 
-func (p *MinerPostgres) GetDevice(id int) (app.MinerDevice, error) {
+func (p *MinerPostgres) GetDevice(ip_address string) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
 	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
-		ip_address, mac_address, _pool FROM miner_devices WHERE id = $1`
+		ip_address, mac_address, _pool FROM miner_devices WHERE ip_address = $1`
 
-	err := p.db.Get(&device, query, id)
+	err := p.db.Get(&device, query, ip_address)
 
 	return device, err
 }
