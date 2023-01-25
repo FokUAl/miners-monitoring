@@ -21,9 +21,11 @@ func (p *MinerPostgres) GetDevice(ip_address string) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
 	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
-		ip_address, mac_address, _pool FROM miner_devices WHERE ip_address = $1`
+		ip_address, mac_address, _pool FROM all_devices WHERE ip_address = $1`
 
-	err := p.db.Get(&device, query, ip_address)
+	err := p.db.QueryRow(query, ip_address).Scan(&device.MinerType, &device.Shelf, &device.Row,
+		&device.Column, &device.MinerStatus, &device.Coin, &device.IPAddress,
+		&device.MACAddress, &device.Pool)
 
 	return device, err
 }
