@@ -20,8 +20,8 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 func (p *MinerPostgres) GetDevice(id int) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
-	query := `SELECT miner_type, area, miner_status, coin,
-		ip_address, mac_address FROM miner_devices WHERE id = $1`
+	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
+		ip_address, mac_address, _pool FROM miner_devices WHERE id = $1`
 
 	err := p.db.Get(&device, query, id)
 
@@ -31,7 +31,7 @@ func (p *MinerPostgres) GetDevice(id int) (app.MinerDevice, error) {
 func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 	var devices []app.MinerDevice
 
-	query := `SELECT miner_type, shelf, _row, column, miner_status, coin, 
+	query := `SELECT miner_type, shelf, _row, col, miner_status, coin, 
 		ip_address, mac_address FROM miner_devices`
 	rows, err := p.db.Query(query)
 	if err != nil {
@@ -56,7 +56,7 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 }
 
 func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
-	query := `INSERT INTO miner_devices (miner_type, shelf, _row, column, miner_status,
+	query := `INSERT INTO miner_devices (miner_type, shelf, _row, col, miner_status,
 		coin, ip_address, mac_address, _pool) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
 	_, err := p.db.Exec(query, dev.MinerType, dev.Shelf, dev.Row, dev.Column, dev.MinerStatus,
