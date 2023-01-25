@@ -159,6 +159,14 @@ table, th, td {
     cursor: pointer;
 }
 
+.plus-minus::selection {
+    background: transparent;
+}
+
+.plus-minus::-moz-selection {
+    background: transparent;
+}
+
 .grid-50-50 {
     display: grid;
     grid-template-columns: 50% 50%;
@@ -175,7 +183,20 @@ table, th, td {
 }
 
 .connections {
+    display: flex;
     margin-block: 10px;
+}
+
+.connections > label, .connections > input {
+    margin-left: 5px;
+}
+
+.connections > label::selection {
+    background: transparent;
+}
+
+.connections > label::-moz-selection {
+    background: transparent;
 }
 
 .input-container {
