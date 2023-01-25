@@ -66,3 +66,27 @@ func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
 
 	return err
 }
+
+func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
+	var result []app.MinerDevice
+
+	statement := `SELECT miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool 
+		FROM miner_devices WHERE miner_type = $1`
+	rows, err := p.db.Query(statement, miner_type)
+	if err != nil {
+		return nil, fmt.Errorf("GetDevicesByType: %w", err)
+	}
+
+	for rows.Next() {
+		var device app.MinerDevice
+		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column,
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+		if err != nil {
+			return nil, fmt.Errorf("GetDevicesByType: %w", err)
+		}
+
+		result = append(result, device)
+	}
+
+	return result, nil
+}

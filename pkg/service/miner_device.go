@@ -64,3 +64,7 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 
 	return nil
 }
+
+func (s *MinerService) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
+	return s.repo.GetDevicesByType(miner_type)
+}

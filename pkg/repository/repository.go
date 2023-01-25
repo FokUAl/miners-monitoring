@@ -14,6 +14,7 @@ type Miner interface {
 	GetDevice(ip_address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
+	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
 }
 
 type User interface{}
