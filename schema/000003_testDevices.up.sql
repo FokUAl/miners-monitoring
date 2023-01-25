@@ -13,9 +13,9 @@ INSERT INTO all_devices (miner_type, shelf, _row, col, miner_status, coin, ip_ad
 INSERT INTO all_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
     VALUES ('Avalon 1166 Pro 81TH', 0, 0, 0, 'online', 'Ethereum', '172.168.10.6', '7F-33-25-C7-12-1B', 'Main');
 INSERT INTO all_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
-    VALUES ('Avalon 1166 Pro 78TH', 0, 0, 0, 'online', 'Ethereum', '172.168.10.7', '45-4A-65-E7-4C-9B', 'Main');
+    VALUES ('Avalon 1166 Pro 78TH', 0, 0, 0, 'online', 'Ethereum', '172.168.10.7', '03-4G-36-E2-CC-86', 'Main');
 INSERT INTO all_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
-    VALUES ('Avalon 1166 Pro 78TH', 1, 3, 3, 'online', 'Ethereum', '172.168.10.11', '45-4A-65-E7-4C-9B', 'Main');
+    VALUES ('Avalon 1166 Pro 78TH', 1, 3, 3, 'online', 'Ethereum', '172.168.10.11', '22-7A-65-E7-V3-6G', 'Main');
 
 
 INSERT INTO miner_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
