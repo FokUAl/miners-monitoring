@@ -16,7 +16,7 @@ type Miner interface {
 	GetDevice(ip_address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
-	AddDevices(model string, isIp bool, connections []string) error
+	AddDevices(model string, isIp bool, connections []string, locInfo [][]string) error
 }
 
 type User interface {

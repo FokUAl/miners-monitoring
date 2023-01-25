@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"strconv"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg/repository"
@@ -29,24 +30,30 @@ func (s *MinerService) AddNew(dev app.MinerDevice) error {
 	return s.repo.AddNew(dev)
 }
 
-func (s *MinerService) AddDevices(model string, isIP bool, connections []string) error {
+func (s *MinerService) AddDevices(model string, isIP bool, connections []string, locInfo [][]string) error {
 	for i := 0; i < len(connections); i++ {
-		var device app.MinerDevice
-		device.MinerType = model
-
-		if isIP {
-			device.IPAddress = connections[i]
-			device.MACAddress = "-"
-		} else {
-			device.MACAddress = connections[i]
-			device.IPAddress = "-"
-		}
-
 		// check to existence of device
 		existedDevice, err := s.GetDevice(connections[i])
 		if isIP && err != nil {
-			return fmt.Errorf("AddDevices: device is not exist: %w", err)
+			return fmt.Errorf("AddDevices: device is not exist")
 		}
+
+		shelfNum, err := strconv.Atoi(locInfo[0][i])
+		if err != nil {
+			return err
+		}
+		rowNum, err := strconv.Atoi(locInfo[1][i])
+		if err != nil {
+			return err
+		}
+		columnNum, err := strconv.Atoi(locInfo[2][i])
+		if err != nil {
+			return err
+		}
+		// change device location
+		existedDevice.Shelf = shelfNum
+		existedDevice.Row = rowNum
+		existedDevice.Column = columnNum
 
 		err = s.AddNew(existedDevice)
 		if err != nil {

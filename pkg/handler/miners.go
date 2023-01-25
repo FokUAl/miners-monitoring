@@ -52,8 +52,14 @@ func (h *Handler) addMiner(c *gin.Context) {
 	isIP := c.PostForm("connection") == "ip"
 
 	connections := c.PostFormArray("ip/mac")
+	shelfData := c.PostFormArray("shelf")
+	rowData := c.PostFormArray("row")
+	columnData := c.PostFormArray("column")
 
-	err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections)
+	// info about location
+	locInfo := [][]string{shelfData, rowData, columnData}
+
+	err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, locInfo)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 	}
