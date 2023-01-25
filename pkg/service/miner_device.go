@@ -1,7 +1,7 @@
 package service
 
 import (
-	"strconv"
+	"fmt"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg/repository"
@@ -29,7 +29,7 @@ func (s *MinerService) AddNew(dev app.MinerDevice) error {
 	return s.repo.AddNew(dev)
 }
 
-func (s *MinerService) AddDevices(model string, isIP bool, connections, shelfData, rowData, columnData []string) error {
+func (s *MinerService) AddDevices(model string, isIP bool, connections []string) error {
 	for i := 0; i < len(connections); i++ {
 		var device app.MinerDevice
 		device.MinerType = model
@@ -42,28 +42,17 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections, shelfDat
 			device.IPAddress = "-"
 		}
 
-		shelfInt, err := strconv.Atoi(shelfData[i])
-		if err != nil {
-			return err
+		// check to existence of device
+		existedDevice, err := s.GetDevice(connections[i])
+		if isIP && err != nil {
+			return fmt.Errorf("AddDevices: device is not exist")
 		}
-		device.Shelf = shelfInt
 
-		rowInt, err := strconv.Atoi(rowData[i])
+		err = s.AddNew(existedDevice)
 		if err != nil {
 			return err
 		}
-		device.Row = rowInt
 
-		colInt, err := strconv.Atoi(columnData[i])
-		if err != nil {
-			return err
-		}
-		device.Column = colInt
-
-		err = s.AddNew(device)
-		if err != nil {
-			return err
-		}
 	}
 
 	return nil
