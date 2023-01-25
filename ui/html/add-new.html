@@ -19,7 +19,7 @@
         </div>
     </nav>
     <main>
-        <form action="/add" method="post" class="form--add">
+        <form action="/add" id="post" method="post" class="form--add">
             <div class="form--title">Add new ASIC</div>
             <div class="form--inputs">
                 <label>Select model</label>
@@ -56,19 +56,19 @@
                     <div id="input-container" class="input-container">
                         <div class="container--container">
                             <label>IP/MAC</label>
-                            <input name="ip/mac" type="text" class="container--input" pattern="(^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$)|(^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)" required>
+                            <input name="ip/mac" id="ip" type="text" class="container--input ip" pattern="(^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$)|(^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$)" required>
                         </div>
                         <div class="container--container">
                             <label>Shelf</label>
-                            <input name="shelf" type="text" class="container--input" pattern="^[1-4]$"required>
+                            <input name="shelf" type="text" class="container--input shelf" pattern="^[1-4]$"required>
                         </div>
                         <div class="container--container">
                             <label>Row</label>
-                            <input name="row" type="text" class="container--input" pattern="^[1-8]$"required>
+                            <input name="row" type="text" class="container--input row" pattern="^[1-8]$"required>
                         </div>
                         <div class="container--container">
                             <label>Column</label>
-                            <input name="column" type="text" class="container--input" pattern="^[1-9]|1[0]$" required>
+                            <input name="column" type="text" class="container--input column" pattern="^[1-9]|1[0]$" required>
                         </div>
                     </div>
                 </div>
@@ -115,6 +115,33 @@
                 containers.removeChild(containers.lastElementChild)
             }
         }
+
+        const form = document.querySelector('#post')
+        const ips = document.getElementsByClassName('ip')
+        const shelf = document.getElementsByClassName('shelf')
+        const row = document.getElementsByClassName('row')
+        const column = document.getElementsByClassName('column')
+        form.addEventListener('submit', el => {
+            el.preventDefault()
+            const ipsArr = []
+            const locationArr = []
+            for (let i = 0; i < ips.length; i++) {
+                if (ipsArr.indexOf(ips[i].value) != -1) {
+                    alert('Every IP/MAC fields must be unique')
+                    return false
+                } else {
+                    ipsArr.push(ips[i].value)
+                }
+                if (locationArr.indexOf(shelf[i].value+row[i].value+column[i].value) != -1) {
+                    alert('Every Location fields must be unique')
+                    console.log(locationArr)
+                    return false
+                } else {
+                    locationArr.push(shelf[i].value+row[i].value+column[i].value)
+                }
+            }
+            form.submit()
+        })
     </script>
 </body>
 </html>
