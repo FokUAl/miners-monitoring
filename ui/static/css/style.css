@@ -119,17 +119,9 @@ table, th, td {
     font-weight: 500;
 }
 
-.form--inputs > a {
-    padding: 5px 30px 8px;
-    border: 1px solid;
-}
-
-.form--inputs > a:hover {
-    background-color: black;
-}
-
-.form--inputs > a:hover .g-logo {
-    filter: invert(0.9)
+.form--inputs > a, .form--inputs > a:hover {
+    text-align: right;
+    color: #2345b4;
 }
 
 .form--inputs > a > img {
@@ -148,6 +140,11 @@ table, th, td {
     width: 100%;
     margin-block: 10px;
     padding: 8px 10px;
+}
+
+.fa-eye {
+    margin-left: -30px;
+    cursor: pointer;
 }
 
 .form--plus-minus {
