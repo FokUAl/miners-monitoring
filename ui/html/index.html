@@ -24,24 +24,35 @@
         </div>
         <table class="main--table">
             <tr class="table--names">
-                <td class="inner">Name</td>
-                <td class="inner">Location</td>
-                <td class="inner">Miner Type</td>
-                <td class="inner">Hashrate</td>
-                <td class="inner">Max Temp</td>
+                <td class="inner">Miner Tpye</td>
+                <td class="inner">Shelf</td>
+                <td class="inner">Row</td>
+                <td class="inner">Column</td>
+                <td class="inner">IP Address</td>
+                <td class="inner">MAC Address</td>
                 <td class="inner">Status</td>
                 <td class="inner">Coin</td>
-                
             </tr>
-            <tr class="table--container">
-                <td class="name">Example</td>
-                <td class="location">Location</td>
-                <td class="miner_type">Miner Type</td>
-                <td class="hashrate">Hashrate</td>
-                <td class="maxtemp">Max Temp</td>
-                <td class="status">Status</td>
-                <td class="coin">Coin</td>
-            </tr>
+            {{ if . }}
+                {{ range . }}
+                <tr class="table--container">
+                    <td class="name">{{ .MinerType }}</td>
+                    <td class="shelf">{{ .Shelf }}</td>
+                    <td class="row">{{ .Row }}</td>
+                    <td class="column">{{ .Column }}</td>
+                    <td class="ip-address">{{ .IPAddress }}</td>
+                    <td class="mac-address">{{ .MACAddress }}</td>
+                    <td class="status">{{ .MinerStatus }}</td>
+                    {{ if eq .Coin "Bitcoin" }}
+                        <td class="coin">{{ .Coin  }} <div class="fa-brands fa-bitcoin"></div></td>
+                    {{ else if eq .Coin "Ethereum" }}
+                        <td class="coin">{{ .Coin  }} <div class="fa-brands fa-ethereum"></div></td>
+                    {{ else if eq .Coin "Litecoin" }}
+                        <td class="coin">{{ .Coin  }} <div class="fa-solid fa-litecoin-sign"></div></td>
+                    {{ end }}
+                </tr>
+                {{ end }}
+            {{ end }}
         </table>
     </main>
     <div class="open-chat" onclick="openChat()">Chat Support</div>
@@ -53,6 +64,7 @@
             <div class="chat--btn-cancel" onclick="closeChat()">Close</div>
         </form>
     </div>
+    <script src="https://kit.fontawesome.com/020dbc498d.js" crossorigin="anonymous"></script>
     <script>
         const chat = document.getElementById('chat')
         const openChat = () => {

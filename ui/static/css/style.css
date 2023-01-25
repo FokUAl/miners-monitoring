@@ -34,21 +34,24 @@ body{
 
 nav {
     display: flex;
+    position: fixed;
     justify-content: space-between;
     align-items: center;
 
+    max-width: 1400px;
     padding-block: 20px;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background-color: white;
 }
 
 .logo {
     margin: 10px;
     cursor: pointer;
 }
-
-/* .logo > img {
-    height: 20px;
-    width: auto;
-} */
 
 .links {
     display: flex;
@@ -70,6 +73,7 @@ nav {
 
 main {
     width: 100%;
+    margin-top: 115px;
 }
 
 .main--title {
@@ -240,13 +244,18 @@ table, th, td {
     bottom: 38px;
     right: 28px;
 
-    background-color: #555;
+    background-color: black;
     color: white;
     padding: 16px 97px;
     border: none;
     font-size: 14px;
 
     cursor: pointer;
+    transition: all .2s;
+}
+
+.open-chat:hover {
+    background-color: grey;
 }
 
 .chat-popup {
@@ -291,12 +300,21 @@ table, th, td {
     border: none;
 
     cursor: pointer;
+    transition: all .2s;
+}
+
+.chat--submit:hover {
+    background-color: #01d487;
 }
 
 .chat--btn-cancel {
-    background-color: red;
+    background-color: rgb(156, 0, 0);
     font-size: 14px;
     text-align: center;
+}
+
+.chat--btn-cancel:hover {
+    background-color:rgb(218, 0, 0);
 }
 
 /* CHAT END */
