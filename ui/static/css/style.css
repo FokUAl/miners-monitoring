@@ -216,7 +216,7 @@ table, th, td {
 
 .open-chat {
     position: fixed;
-    bottom: 23px;
+    bottom: 38px;
     right: 28px;
 
     background-color: #555;
@@ -231,7 +231,7 @@ table, th, td {
 .chat-popup {
     display: none;
     position: fixed;
-    bottom: 0;
+    bottom: 15px;
     right: 15px;
 
     border: 2px solid black;
