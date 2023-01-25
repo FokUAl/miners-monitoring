@@ -6,13 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	app "github.com/FokUAl/miners-monitoring"
 	"github.com/gin-gonic/gin"
 )
-
-type devicesInfo struct {
-	all []app.MinerDevice
-}
 
 func (h *Handler) getHome(c *gin.Context) {
 	t, err := template.ParseFiles("./ui/html/index.html")
@@ -23,12 +18,12 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	info, err := h.services.GetAllDevices()
+	devices, err := h.services.GetAllDevices()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 	}
 
-	err = t.Execute(c.Writer, info)
+	err = t.Execute(c.Writer, devices)
 	if err != nil {
 		log.Printf("getHome: %s\n", err.Error())
 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
