@@ -93,7 +93,24 @@
             <input type="submit" class="form--submit" value="Add">
         </div>
     </form>
-    <script>
+    <div class="open-chat" onclick="openChat()">Chat Support</div>
+    <div class="chat-popup" id="chat">
+        <form action="/" class="form--chat">
+            <div class="chat--title">Chat support</div>
+            <textarea placeholder="Type message.."></textarea>
+            <button class="chat--submit">Send message</button>
+            <div class="chat--btn-cancel" onclick="closeChat()">Close</div>
+        </form>
+    </div>
+    <script>        
+        const chat = document.getElementById('chat')
+        const openChat = () => {
+            chat.style.display = 'block'
+        }
+        const closeChat = () => {
+            chat.style.display = 'none'
+        }
+        
         const containers = document.getElementById('inputs-fields')
 
         const addIP = () => {
