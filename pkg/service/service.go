@@ -18,6 +18,8 @@ type Miner interface {
 	AddNew(dev app.MinerDevice) error
 	AddDevices(model string, isIp bool, connections []string, locInfo [][]string) error
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
+	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
+	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 }
 
 type User interface {

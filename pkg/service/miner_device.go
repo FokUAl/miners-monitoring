@@ -68,3 +68,11 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 func (s *MinerService) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
 	return s.repo.GetDevicesByType(miner_type)
 }
+
+func (s *MinerService) GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error) {
+	return s.repo.GetDevicesByStatus(miner_status)
+}
+
+func (s *MinerService) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
+	return s.repo.GetDevicesByCoin(coin_type)
+}

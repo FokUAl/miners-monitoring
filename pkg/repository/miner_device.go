@@ -90,3 +90,51 @@ func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, 
 
 	return result, nil
 }
+
+func (p *MinerPostgres) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
+	var result []app.MinerDevice
+
+	statement := `SELECT miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool 
+		FROM miner_devices WHERE coin = $1`
+	rows, err := p.db.Query(statement, coin_type)
+	if err != nil {
+		return nil, fmt.Errorf("GetDevicesByCoin: %w", err)
+	}
+
+	for rows.Next() {
+		var device app.MinerDevice
+		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column,
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+		if err != nil {
+			return nil, fmt.Errorf("GetDevicesByCoin: %w", err)
+		}
+
+		result = append(result, device)
+	}
+
+	return result, nil
+}
+
+func (p *MinerPostgres) GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error) {
+	var result []app.MinerDevice
+
+	statement := `SELECT miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool 
+		FROM miner_devices WHERE miner_status = $1`
+	rows, err := p.db.Query(statement, miner_status)
+	if err != nil {
+		return nil, fmt.Errorf("GetDevicesByStatus: %w", err)
+	}
+
+	for rows.Next() {
+		var device app.MinerDevice
+		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column,
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+		if err != nil {
+			return nil, fmt.Errorf("GetDevicesByStatus: %w", err)
+		}
+
+		result = append(result, device)
+	}
+
+	return result, nil
+}

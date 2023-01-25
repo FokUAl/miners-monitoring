@@ -15,6 +15,8 @@ type Miner interface {
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
+	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
+	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 }
 
 type User interface{}
