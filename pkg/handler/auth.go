@@ -72,7 +72,6 @@ func (h *Handler) signIn(c *gin.Context) {
 	token, err := h.services.Authorization.GenerateToken(input.Username, input.Password)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
 	}
 
 	c.SetCookie("token", token, 10000, "/", "localhost", false, true)
