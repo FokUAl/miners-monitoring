@@ -14,8 +14,8 @@ func (h *Handler) getHome(c *gin.Context) {
 	t, err := template.ParseFiles("./ui/html/index.html")
 	if err != nil {
 		log.Printf("getHome: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getHome: %s", err.Error()))
 		return
 	}
 
@@ -38,13 +38,15 @@ func (h *Handler) getHome(c *gin.Context) {
 
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
+		return
 	}
 
 	err = t.Execute(c.Writer, devices)
 	if err != nil {
 		log.Printf("getHome: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getHome: %s", err.Error()))
+		return
 	}
 }
 
@@ -52,8 +54,8 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 	t, err := template.ParseFiles("./ui/html/add-new.html")
 	if err != nil {
 		log.Printf("getAddMiner: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getAddMiner: %s", err.Error()))
 		return
 	}
 
@@ -62,8 +64,9 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 
 	if err != nil {
 		log.Printf("getAddMiner: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getAddMiner: %s", err.Error()))
+		return
 	}
 }
 
@@ -92,8 +95,8 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	t, err := template.ParseFiles("./ui/html/grid.html")
 	if err != nil {
 		log.Printf("minersGrid: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("minersGrid: %s", err.Error()))
 		return
 	}
 
@@ -105,7 +108,8 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	err = t.Execute(c.Writer, devices)
 	if err != nil {
 		log.Printf("minersGrid: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getHome: %s", err.Error()))
+		return
 	}
 }
