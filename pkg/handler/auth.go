@@ -78,3 +78,8 @@ func (h *Handler) signIn(c *gin.Context) {
 
 	c.Redirect(http.StatusSeeOther, "/")
 }
+
+func (h *Handler) logOut(c *gin.Context) {
+	c.SetCookie("token", "", 0, "/", "localhost", false, true)
+	c.Redirect(http.StatusSeeOther, "/auth/sign-in")
+}
