@@ -31,6 +31,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	home := router.Group("/", h.userIdentity)
 	{
 		home.GET("/", h.getHome)
+		home.POST("/", h.getHome)
 		home.GET("/add", h.getAddMiner)
 		home.POST("/add", h.addMiner)
 		home.GET("/grid", h.minersGrid)

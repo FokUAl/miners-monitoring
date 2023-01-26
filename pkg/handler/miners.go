@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	app "github.com/FokUAl/miners-monitoring"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +19,23 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	devices, err := h.services.GetAllDevices()
+	var devices []app.MinerDevice
+	filter_category := c.PostForm("category")
+
+	switch filter_category {
+	case "Miner Type":
+		miner_type := c.PostForm("target")
+		devices, err = h.services.GetDevicesByType(miner_type)
+	case "Status":
+		status := c.PostForm("target")
+		devices, err = h.services.GetDevicesByStatus(status)
+	case "Coin":
+		coin := c.PostForm("target")
+		devices, err = h.services.GetDevicesByCoin(coin)
+	default:
+		devices, err = h.services.GetAllDevices()
+	}
+
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 	}
