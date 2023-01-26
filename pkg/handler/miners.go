@@ -57,7 +57,9 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 		return
 	}
 
-	err = t.Execute(c.Writer, nil)
+	notificationText, err := c.Cookie("ErrorContent")
+	err = t.Execute(c.Writer, notificationText)
+
 	if err != nil {
 		log.Printf("getAddMiner: %s\n", err.Error())
 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
@@ -77,11 +79,14 @@ func (h *Handler) addMiner(c *gin.Context) {
 	locInfo := [][]string{shelfData, rowData, columnData}
 
 	err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, locInfo)
+	// if err != nil {
+	// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+	// }
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		c.SetCookie("ErrorContent", err.Error(), 10, "/add", "localhost", false, true)
 	}
 
-	c.Redirect(http.StatusSeeOther, "/")
+	c.Redirect(http.StatusSeeOther, "/add")
 }
 
 func (h *Handler) minersGrid(c *gin.Context) {
