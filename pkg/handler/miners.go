@@ -79,14 +79,13 @@ func (h *Handler) addMiner(c *gin.Context) {
 	locInfo := [][]string{shelfData, rowData, columnData}
 
 	err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, locInfo)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-	// }
+
 	if err != nil {
 		c.SetCookie("ErrorContent", err.Error(), 10, "/add", "localhost", false, true)
+		c.Redirect(http.StatusSeeOther, "/add")
+	} else {
+		c.Redirect(http.StatusSeeOther, "/")
 	}
-
-	c.Redirect(http.StatusSeeOther, "/add")
 }
 
 func (h *Handler) minersGrid(c *gin.Context) {

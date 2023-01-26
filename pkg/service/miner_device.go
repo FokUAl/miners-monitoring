@@ -19,8 +19,8 @@ func NewMinerService(repo repository.Miner) *MinerService {
 	}
 }
 
-func (s *MinerService) GetDevice(ip_address string) (app.MinerDevice, error) {
-	return s.repo.GetDevice(ip_address)
+func (s *MinerService) GetDevice(address string, isIP bool) (app.MinerDevice, error) {
+	return s.repo.GetDeviceFromDB(address, isIP)
 }
 
 func (s *MinerService) GetAllDevices() ([]app.MinerDevice, error) {
@@ -34,16 +34,16 @@ func (s *MinerService) AddNew(dev app.MinerDevice) error {
 func (s *MinerService) AddDevices(model string, isIP bool, connections []string, locInfo [][]string) error {
 	for i := 0; i < len(connections); i++ {
 		// check to existence of device physically
-		existedDevice, err := s.GetDevice(connections[i])
-		if isIP && err != nil {
+		existedDevice, err := s.repo.GetDevice(connections[i], isIP)
+		if err != nil {
 			return fmt.Errorf("Device is not exist: %s", connections[i])
 		}
 
 		// check device to existance in database
-		isAdded, err := s.IsDeviceAdded(connections[i])
+		isAdded, err := s.IsDeviceAdded(connections[i], isIP)
 		if err != sql.ErrNoRows && err != nil {
 			return err
-		} else if isIP && isAdded {
+		} else if isAdded {
 			return fmt.Errorf("Device has already been added: %s", connections[i])
 		}
 
@@ -84,8 +84,8 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 	return nil
 }
 
-func (s *MinerService) IsDeviceAdded(ip_address string) (bool, error) {
-	device, err := s.repo.GetDeviceFromDB(ip_address)
+func (s *MinerService) IsDeviceAdded(address string, isIP bool) (bool, error) {
+	device, err := s.repo.GetDeviceFromDB(address, isIP)
 
 	return device != app.MinerDevice{}, err
 }

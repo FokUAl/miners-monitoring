@@ -17,13 +17,18 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 	}
 }
 
-func (p *MinerPostgres) GetDevice(ip_address string) (app.MinerDevice, error) {
+func (p *MinerPostgres) GetDevice(address string, isIP bool) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
 	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
 		ip_address, mac_address, _pool FROM all_devices WHERE ip_address = $1`
 
-	err := p.db.QueryRow(query, ip_address).Scan(&device.MinerType, &device.Shelf, &device.Row,
+	if !isIP {
+		query = `SELECT miner_type, shelf, _row, col, miner_status, coin,
+		ip_address, mac_address, _pool FROM all_devices WHERE mac_address = $1`
+	}
+
+	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
 		&device.Column, &device.MinerStatus, &device.Coin, &device.IPAddress,
 		&device.MACAddress, &device.Pool)
 
@@ -67,13 +72,17 @@ func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
 	return err
 }
 
-func (p *MinerPostgres) GetDeviceFromDB(ip_address string) (app.MinerDevice, error) {
+func (p *MinerPostgres) GetDeviceFromDB(address string, isIP bool) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
 	query := `SELECT miner_type, shelf, _row, col, miner_status, coin,
 		ip_address, mac_address, _pool FROM miner_devices WHERE ip_address = $1`
+	if !isIP {
+		query = `SELECT miner_type, shelf, _row, col, miner_status, coin,
+		ip_address, mac_address, _pool FROM miner_devices WHERE mac_address = $1`
+	}
 
-	err := p.db.QueryRow(query, ip_address).Scan(&device.MinerType, &device.Shelf, &device.Row,
+	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
 		&device.Column, &device.MinerStatus, &device.Coin, &device.IPAddress,
 		&device.MACAddress, &device.Pool)
 
