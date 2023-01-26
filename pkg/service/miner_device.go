@@ -62,7 +62,7 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 
 		// is location free
 		isFree, err := s.IsLocationFree(shelfNum, rowNum, columnNum)
-		if err != nil {
+		if err != sql.ErrNoRows && err != nil {
 			return err
 		} else if !isFree {
 			return fmt.Errorf("AddDevices: location isn't free")
