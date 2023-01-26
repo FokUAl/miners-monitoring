@@ -19,33 +19,6 @@
             <div class="link" onclick="window.location.href='/logout'">Logout</div>
         </div>
     </nav>
-    <form action="/" method="post" class="filter">
-    <label>Filter search</label>
-        <select name="category" id="categories" onchange="changeFilter('div', this)">                <option value="Miner Type" selected>Miner Type</option>
-            <option value="Status">Status</option>
-            <option value="Coin">Coin</option>
-        </select>
-        <select name="target" id="choices">
-            <option value="Antminer S17 Pro">Antminer S17 Pro</option>
-            <option value="Antminer S17+">Antminer S17+</option>
-            <option value="Antminer S17+ 67TH">Antminer S17+ 67TH</option>
-            <option value="Antminer S17+ 70TH">Antminer S17+ 70TH</option>
-            <option value="Antminer S17+ 73TH">Antminer S17+ 73TH</option>
-            <option value="Antminer S17+ BOX+">Antminer S17+ BOX+</option>
-            <option value="Antminer S19">Antminer S19</option>
-            <option value="Avalon 1166 Pro 78TH">Avalon 1166 Pro 78TH</option>
-            <option value="Avalon 1166 Pro 81TH">Avalon 1166 Pro 81TH</option>
-            <option value="Avalon 1246 83TH">Avalon 1246 83TH</option>
-            <option value="Avalon 1246 85TH">Avalon 1246 85TH</option>
-            <option value="Watsminer M10">Watsminer M10</option>
-            <option value="Watsminer M10 New PSU">Watsminer M10 New PSU</option>
-            <option value="Watsminer M20s">Watsminer M20s</option>
-            <option value="Watsminer M21s">Watsminer M21s</option>
-            <option value="Watsminer M31s">Watsminer M31s</option>
-            <option value="Watsminer M31s68TH">Watsminer M31s68TH</option>
-        </select>
-        <input type="submit" value="Search">
-    </form>
     <main class="main-index">
         <div class="dashboard">
             <div class="main--title">Dashboard</div>
@@ -75,6 +48,18 @@
             </div>
         </div>
     </main>
+    <form action="/" method="post" class="filter">
+        <label>Filter search</label>
+        <select name="category" id="categories" onchange="changeFilter('div', this)">                
+            <option value="All" selected>All</option>
+            <option value="Miner Type">Miner Type</option>
+            <option value="Status">Status</option>
+            <option value="Coin">Coin</option>
+        </select>
+        <select name="target" id="choices">
+        </select>
+        <input type="submit" value="Search">
+    </form>
     <main class="main-index">
         <div class="main--title">
             ASICs tables
@@ -158,6 +143,11 @@
         function changeFilter(prefix, chooser) {
             const selectedOption = (chooser.options[chooser.selectedIndex].value)
             const choices = document.getElementById('choices')
+            if (selectedOption == 'All') {
+                if (choices.children.length != 0) {
+                    choices.innerHTML = ''
+                }
+            }
             if (selectedOption == 'Miner Type') {
                 if (choices.children.length != 0) {
                     choices.innerHTML = ''
