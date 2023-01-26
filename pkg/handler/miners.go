@@ -66,3 +66,25 @@ func (h *Handler) addMiner(c *gin.Context) {
 
 	c.Redirect(http.StatusSeeOther, "/")
 }
+
+func (h *Handler) minersGrid(c *gin.Context) {
+	t, err := template.ParseFiles("./ui/html/grid.html")
+	if err != nil {
+		log.Printf("minersGrid: %s\n", err.Error())
+		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
+		return
+	}
+
+	devices, err := h.services.GetAllDevices()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("minersGrid: %s", err.Error()))
+	}
+
+	err = t.Execute(c.Writer, devices)
+	if err != nil {
+		log.Printf("minersGrid: %s\n", err.Error())
+		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
+	}
+}
