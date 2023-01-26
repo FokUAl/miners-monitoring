@@ -46,6 +46,35 @@
         <input type="submit" value="Search">
     </form>
     <main class="main-index">
+        <div class="dashboard">
+            <div class="main--title">Dashboard</div>
+            <div class="dashboard--grid">
+                <div class="grid--item">
+                    <div class="inner">Miners</div>
+                    <div class="inner">
+                        {{ if . }}
+                            {{ $length := len . }}
+                            {{ if eq $length 0 }}
+                                Sorry. There is no miners yet
+                            {{ else }}
+                                {{ $length }}/10000
+                            {{ end }}
+                        {{ end }}
+                    </div>
+                </div>
+                <div class="grid--item">
+                    <div class="inner">Online</div>
+                    <div class="inner">
+                        {{ if . }}
+                            {{ $length := len . }}
+                            {{ $length }}%
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <main class="main-index">
         <div class="main--title">
             ASICs tables
         </div>
@@ -55,7 +84,7 @@
                 <td class="inner">Shelf</td>
                 <td class="inner">Row</td>
                 <td class="inner">Column</td>
-                <td class="inner">IP Address</td>
+  - -             <td class="inner">IP Address</td>
                 <td class="inner">MAC Address</td>
                 <td class="inner">Status</td>
                 <td class="inner">Coin</td>
@@ -66,7 +95,7 @@
                     <td class="name">{{ .MinerType }}</td>
                     <td class="shelf">{{ .Shelf }}</td>
                     <td class="row">{{ .Row }}</td>
-                    <td class="column">{{ .Column }}</td>
+                    <td class="colum-n-">{{ .Column }}</td>
                     <td class="ip-address">{{ .IPAddress }}</td>
                     <td class="mac-address">{{ .MACAddress }}</td>
                     <td class="status">{{ .MinerStatus }}</td>
@@ -80,11 +109,6 @@
                 </tr>
                 {{ end }}
             {{ end }}
-        </table>
-    </main>
-    <main class="main-index">
-        <table class="dashboard-table">
-
         </table>
     </main>
     <div class="open-chat" onclick="openChat()">Chat Support</div>
@@ -127,7 +151,7 @@
                     'Watsminer M31s68TH',
             ],
             'Status': ['online', 'offline'],
-            'Coin': ['Bitcoin', 'Litecoin', 'Ethereum']
+          'Coin': ['Bitcoin', 'Litecoin', 'Ethereum']
         }
 
         function changeFilter(prefix, chooser) {
@@ -167,13 +191,6 @@
                 }
             }
         }
-        // const locationArr = [
-        //     {{range . }}
-        //         {{ .Shelf }}.toString(16) + {{ .Row }}.toString(16) + {{ .Column }}.toString(16),
-        //     {{end}}
-        // ]
-
-        // for (let i = 1; i < )
     </script>
 </body>
 </html>

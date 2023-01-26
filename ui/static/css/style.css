@@ -15,6 +15,7 @@ a:visited {
     text-decoration: none;
 }
 
+
 /* BODY */
 
 body{
@@ -69,6 +70,16 @@ nav {
 
 /* NAVBAR END */
 
+/* DASHBOARD */
+
+.dashboard--grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    text-align: center;
+}
+
+/* DASHBOARD END */
+
 /* FILTER */
 
 .filter > select {
@@ -85,6 +96,7 @@ nav {
 main, .filter {
     width: 100%;
     margin-top: 115px;
+    z-index: 100;
 }
 
 .main-index {
@@ -124,6 +136,7 @@ table, th, td {
     margin: 0 auto;
     padding: 50px;
     box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 .form--title {
@@ -334,3 +347,46 @@ table, th, td {
 }
 
 /* CHAT END */
+
+/* GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+    gap: 2px;
+}
+
+.grid--column {
+    display: grid;
+    gap: 2px;
+}
+
+.grid--row {
+    padding: 25px 5px;
+    background-color: black;
+}
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 0; top: 0;
+    width: 135px;
+    background: #3989c9;
+    color: #fff;
+    padding: 0.5em;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    opacity: 0;
+    transition: .2s;
+    z-index: 10;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+}
+
+/* GRID END */
