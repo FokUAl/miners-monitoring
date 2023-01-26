@@ -20,7 +20,7 @@ func NewMinerService(repo repository.Miner) *MinerService {
 }
 
 func (s *MinerService) GetDevice(address string, isIP bool) (app.MinerDevice, error) {
-	return s.repo.GetDeviceFromDB(address, isIP)
+	return s.repo.GetDevice(address, isIP)
 }
 
 func (s *MinerService) GetAllDevices() ([]app.MinerDevice, error) {
