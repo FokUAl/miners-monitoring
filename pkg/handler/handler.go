@@ -18,6 +18,10 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	general := router.Group("/")
+	{
+		general.GET("/error", h.errorPage)
+	}
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)
@@ -33,7 +37,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		home.GET("/", h.getHome)
 		home.POST("/", h.getHome)
-		home.GET("/error", h.errorPage)
 		home.GET("/add", h.getAddMiner)
 		home.POST("/add", h.addMiner)
 		home.GET("/grid", h.minersGrid)
