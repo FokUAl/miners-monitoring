@@ -144,5 +144,10 @@
             form.submit()
         })
     </script>
+    {{ if . }}
+    <script>
+        alert('{{ .Content }}')
+    </script>
+    {{ end }}
 </body>
 </html>
