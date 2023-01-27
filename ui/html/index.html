@@ -31,7 +31,7 @@
                             {{ if eq $length 0 }}
                                 Sorry. There is no miners yet
                             {{ else }}
-                                {{ $length }}/10000
+                                {{ $length }}/100
                             {{ end }}
                         {{ end }}
                     </div>
@@ -105,6 +105,20 @@
             <button class="chat--submit">Send message</button>
             <div class="chat--btn-cancel" onclick="closeChat()">Close</div>
         </form>
+    </div>
+    <div class="footer main-index">
+        <div class="main--title">Current crypto exchange rate</div>
+        <div class="footer--grid">
+            <div class="coin--grid">
+                <div class="fa-brands fa-bitcoin"></div> Bitcoin: <div id="coin-b" class="coin-price"></div>$
+            </div>
+            <div class="coin--grid">
+                <div class="fa-solid fa-litecoin-sign"></div> Litecoin: <div id="coin-l" class="coin-price"></div>$
+            </div>
+            <div class="coin--grid">
+                <div class="fa-brands fa-ethereum"></div> Ethereum: <div id="coin-e" class="coin-price"></div>$
+            </div>
+        </div>
     </div>
     <script src="https://kit.fontawesome.com/020dbc498d.js" crossorigin="anonymous"></script>
     <script>
@@ -182,6 +196,26 @@
                 }
             }
         }
+
+        const ApiUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+        async function makeAPICall() {
+            const result = await fetch(ApiUrl)
+            result.json().then(data => {
+                for (let i in data) {
+                    if (data[i].id == 'bitcoin') {
+                        document.getElementById('coin-b').append(data[i].current_price)
+                    }
+                    if (data[i].id == 'litecoin') {
+                        document.getElementById('coin-l').append(data[i].current_price)
+                    }
+                    if (data[i].id == 'ethereum') {
+                        document.getElementById('coin-e').append(data[i].current_price)
+                    }
+                }
+            })
+        }
+
+        makeAPICall()
     </script>
 </body>
 </html>

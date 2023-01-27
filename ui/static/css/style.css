@@ -82,6 +82,11 @@ nav {
 
 /* FILTER */
 
+.filter {
+    width: 100%;
+    margin-top: 50px;
+}
+
 .filter > select {
     width: 20%;
     background-color: white;
@@ -95,7 +100,6 @@ nav {
 
     border: none;
     padding: 6px 10px;
-    margin-top: 15px;
 
     cursor: pointer;
     transition: all .2s;
@@ -105,15 +109,19 @@ nav {
 
 /* MAIN */
 
-main, .filter {
+main  {
     width: 100%;
     margin-top: 115px;
     z-index: 100;
 }
 
 .main-index {
-    padding: 50px;
+    padding: 30px;
     box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+
+.main-index-dash {
+    margin-top: 0px;
 }
 
 .main--title {
@@ -435,3 +443,22 @@ table, th, td {
 }
 
 /* ERROR END */
+
+/* FOOTER */
+
+.footer {
+    margin-top: 50px;
+}
+
+.footer--grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    text-align: center;
+}
+
+.coin--grid {
+    display: flex;
+    justify-content: center;
+}
+
+/* FOOTER END */

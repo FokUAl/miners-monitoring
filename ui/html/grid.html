@@ -140,7 +140,8 @@
         const closeChat = () => {
             chat.style.display = 'none'
         }
-
+    
+        {{ if . }}
         const locationArr = [
             {{ range . }}
                 {{ .Shelf }}.toString(16) + {{ .Row }}.toString(16) + {{ .Column }}.toString(16),
@@ -152,8 +153,7 @@
                 {{ .MinerStatus }},
             {{ end }}
         ]
-
-        {{ if . }}
+        
         const grid = document.getElementById('grid')
         for (let i = 0; i < grid.children.length; i++) {
             const temp = grid.children[i]
