@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/gin-gonic/gin"
@@ -129,7 +130,50 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	if err != nil {
 		log.Printf("minersGrid: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError,
-			fmt.Sprintf("getHome: %s", err.Error()))
+			fmt.Sprintf("minersGrid: %s", err.Error()))
+		return
+	}
+}
+
+func (h *Handler) getMinerCharacteristics(c *gin.Context) {
+	t, err := template.ParseFiles("./ui/html/asic.html")
+	if err != nil {
+		log.Printf("getMinerCharacteristics: %s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
+		return
+	}
+
+	shelf, err := strconv.Atoi(c.PostForm("shelf"))
+	if err != nil {
+		log.Printf("getMinerCharacteristics: %s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
+		return
+	}
+
+	row, err := strconv.Atoi(c.PostForm("row"))
+	if err != nil {
+		log.Printf("getMinerCharacteristics: %s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
+		return
+	}
+
+	column, err := strconv.Atoi(c.PostForm("column"))
+	if err != nil {
+		log.Printf("getMinerCharacteristics: %s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
+		return
+	}
+
+	device, err := h.services.GetDeviceByLocation(shelf, column, row)
+	err = t.Execute(c.Writer, device)
+	if err != nil {
+		log.Printf("getMinerCharacteristics: %s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
 		return
 	}
 }
