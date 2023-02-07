@@ -144,7 +144,9 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
-	shelf, err := strconv.Atoi(c.PostForm("shelf"))
+	values := c.Request.URL.Query()
+
+	shelf, err := strconv.Atoi(values["shelf"][0])
 	if err != nil {
 		log.Printf("getMinerCharacteristics: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError,
@@ -152,7 +154,7 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
-	row, err := strconv.Atoi(c.PostForm("row"))
+	row, err := strconv.Atoi(values["row"][0])
 	if err != nil {
 		log.Printf("getMinerCharacteristics: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError,
@@ -160,7 +162,7 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
-	column, err := strconv.Atoi(c.PostForm("column"))
+	column, err := strconv.Atoi(values["column"][0])
 	if err != nil {
 		log.Printf("getMinerCharacteristics: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError,
