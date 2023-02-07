@@ -54,6 +54,10 @@ nav {
     cursor: pointer;
 }
 
+.user-static {
+    padding: 10px 15px;
+}
+
 .links {
     display: flex;
 }

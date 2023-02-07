@@ -13,10 +13,10 @@
 <body>
     <nav>
         <div class="logo" onclick="window.location.href='/'"><img src="../static/img/logo_black.svg"></div>
-        <div class="user_role">
+        <div class="links">
             {{ if .User }}
-                <div class="link">{{ .User.Username }}</div>
-                <div class="link">{{ .User.Role }}</div>
+                <div class="user-static">{{ .User.Username }}</div>
+                <div class="user-static">{{ .User.Role }}</div>
             {{ end }}
         </div>
         <div class="links">
