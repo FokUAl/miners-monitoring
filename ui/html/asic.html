@@ -22,11 +22,11 @@
     <main>
         <div class="main-index">
         {{ if . }}
-            <div class="grid-50-50">
-                <div class="asic--coin">Coin {{ .Coin }}</div>
-                <div class="asic--status">Status {{ .Coin }}</div>
+            <div class="grid-3">
+                <div class="asic--type">Miner Type: {{ .MinerType }}</div>
+                <div class="asic--coin">Coin: {{ .Coin }}</div>
+                <div class="asic--status">Status: {{ .MinerStatus }}</div>
             </div>
-
         {{ end }}
         </div>
         <div class="main-index"> 
@@ -35,45 +35,32 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const data = [78, 80, 83, 81, 82, 84, 82, 81, 84, 85, 83, 84, 83, 82, 84, 85, 82, 81, 82, 84, 83, 84, 83, 84]
+        const colors = data.map((value) => {
+            if (value > 82) {
+                return 'red'
+            } else if (value < 81) {
+                return 'yellow'
+            } else return 'green'
+        })
         new Chart(document.getElementById("line-chart"), {
-            type: 'line',
-            data: {
-                labels: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
-                datasets: [{ 
-                    data: [78, 80, 83, 81, 82, 84, 82, 81, 84, 85, 83, 84, 83, 82, 84, 85, 82, 81, 82, 84, 83, 84, 83, 84],
-                    label: "Temperature",
-                    borderColor: "#e5de80",
-                    fill: false
-                }, {
-                    data: [78, 80, 83, 81, 82, 84, 82, 81, 84, 85, 83, 84, 83, 82, 84, 85, 82, 81, 82, 84, 83, 84, 83, 84],
-                    label: "Temperature",
-                    borderColor: "#000000",
-                    fill: false
-                }
-                ]
-            },
-            options: {
-                title: {
-                display: true
-                }
-            },
-            plugins: [{
-                beforeRender: (x, options) => {
-                    const c = x.chart;
-                    const dataset = x.data.datasets[0];
-                    const yScale = x.scales['y-axis-0'];
-                    const yPos = yScale.getPixelForValue(0);
-
-                    const gradientFill = c.ctx.createLinearGradient(0, 0, 0, c.height);
-                    gradientFill.addColorStop(0, 'rgb(86,188,77)');
-                    gradientFill.addColorStop(yPos / c.height, 'rgb(86,188,77)');
-                    gradientFill.addColorStop(yPos / c.height, 'rgb(229,66,66)');
-                    gradientFill.addColorStop(1, 'rgb(229,66,66)');
-
-                    const model = x.data.datasets[0]._meta[Object.keys(dataset._meta)[0]].dataset._model;
-                    model.borderColor = gradientFill;
-                },
+        type: 'line',
+        data: {
+            labels: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
+            datasets: [{ 
+                label: "Temperature",
+                data: data,
+                pointBorderColor: colors,
+                pointBackgroundColor: colors,
+                backgroundColor: 'gray',
+                fill: false
             }]
+        },
+        options: {
+            title: {
+            display: true
+            }
+        }
         })
     </script>
 </body>
