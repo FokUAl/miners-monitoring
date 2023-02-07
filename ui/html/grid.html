@@ -155,33 +155,23 @@
         const closeChat = () => {
             chat.style.display = 'none'
         }
-    
-        {{ if . }}
-        const locationArr = [
-            {{ range . }}
-                {{ .Shelf }}.toString(16) + {{ .Row }}.toString(16) + {{ .Column }}.toString(16),
-            {{ end }}
-        ]
-
-        const statusArr = [
-            {{ range . }}
-                {{ .MinerStatus }},
-            {{ end }}
-        ]
         
         const grid = document.getElementById('grid')
-        for (let i = 0; i < grid.children.length; i++) {
-            const temp = grid.children[i]
-            for (let j = 0; j < temp.children.length; j++) {
-                const tempCh = temp.children[j]
-                for (let k = 0; k < locationArr.length; k++) {
-                    if (locationArr[k] == tempCh.id) {
-                        tempCh.style.backgroundColor = '#3989c9'
-                        tempCh.setAttribute('data-tooltip', `Location: ${locationArr[k]} Status: ${statusArr[k]}`)
-                  }
+        {{ if . }}
+            {{ range . }}
+                for (let i = 0; i < grid.children.length; i++) {
+                    const temp = grid.children[i]
+                    for (let j = 0; j < temp.children.length; j++) {
+                        const tempCh = temp.children[j]
+                        const locTemp = {{ .Shelf }}.toString(16) + {{ .Row }}.toString(16) + {{ .Column }}.toString(16)
+                        if (tempCh.id === locTemp) {
+                            tempCh.style.backgroundColor = '#3989c9'
+                            tempCh.setAttribute('data-tooltip', 'Location: ' + {{ .Shelf }}.toString(16) + '-' + {{ .Row }}.toString(16) + '-' + {{ .Column }}.toString(16) + ' Status: ' + {{ .MinerStatus }})
+                            tempCh.setAttribute('onclick', 'location.href=\'./asic?shelf=' + {{ .Shelf }} + '&row=' + {{ .Row }} + '&column=' + {{ .Column }} + '\'')
+                        }
+                    }
                 }
-            }
-        }
+            {{ end }}
         {{ end }}
     </script>
     <!-- shelf 4 column 10 row 8 -->
