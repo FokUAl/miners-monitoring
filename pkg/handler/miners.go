@@ -10,6 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type info struct {
+	Notification string
+	User         app.User
+	Devices      []app.MinerDevice
+}
+
 func (h *Handler) getHome(c *gin.Context) {
 	t, err := template.ParseFiles("./ui/html/index.html")
 	if err != nil {
@@ -37,11 +43,25 @@ func (h *Handler) getHome(c *gin.Context) {
 	}
 
 	if err != nil {
+		log.Printf("getHome: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 		return
 	}
 
-	err = t.Execute(c.Writer, devices)
+	id := c.MustGet("id").(int)
+	user, err := h.services.GetUserByID(id)
+	if err != nil {
+		log.Printf("getHome: %s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
+		return
+	}
+
+	newInfo := info{
+		User:    user,
+		Devices: devices,
+	}
+
+	err = t.Execute(c.Writer, newInfo)
 	if err != nil {
 		log.Printf("getHome: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError,

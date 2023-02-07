@@ -17,8 +17,11 @@ func (h *Handler) userIdentity(c *gin.Context) {
 		c.Redirect(http.StatusSeeOther, "/auth/sign-in")
 	}
 
-	_, err = h.services.Authorization.ParseToken(token)
+	id, err := h.services.Authorization.ParseToken(token)
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/auth/sign-in")
+	} else {
+		c.Set("id", id)
 	}
+
 }
