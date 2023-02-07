@@ -22,6 +22,7 @@ type Miner interface {
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 	IsDeviceAdded(address string, isIP bool) (bool, error)
 	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
+	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)
 }
 
 type User interface {

@@ -105,3 +105,7 @@ func (s *MinerService) GetDevicesByStatus(miner_status string) ([]app.MinerDevic
 func (s *MinerService) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
 	return s.repo.GetDevicesByCoin(coin_type)
 }
+
+func (s *MinerService) GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error) {
+	return s.repo.GetDeviceByLocation(shelf, column, row)
+}
