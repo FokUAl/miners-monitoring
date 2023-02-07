@@ -169,6 +169,13 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	}
 
 	device, err := h.services.GetDeviceByLocation(shelf, column, row)
+	if err != nil {
+		log.Printf("getMinerCharacteristics: %s\n", err.Error())
+		newErrorResponse(c, http.StatusBadRequest,
+			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
+		return
+	}
+
 	err = t.Execute(c.Writer, device)
 	if err != nil {
 		log.Printf("getMinerCharacteristics: %s\n", err.Error())
