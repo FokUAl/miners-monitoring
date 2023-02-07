@@ -13,6 +13,8 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 	return &AuthPostgres{db: db}
 }
 
+// TO DO
+// Add user role
 func (p *AuthPostgres) CreateUser(user app.User) (int, error) {
 	var id int
 	query := `INSERT INTO users (email, username, password_hash) VALUES ($1, $2, $3)
@@ -28,8 +30,8 @@ func (p *AuthPostgres) CreateUser(user app.User) (int, error) {
 
 func (p *AuthPostgres) GetUser(username, password string) (app.User, error) {
 	var user app.User
-	query := `SELECT id FROM users WHERE username = $1 AND password_hash = $2`
-	err := p.db.Get(&user, query, username, password)
+	query := `SELECT id, role_ FROM users WHERE username = $1 AND password_hash = $2`
+	err := p.db.QueryRow(query, username, password).Scan(&user.Id, &user.Role)
 
 	return user, err
 }

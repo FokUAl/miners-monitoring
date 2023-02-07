@@ -21,7 +21,9 @@ type Miner interface {
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 }
 
-type User interface{}
+type User interface {
+	GetUserByID(id int) (app.User, error)
+}
 
 type Repository struct {
 	Authorization
@@ -32,6 +34,7 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		User:          NewUserPostgres(db),
 		Miner:         NewMinerPostgres(db),
 	}
 }
