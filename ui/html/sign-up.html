@@ -25,8 +25,10 @@
                 <label>Email</label>
                 <input name="email" type="text" class="form--input" pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/" required>
                 <label>Password</label>
-                <input name="password" id="id_password" type="password" class="form--input" minlength="3" maxlength="30" required>
-                <i class="far fa-eye" id="togglePassword" onmousedown="passVisible()" onmouseup="passUnvisible()"></i>
+                <div class="password-container">
+                    <input name="password" id="id_password" type="password" class="form--input" minlength="3" maxlength="30" required>
+                    <i class="far fa-eye" id="togglePassword" onmousedown="passVisible()" onmouseup="passUnvisible()"></i>
+                </div>
                 <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 <input type="submit" class="form--submit" value="Create">
             </div>

@@ -203,9 +203,13 @@ table, th, td {
     padding: 8px 10px;
 }
 
-.fa-eye {
+.fa-eye {    
     margin-left: -30px;
     cursor: pointer;
+    float: right;
+    position: relative;
+    margin-top: 20px;
+    margin-right: 8px;
 }
 
 .form--plus-minus {
