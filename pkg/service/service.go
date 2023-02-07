@@ -25,7 +25,7 @@ type Miner interface {
 }
 
 type User interface {
-	GetUser(username, password string) (app.User, error)
+	GetUserByID(id int) (app.User, error)
 }
 
 type Service struct {
@@ -37,6 +37,7 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		User:          NewUserService(repos.User),
 		Miner:         NewMinerService(repos.Miner),
 	}
 }
