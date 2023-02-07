@@ -32,8 +32,8 @@
                 <div class="grid--item">
                     <div class="inner">Miners</div>
                     <div class="inner">
-                        {{ if . }}
-                            {{ $length := len . }}
+                        {{ if .Devices }}
+                            {{ $length := len .Devices }}
                             {{ if eq $length 0 }}
                                 Sorry. There is no miners yet
                             {{ else }}
@@ -45,8 +45,8 @@
                 <div class="grid--item">
                     <div class="inner">Online</div>
                     <div class="inner">
-                        {{ if . }}
-                            {{ $length := len . }}
+                        {{ if .Devices }}
+                            {{ $length := len .Devices }}
                             {{ $length }}%
                         {{ end }}
                     </div>
@@ -81,8 +81,8 @@
                 <td class="inner">Status</td>
                 <td class="inner">Coin</td>
             </tr>
-            {{ if . }}
-                {{ range . }}
+            {{ if .Devices }}
+                {{ range .Devices }}
                 <tr class="table--container">
                     <td class="name">{{ .MinerType }}</td>
                     <td class="shelf">{{ .Shelf }}</td>
