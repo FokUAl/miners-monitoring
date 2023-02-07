@@ -13,6 +13,12 @@
 <body>
     <nav>
         <div class="logo" onclick="window.location.href='/'"><img src="../static/img/logo_black.svg"></div>
+        <div class="user_role">
+            {{ if .User }}
+                <div class="link">{{ .User.Username }}</div>
+                <div class="link">{{ .User.Role }}</div>
+            {{ end }}
+        </div>
         <div class="links">
             <div class="link" onclick="window.location.href='/add'">Add new ASIC</div>
             <div class="link" onclick="window.location.href='/grid'">Miners grid</div>
@@ -120,6 +126,10 @@
             </div>
         </div>
     </div>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://kit.fontawesome.com/020dbc498d.js" crossorigin="anonymous"></script>
     <script>
         const chat = document.getElementById('chat')
