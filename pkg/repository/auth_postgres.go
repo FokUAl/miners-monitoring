@@ -17,7 +17,7 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 // Add user role
 func (p *AuthPostgres) CreateUser(user app.User) (int, error) {
 	var id int
-	query := `INSERT INTO users (email, username, password_hash) VALUES ($1, $2, $3)
+	query := `INSERT INTO users (email, role_, username, password_hash) VALUES ($1, 'User', $2, $3)
 		RETURNING id`
 
 	row := p.db.QueryRow(query, user.Email, user.Username, user.Password)
