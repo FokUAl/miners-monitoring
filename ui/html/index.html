@@ -84,6 +84,7 @@
                 <td class="inner">IP Address</td>
                 <td class="inner">MAC Address</td>
                 <td class="inner">Status</td>
+                <td class="inner">Owner</td>
                 <td class="inner">Coin</td>
             </tr>
             {{ if .Devices }}
@@ -96,6 +97,7 @@
                     <td class="ip-address">{{ .IPAddress }}</td>
                     <td class="mac-address">{{ .MACAddress }}</td>
                     <td class="status">{{ .MinerStatus }}</td>
+                    <td class="owner">{{ .Owner }}</td>
                     {{ if eq .Coin "Bitcoin" }}
                         <td class="coin">{{ .Coin  }} <div class="fa-brands fa-bitcoin"></div></td>
                     {{ else if eq .Coin "Ethereum" }}

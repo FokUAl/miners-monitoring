@@ -166,7 +166,7 @@
                         const locTemp = {{ .Shelf }}.toString(16) + {{ .Row }}.toString(16) + {{ .Column }}.toString(16)
                         if (tempCh.id === locTemp) {
                             tempCh.style.backgroundColor = '#3989c9'
-                            tempCh.setAttribute('data-tooltip', 'Location: ' + {{ .Shelf }}.toString(16) + '-' + {{ .Row }}.toString(16) + '-' + {{ .Column }}.toString(16) + ' Status: ' + {{ .MinerStatus }})
+                            tempCh.setAttribute('data-tooltip', 'Location: ' + {{ .Shelf }}.toString(16) + '-' + {{ .Row }}.toString(16) + '-' + {{ .Column }}.toString(16) + ' Status: ' + {{ .MinerStatus }} + ' Owner: ' + {{ .Owner }})
                             tempCh.setAttribute('onclick', 'location.href=\'./asic?shelf=' + {{ .Shelf }} + '&row=' + {{ .Row }} + '&column=' + {{ .Column }} + '\'')
                         }
                     }
