@@ -36,7 +36,7 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 		// check to existence of device physically
 		existedDevice, err := s.repo.GetDevice(connections[i], isIP)
 		if err != nil {
-			return fmt.Errorf("Device is not exist: %s", connections[i])
+			return fmt.Errorf("device is not exist: %s", connections[i])
 		}
 
 		// check device to existance in database
@@ -44,7 +44,7 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 		if err != sql.ErrNoRows && err != nil {
 			return err
 		} else if isAdded {
-			return fmt.Errorf("Device has already been added: %s", connections[i])
+			return fmt.Errorf("device has already been added: %s", connections[i])
 		}
 
 		shelfNum, err := strconv.Atoi(locInfo[0][i])
@@ -65,7 +65,7 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 		if err != sql.ErrNoRows && err != nil {
 			return err
 		} else if !isFree {
-			return fmt.Errorf("Location isn't free: %d-%d-%d",
+			return fmt.Errorf("location isn't free: %d-%d-%d",
 				shelfNum, columnNum, rowNum)
 		}
 

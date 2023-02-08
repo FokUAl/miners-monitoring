@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -100,7 +100,7 @@ func getGooglePublicKey(keyID string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	dat, err := ioutil.ReadAll(resp.Body)
+	dat, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
@@ -142,7 +142,7 @@ func (s *AuthService) ValidateGoogleJWT(tokenString string) (GoogleClaims, error
 
 	claims, ok := token.Claims.(*GoogleClaims)
 	if !ok {
-		return GoogleClaims{}, errors.New("Invalid Google JWT")
+		return GoogleClaims{}, errors.New("invalid Google JWT")
 	}
 
 	if claims.Issuer != "accounts.google.com" && claims.Issuer != "https://accounts.google.com" {
