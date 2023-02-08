@@ -23,11 +23,13 @@
             {{ if eq .User.Role "User" }}
             {{ else }}
             <div class="link" onclick="window.location.href='/add'">Add new ASIC</div>
-            {{ end }}
             <div class="link" onclick="window.location.href='/grid'">Miners grid</div>
+            {{ end }}
             <div class="link" onclick="window.location.href='/auth/logout'">Logout</div>
         </div>
     </nav>
+    {{ if eq .User.Role "User" }}
+    {{ else }}
     <main class="main-index">
         <div class="dashboard">
             <div class="main--title">Dashboard</div>
@@ -106,6 +108,7 @@
             {{ end }}
         </table>
     </main>
+    {{ end }}
     <div class="open-chat" onclick="openChat()">Chat Support</div>
     <div class="chat-popup" id="chat">
         <form action="/" class="form--chat">
