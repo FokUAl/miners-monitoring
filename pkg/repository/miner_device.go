@@ -179,7 +179,7 @@ func (p *MinerPostgres) GetDeviceByLocation(shelf int, column int, row int) (app
 	var result app.MinerDevice
 	statement := `SELECT miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool 
 		FROM miner_devices WHERE shelf = $1 and _row = $2 and col = $3`
-	err := p.db.QueryRow(statement, shelf, column, row).Scan(&result.MinerType, &result.Shelf, &result.Row,
+	err := p.db.QueryRow(statement, shelf, row, column).Scan(&result.MinerType, &result.Shelf, &result.Row,
 		&result.Column, &result.MinerStatus, &result.Coin, &result.IPAddress, &result.MACAddress, &result.Pool)
 	if err != nil {
 		return result, err
