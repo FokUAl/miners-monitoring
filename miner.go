@@ -6,6 +6,7 @@ type MinerDevice struct {
 	Shelf       int
 	Row         int
 	Column      int
+	Owner       string
 	MinerStatus string
 	Coin        string
 	IPAddress   string

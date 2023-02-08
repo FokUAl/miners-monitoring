@@ -18,9 +18,9 @@ INSERT INTO all_devices (miner_type, shelf, _row, col, miner_status, coin, ip_ad
     VALUES ('Avalon 1166 Pro 78TH', 1, 3, 3, 'online', 'Ethereum', '172.168.10.11', '22-7A-65-E7-V3-6G', 'Main');
 
 
-INSERT INTO miner_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
-    VALUES ('Antminer S17+', 1, 1, 1, 'online', 'Bitcoin', '172.168.10.10', '94-39-E5-E7-4C-6D', 'Main');
-INSERT INTO miner_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
-    VALUES ('Antminer S19', 1, 2, 2, 'online', 'Litecoin', '172.168.10.5', '63-G2-66-00-10-B3', 'Main');
-INSERT INTO miner_devices (miner_type, shelf, _row, col, miner_status, coin, ip_address, mac_address, _pool) 
-    VALUES ('Avalon 1166 Pro 78TH', 1, 3, 3, 'online', 'Ethereum', '172.168.10.11', '22-7A-65-E7-V3-6G', 'Main');
+INSERT INTO miner_devices (miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address, _pool) 
+    VALUES ('Antminer S17+', 1, 1, 1, 'Carl', 'online', 'Bitcoin', '172.168.10.10', '94-39-E5-E7-4C-6D', 'Main');
+INSERT INTO miner_devices (miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address, _pool) 
+    VALUES ('Antminer S19', 1, 2, 2, 'Carl', 'online', 'Litecoin', '172.168.10.5', '63-G2-66-00-10-B3', 'Main');
+INSERT INTO miner_devices (miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address, _pool) 
+    VALUES ('Avalon 1166 Pro 78TH', 1, 3, 3, 'Carl', 'online', 'Ethereum', '172.168.10.11', '22-7A-65-E7-V3-6G', 'Main');

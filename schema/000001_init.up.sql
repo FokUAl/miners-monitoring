@@ -14,6 +14,7 @@ CREATE TABLE miner_devices
     shelf INTEGER DEFAULT 0,
     _row INTEGER DEFAULT 0,
     col INTEGER DEFAULT 0,
+    owner_ VARCHAR(255) NOT NULL DEFAULT '',
     miner_status VARCHAR(255) NOT NULL,
     coin VARCHAR(255) NOT NULL,
     ip_address VARCHAR(255) NOT NULL,
