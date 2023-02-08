@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	app "github.com/FokUAl/miners-monitoring"
+	"github.com/FokUAl/miners-monitoring/internal"
 	"github.com/FokUAl/miners-monitoring/pkg/handler"
 	"github.com/FokUAl/miners-monitoring/pkg/repository"
 	"github.com/FokUAl/miners-monitoring/pkg/service"
@@ -35,6 +36,11 @@ func main() {
 	})
 	if err != nil {
 		log.Fatalf("failed to initialization db: %s", err.Error())
+	}
+
+	err = internal.MigratePostgres(db)
+	if err != nil {
+		log.Fatalf("failed to migrate data: %s", err.Error())
 	}
 
 	repos := repository.NewRepository(db)
