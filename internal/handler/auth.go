@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"html/template"
-	"log"
 	"net/http"
 
 	app "github.com/FokUAl/miners-monitoring"
@@ -26,37 +24,39 @@ func (h *Handler) signUp(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/auth/sign-in")
 }
 
-func (h *Handler) getLogin(c *gin.Context) {
-	t, err := template.ParseFiles("./ui/html/sign-in.html")
-	if err != nil {
-		log.Printf("getSignUp: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
-		return
-	}
-	err = t.Execute(c.Writer, nil)
-	if err != nil {
-		log.Printf("getSignUp: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
-	}
-}
+// empty
+// func (h *Handler) getLogin(c *gin.Context) {
+// 	t, err := template.ParseFiles("./ui/html/sign-in.html")
+// 	if err != nil {
+// 		log.Printf("getSignUp: %s\n", err.Error())
+// 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+// 			http.StatusInternalServerError)
+// 		return
+// 	}
+// 	err = t.Execute(c.Writer, nil)
+// 	if err != nil {
+// 		log.Printf("getSignUp: %s\n", err.Error())
+// 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+// 			http.StatusInternalServerError)
+// 	}
+// }
 
-func (h *Handler) getSignUp(c *gin.Context) {
-	t, err := template.ParseFiles("./ui/html/sign-up.html")
-	if err != nil {
-		log.Printf("getSignUp: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
-		return
-	}
-	err = t.Execute(c.Writer, nil)
-	if err != nil {
-		log.Printf("getSignUp: %s\n", err.Error())
-		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
-	}
-}
+// empty
+// func (h *Handler) getSignUp(c *gin.Context) {
+// 	t, err := template.ParseFiles("./ui/html/sign-up.html")
+// 	if err != nil {
+// 		log.Printf("getSignUp: %s\n", err.Error())
+// 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+// 			http.StatusInternalServerError)
+// 		return
+// 	}
+// 	err = t.Execute(c.Writer, nil)
+// 	if err != nil {
+// 		log.Printf("getSignUp: %s\n", err.Error())
+// 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+// 			http.StatusInternalServerError)
+// 	}
+// }
 
 type signInInput struct {
 	Username string `json:"username" binding:"required"`

@@ -26,8 +26,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
-		auth.GET("/sign-up", h.getSignUp)
-		auth.GET("/sign-in", h.getLogin)
+		//auth.GET("/sign-up", h.getSignUp)
+		//auth.GET("/sign-in", h.getLogin)
 		auth.POST("/google/login", h.googleLogin)
 		auth.GET("/logout", h.logOut)
 

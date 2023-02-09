@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -20,20 +19,22 @@ func newErrorResponse(c *gin.Context, statusCode int, message string) {
 }
 
 func (h *Handler) errorPage(c *gin.Context) {
-	t, err := template.ParseFiles("./ui/html/error.html")
+	errorText, err := c.Cookie("ErrorCode")
 	if err != nil {
 		log.Printf("errorPage: %s\n", err.Error())
 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
 			http.StatusInternalServerError)
-		return
 	}
 
-	errorText, err := c.Cookie("ErrorCode")
-	// log.Println(errorText)
-	err = t.Execute(c.Writer, errorText)
+	errorCode, err := strconv.Atoi(errorText)
 	if err != nil {
 		log.Printf("errorPage: %s\n", err.Error())
 		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
 			http.StatusInternalServerError)
 	}
+	c.JSON(errorCode, struct {
+		Code int
+	}{
+		Code: errorCode,
+	})
 }
