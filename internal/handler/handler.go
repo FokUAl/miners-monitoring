@@ -18,6 +18,7 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
+	router.Use(CORSMiddleware())
 	general := router.Group("/")
 	{
 		general.GET("/error", h.errorPage)
