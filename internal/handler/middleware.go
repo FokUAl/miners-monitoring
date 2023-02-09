@@ -8,7 +8,7 @@ import (
 
 const (
 	authorizationHeader = "Authorization"
-	userCtx             = "userId"
+	userCtx             = "id"
 )
 
 func (h *Handler) userIdentity(c *gin.Context) {
@@ -21,7 +21,7 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/auth/sign-in")
 	} else {
-		c.Set("id", id)
+		c.Set(userCtx, id)
 	}
 
 }
