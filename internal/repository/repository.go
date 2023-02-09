@@ -20,6 +20,7 @@ type Miner interface {
 	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)
+	GetDevicesByUser(username string) ([]app.MinerDevice, error)
 }
 
 type User interface {
