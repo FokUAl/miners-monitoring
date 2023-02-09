@@ -8,10 +8,10 @@ import (
 	"syscall"
 
 	app "github.com/FokUAl/miners-monitoring"
-	"github.com/FokUAl/miners-monitoring/internal"
-	"github.com/FokUAl/miners-monitoring/pkg/handler"
-	"github.com/FokUAl/miners-monitoring/pkg/repository"
-	"github.com/FokUAl/miners-monitoring/pkg/service"
+	"github.com/FokUAl/miners-monitoring/internal/handler"
+	"github.com/FokUAl/miners-monitoring/internal/repository"
+	"github.com/FokUAl/miners-monitoring/internal/service"
+	"github.com/FokUAl/miners-monitoring/pkg"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("failed to initialization db: %s", err.Error())
 	}
 
-	err = internal.MigratePostgres(db)
+	err = pkg.MigratePostgres(db)
 	if err != nil {
 		log.Fatalf("failed to migrate data: %s", err.Error())
 	}

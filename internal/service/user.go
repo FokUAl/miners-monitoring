@@ -2,7 +2,7 @@ package service
 
 import (
 	app "github.com/FokUAl/miners-monitoring"
-	"github.com/FokUAl/miners-monitoring/pkg/repository"
+	"github.com/FokUAl/miners-monitoring/internal/repository"
 )
 
 type UserService struct {

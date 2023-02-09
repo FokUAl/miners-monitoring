@@ -10,7 +10,7 @@ import (
 	"time"
 
 	app "github.com/FokUAl/miners-monitoring"
-	"github.com/FokUAl/miners-monitoring/pkg/repository"
+	"github.com/FokUAl/miners-monitoring/internal/repository"
 	"github.com/dgrijalva/jwt-go"
 )
 

@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/FokUAl/miners-monitoring/pkg/service"
+	"github.com/FokUAl/miners-monitoring/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
