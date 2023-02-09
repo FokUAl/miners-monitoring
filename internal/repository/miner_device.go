@@ -204,7 +204,7 @@ func (p *MinerPostgres) GetDevicesByUser(username string) ([]app.MinerDevice, er
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
 			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
 		if err != nil {
-			return nil, fmt.Errorf("GetDevicesByStatus: %w", err)
+			return nil, fmt.Errorf("GetDevicesByUser: %w", err)
 		}
 
 		result = append(result, device)
