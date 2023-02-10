@@ -21,8 +21,9 @@ export default function SignUp() {
     //     console.log(content)
     // }
 
-    const handleRegister = () => {
-        axios.post(`http://localhost:8008/auth/sign-up` , {nickname: nickname, password: password})
+    const handleRegister = async () => {
+        const response = await axios.post("http://localhost:8008/auth/sign-up", {nickname, password})
+        console.log(response)
     }
 
     return (
@@ -31,9 +32,9 @@ export default function SignUp() {
                 <div className="form--title">Create a new account</div>
                 <div className="form--inputs">
                     <label>Nickname</label>
-                    <input name="nickname" type="text" onChange={e => setNickname(e.target.value)} />
+                    <input name="nickname" type="text" value={nickname} onChange={e => setNickname(e.target.value)} />
                     <label>Password</label>
-                    <input name="password" type="password" onChange={e => setPassword(e.target.value)} />
+                    <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
                     <input type="submit" value="Sign up" />
                 </div>
             </form>
