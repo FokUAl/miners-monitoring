@@ -21,9 +21,12 @@ export default function SignUp() {
     //     console.log(content)
     // }
 
-    const handleRegister = async () => {
+    const handleRegister = async (e) => {
+        e.preventDefault()
         const response = await axios.post("http://localhost:8008/auth/sign-up", {nickname, password})
-        console.log(response)
+            .then((response) => {console.log('success') 
+            console.log(response)})
+            .catch((exception) => console.log(exception))
     }
 
     return (
