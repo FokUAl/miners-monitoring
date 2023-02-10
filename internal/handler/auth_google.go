@@ -27,7 +27,7 @@ func (h *Handler) googleLogin(c *gin.Context) {
 	// Validate the JWT is valid
 	claims, err := h.services.ValidateGoogleJWT(*params.GoogleJWT)
 	if err != nil {
-		newErrorResponse(c, 403, "Invalid google auth")
+		newErrorResponse(c, http.StatusForbidden, "Invalid google auth")
 		return
 	}
 
@@ -49,7 +49,7 @@ func (h *Handler) googleLogin(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, struct {
+	c.JSON(http.StatusOK, struct {
 		Token string `json:"token"`
 	}{
 		Token: tokenString,

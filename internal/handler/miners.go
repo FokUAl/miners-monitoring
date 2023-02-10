@@ -41,7 +41,7 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	id := c.MustGet("id").(int)
+	id := c.MustGet(userCtx).(int)
 	user, err := h.services.GetUserByID(id)
 	if err != nil {
 		log.Printf("getHome: %s\n", err.Error())
@@ -54,7 +54,7 @@ func (h *Handler) getHome(c *gin.Context) {
 		Devices: devices,
 	}
 
-	c.JSON(200, newInfo)
+	c.JSON(http.StatusOK, newInfo)
 }
 
 func (h *Handler) getAddMiner(c *gin.Context) {
@@ -69,7 +69,7 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 	newInfo := info{
 		Notification: notificationText,
 	}
-	c.JSON(200, newInfo)
+	c.JSON(http.StatusOK, newInfo)
 }
 
 func (h *Handler) addMiner(c *gin.Context) {
@@ -104,7 +104,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 		Devices: devices,
 	}
 
-	c.JSON(200, newInfo)
+	c.JSON(http.StatusOK, newInfo)
 }
 
 func (h *Handler) getMinerCharacteristics(c *gin.Context) {
@@ -142,5 +142,5 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, device)
+	c.JSON(http.StatusOK, device)
 }
