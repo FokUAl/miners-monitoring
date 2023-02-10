@@ -1,0 +1,13 @@
+@import "./variables.scss";
+
+.App {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.container {
+    margin-block: 20px;
+    padding: 20px;
+    
+    background-color: $secondary;
+}

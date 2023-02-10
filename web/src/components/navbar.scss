@@ -1,0 +1,35 @@
+@import "../scss/variables.scss";
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px;
+    max-width: 1400px;
+    width: 100%;
+
+    background-color: $secondary;
+}
+
+.nav--user {
+    display: flex;
+}
+
+.nav--user > div {
+    margin-inline: 10px;
+}
+
+.nav--links > a {
+    margin-inline: 10px;
+    color: $text;
+    transition: all .2s;
+}
+
+.nav--links > a:visited {
+    color: $text;
+}
+
+.nav--links > a:hover {
+    color: $text-hover;
+}
