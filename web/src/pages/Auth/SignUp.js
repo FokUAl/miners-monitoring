@@ -2,37 +2,16 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 export default function SignUp() {
+    const [email, setEmail] = useState()
     const [nickname, setNickname] = useState()
     const [password, setPassword] = useState()
 
-    // const handleRegister = async (e) => {
-    //     e.preventDefault()
-
-    //     const response = await fetch('http://localhost:8008/auth/sign-up', {
-    //         method: 'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         body: JSON.stringify({
-    //             nickname,
-    //             password
-    //         })
-    //     })
-
-    //     const content = await response.json()
-    //     console.log(content)
-    // }
-
-<<<<<<< HEAD
-    const handleRegister = (e) => {
-        e.preventDefault()
-        axios.post(`http://localhost:8008/auth/sign-up` , {nickname: nickname, password: password})
-=======
     const handleRegister = async (e) => {
         e.preventDefault()
-        const response = await axios.post("http://localhost:8008/auth/sign-up", {nickname, password})
+        await axios.post("http://localhost:8008/auth/sign-up", {email, nickname, password})
             .then((response) => {console.log('success') 
             console.log(response)})
             .catch((exception) => console.log(exception))
->>>>>>> 6b9d7f312645ccadc7443076053f91f4dc95df90
     }
 
     return (
@@ -40,10 +19,12 @@ export default function SignUp() {
             <form onSubmit={handleRegister}>
                 <div className="form--title">Create a new account</div>
                 <div className="form--inputs">
+                    <label>Email</label>
+                    <input name="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                     <label>Nickname</label>
-                    <input name="nickname" type="text" value={nickname} onChange={e => setNickname(e.target.value)} />
+                    <input name="nickname" type="text" value={nickname} onChange={e => setNickname(e.target.value)} required />
                     <label>Password</label>
-                    <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
                     <input type="submit" value="Sign up" />
                 </div>
             </form>
