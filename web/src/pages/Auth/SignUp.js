@@ -21,7 +21,8 @@ export default function SignUp() {
     //     console.log(content)
     // }
 
-    const handleRegister = () => {
+    const handleRegister = (e) => {
+        e.preventDefault()
         axios.post(`http://localhost:8008/auth/sign-up` , {nickname: nickname, password: password})
     }
 
