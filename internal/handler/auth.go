@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 
 	app "github.com/FokUAl/miners-monitoring"
@@ -11,11 +12,22 @@ import (
 func (h *Handler) signUp(c *gin.Context) {
 	var input app.User
 
-	input.Email = c.PostForm("email")
-	input.Username = c.PostForm("nickname")
-	input.Password = c.PostForm("password")
+	type SignUpInfo struct {
+		Nickname string
+		Password string
+	}
 
-	_, err := h.services.Authorization.CreateUser(input)
+	var info SignUpInfo
+	err := json.NewDecoder(c.Request.Body).Decode(&info)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	input.Username = info.Nickname
+	input.Password = info.Password
+
+	_, err = h.services.Authorization.CreateUser(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

@@ -36,6 +36,7 @@ func (h *Handler) googleLogin(c *gin.Context) {
 		Email:    claims.Email,
 		Password: "password",
 	}
+
 	user_id, err := h.services.Authorization.CreateUser(user)
 	if err != nil || user_id == 0 {
 		newErrorResponse(c, http.StatusInternalServerError,
