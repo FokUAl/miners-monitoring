@@ -29,13 +29,17 @@ func (h *Handler) signUp(c *gin.Context) {
 	input.Password = info.Password
 	input.Email = info.Email
 
-	_, err = h.services.Authorization.CreateUser(input)
+	userId, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.Redirect(http.StatusSeeOther, "/auth/sign-in")
+	c.JSON(http.StatusOK, struct {
+		UserID int
+	}{
+		UserID: userId,
+	})
 }
 
 type signInInput struct {
@@ -55,10 +59,13 @@ func (h *Handler) signIn(c *gin.Context) {
 	token, err := h.services.Authorization.GenerateToken(input.Username, input.Password)
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
-	} else {
-		c.SetCookie("token", token, 10000, "/", "localhost", false, true)
-		c.Redirect(http.StatusSeeOther, "/")
 	}
+
+	c.JSON(http.StatusOK, struct {
+		Token string
+	}{
+		Token: token,
+	})
 }
 
 func (h *Handler) logOut(c *gin.Context) {
