@@ -25,6 +25,7 @@ type Miner interface {
 
 type User interface {
 	GetUserByID(id int) (app.User, error)
+	GetUserRole(username string) (string, error)
 }
 
 type Repository struct {

@@ -22,3 +22,11 @@ func (p *UserPostgres) GetUserByID(id int) (app.User, error) {
 
 	return user, err
 }
+
+func (p *UserPostgres) GetUserRole(username string) (string, error) {
+	var result string
+	query := `SELECT role_ FROM users WHERE username = $1`
+	err := p.db.QueryRow(query, username).Scan(&result)
+
+	return result, err
+}
