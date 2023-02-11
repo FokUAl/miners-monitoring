@@ -36,7 +36,6 @@ func (h *Handler) getHome(c *gin.Context) {
 	}
 
 	if err != nil {
-		log.Printf("getHome: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 		return
 	}
@@ -44,7 +43,6 @@ func (h *Handler) getHome(c *gin.Context) {
 	id := c.MustGet(userCtx).(int)
 	user, err := h.services.GetUserByID(id)
 	if err != nil {
-		log.Printf("getHome: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 		return
 	}
@@ -60,7 +58,6 @@ func (h *Handler) getHome(c *gin.Context) {
 func (h *Handler) getAddMiner(c *gin.Context) {
 	notificationText, err := c.Cookie("ErrorContent")
 	if err != nil {
-		log.Printf("getAddMiner: %s\n", err.Error())
 		newErrorResponse(c, http.StatusInternalServerError,
 			fmt.Sprintf("getAddMiner: %s", err.Error()))
 		return
