@@ -43,8 +43,8 @@ func (h *Handler) signUp(c *gin.Context) {
 }
 
 type signInInput struct {
-	Username string `json:"user" binding:"required"`
-	Password string `json:"pwd" binding:"required"`
+	Username string `json:"nickname" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 func (h *Handler) signIn(c *gin.Context) {
@@ -61,10 +61,16 @@ func (h *Handler) signIn(c *gin.Context) {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
 	}
 
+	role, err := h.services.User.GetRole(input.Username)
+
 	c.JSON(http.StatusOK, struct {
-		Token string
+		Username string
+		Token    string
+		Role     string
 	}{
-		Token: token,
+		Username: input.Username,
+		Token:    token,
+		Role:     role,
 	})
 }
 
