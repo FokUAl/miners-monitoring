@@ -113,3 +113,52 @@ func (s *MinerService) GetDeviceByLocation(shelf int, column int, row int) (app.
 func (s *MinerService) GetDevicesByUser(username string) ([]app.MinerDevice, error) {
 	return s.repo.GetDevicesByUser(username)
 }
+
+// func (s *MinerService) GetDeviceInfo(address, path string) error {
+// 	etherI, err := net.InterfaceByName("enp0s31f6")
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	addrs, err := etherI.Addrs()
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	tcpAddr := &net.TCPAddr{
+// 		IP: addrs[3].(*net.IPNet).IP,
+// 	}
+
+// 	d := net.Dialer{LocalAddr: tcpAddr}
+// 	conn, err := d.Dial("tcp", path)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	defer conn.Close()
+
+// 	transport := &http.Transport{
+// 		Proxy:               http.ProxyFromEnvironment,
+// 		Dial:                (&net.Dialer{LocalAddr: tcpAddr}).Dial,
+// 		TLSHandshakeTimeout: 10 * time.Second,
+// 	}
+
+// 	client := &http.Client{
+// 		Transport: transport,
+// 	}
+
+// 	response, err := client.Get("https://" + path)
+
+// 	if err != nil {
+// 		return err
+// 	} else {
+// 		defer response.Body.Close()
+// 		contents, err := ioutil.ReadAll(response.Body)
+// 		if err != nil {
+// 			return err
+// 		}
+// 		var contentsStr = string(contents)
+// 		fmt.Printf("%s\n", contentsStr)
+// 	}
+
+// 	return nil
+// }
