@@ -28,6 +28,7 @@ type Miner interface {
 
 type User interface {
 	GetUserByID(id int) (app.User, error)
+	GetRole(username string) (string, error)
 }
 
 type Service struct {

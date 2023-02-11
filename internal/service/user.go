@@ -18,3 +18,7 @@ func NewUserService(repo repository.User) *UserService {
 func (s *UserService) GetUserByID(id int) (app.User, error) {
 	return s.repo.GetUserByID(id)
 }
+
+func (s *UserService) GetRole(username string) (string, error) {
+	return s.repo.GetUserRole(username)
+}
