@@ -9,13 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type SignUpInfo struct {
+	Nickname string `json:"nickname"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}
+
 func (h *Handler) signUp(c *gin.Context) {
 	var input app.User
-
-	type SignUpInfo struct {
-		Nickname string
-		Password string
-	}
 
 	var info SignUpInfo
 	err := json.NewDecoder(c.Request.Body).Decode(&info)
@@ -26,6 +27,7 @@ func (h *Handler) signUp(c *gin.Context) {
 
 	input.Username = info.Nickname
 	input.Password = info.Password
+	input.Email = info.Email
 
 	_, err = h.services.Authorization.CreateUser(input)
 	if err != nil {
@@ -37,15 +39,18 @@ func (h *Handler) signUp(c *gin.Context) {
 }
 
 type signInInput struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username string `json:"user" binding:"required"`
+	Password string `json:"pwd" binding:"required"`
 }
 
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 
-	input.Username = c.PostForm("nickname")
-	input.Password = c.PostForm("password")
+	err := json.NewDecoder(c.Request.Body).Decode(&input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
 	token, err := h.services.Authorization.GenerateToken(input.Username, input.Password)
 	if err != nil {
