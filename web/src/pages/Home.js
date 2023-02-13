@@ -3,21 +3,26 @@ import Navbar from '../components/Navbar'
 import Dashboard from '../components/Dashboard'
 import DevicesList from '../components/DevicesList'
 import PageService from '../services/page.service'
-import axios from 'axios'
 
 export default function Home() {
-    const [content, setContent] = useState()
-    const token = localStorage.getItem('token')
+    const [ username, setUsername ] = useState()
+    const [ role, setRole ] = useState()
+    const [ devices, setDevices ] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:8008/home', {headers: {'Authorization' : token}})
-        .then(response => {console.log(response)})
+        PageService.getHome().then(
+            (response) => {
+                setUsername(response.data.User.username)
+                setRole(response.data.User.role)
+                setDevices(response.data.Devices)
+                console.log(response.data)
+            }, (error) => {console.log(error)}
+        )
     }, [])
-    console.log(content)
     return (
         <>
-            <Navbar />
-            <Dashboard />
-            <DevicesList />
+            <Navbar username={username} role={role} />
+            <Dashboard devices={{devices}} />
+            <DevicesList devices={{devices}} />
         </>
     )
 }

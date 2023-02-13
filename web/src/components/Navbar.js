@@ -4,17 +4,16 @@ import './navbar.scss'
 import {ReactComponent as Logo} from '../assets/images/logo_black.svg'
 import AuthService from '../services/auth.service'
 
-export default function Navbar() {
+export default function Navbar(props) {
     const handleLogOut = () => {
         AuthService.logout()
     }
-
     return (
         <nav>
             <Link to="/"><Logo /></Link>
             <div className="nav--user">
-                <div className="nav--user-nickname">{localStorage.getItem('nickname')}</div>
-                <div className="nav--user-role">Operator</div>
+                <div className="nav--user-nickname">{props.username}</div>
+                <div className="nav--user-role">{props.role}</div>
             </div>
             <div className="nav--links">
                 <Link to="/addDevice">Add new device</Link>

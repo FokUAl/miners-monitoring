@@ -1,7 +1,10 @@
 import React from 'react'
+import { usePagination, useTalbe, Column } from 'react-table'
 import './devicesList.scss'
 
-export default function DevicesList() {
+export default function DevicesList(props) {
+    const devices = props.devices.devices
+    console.log(devices)
     return (
         <div className="container">
             <div className="list--title">ASICs list</div>
