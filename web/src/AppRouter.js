@@ -6,7 +6,6 @@ import AddDevice from './pages/AddDevice'
 import Grid from './pages/Grid'
 import SignIn from './pages/Auth/SignIn'
 import SignUp from './pages/Auth/SignUp'
-import RequireAuth from './components/RequireAuth'
 
 export default function AppRouter() {
     return (
@@ -15,11 +14,9 @@ export default function AppRouter() {
                 <Route path="/auth/signIn" element={<SignIn />} />
                 <Route path="/auth/signUp" element={<SignUp />} />
 
-                <Route element={<RequireAuth />}>
                     <Route path="/" exact element={<Home />} />
                     <Route path="/addDevice" element={<AddDevice />} />
                     <Route path="/grid" element={<Grid />} />
-                </Route>
             </Routes>
         </BrowserRouter>
     )

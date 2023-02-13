@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import AuthService from '../../services/auth.service'
 
 export default function SignUp() {
     const [email, setEmail] = useState()
@@ -8,10 +8,11 @@ export default function SignUp() {
 
     const handleRegister = async (e) => {
         e.preventDefault()
-        await axios.post("http://localhost:8008/auth/sign-up", {email, nickname, password})
-            .then((response) => {console.log('success') 
-            console.log(response)})
-            .catch((exception) => console.log(exception))
+        AuthService.signUp(nickname, email, password).then(
+            (error) => {
+                console.log(error)
+            }
+        )
     }
 
     return (
