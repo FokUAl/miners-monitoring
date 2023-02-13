@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,12 +13,10 @@ const (
 )
 
 func (h *Handler) userIdentity(c *gin.Context) {
-	token, err := c.Cookie("token")
-	if err != nil {
-		c.Redirect(http.StatusSeeOther, "/auth/sign-in")
-	}
-
+	token := c.GetHeader("Authorization")
+	token = strings.Trim(token, "\"")
 	id, err := h.services.Authorization.ParseToken(token)
+
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/auth/sign-in")
 	} else {

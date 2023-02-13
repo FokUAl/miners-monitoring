@@ -65,6 +65,7 @@ func (h *Handler) signIn(c *gin.Context) {
 	role, err := h.services.User.GetRole(input.Username)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, struct {
