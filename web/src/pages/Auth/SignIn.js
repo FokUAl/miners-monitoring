@@ -3,21 +3,21 @@ import { useNavigate } from 'react-router-dom'
 import AuthService from '../../services/auth.service'
 
 export default function SignIn() {
-    const navigate = useNavigate()
-    const [nickname, setNickname] = useState('')
-    const [password, setPassword] = useState('')
+    const [nickname, setNickname] = useState("")
+    const [password, setPassword] = useState("")
+    let navigate = useNavigate()
 
-    const handleLogin = async (e) => {
+    const handleLogin = (e) => {
         e.preventDefault()
         AuthService.signIn(nickname, password).then(
             () => {
-                navigate("/");
-                window.location.reload();
+                navigate('/')
+                window.location.reload()
             },
             (error) => {
                 console.log(error)
             }
-        );
+        )
     }
 
     return (

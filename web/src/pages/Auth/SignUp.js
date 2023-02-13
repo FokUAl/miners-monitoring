@@ -8,8 +8,10 @@ export default function SignUp() {
 
     const handleRegister = async (e) => {
         e.preventDefault()
-        AuthService.signUp(nickname, email, password).then(
-            (error) => {
+        AuthService.signUp(email, nickname, password).then(
+            (response) => {
+                console.log(response.data.message)
+            }, (error) => {
                 console.log(error)
             }
         )

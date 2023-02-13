@@ -23,7 +23,7 @@ const signIn = async(nickname, password) => {
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
 };
 
 const getCurrentUser = () => {
