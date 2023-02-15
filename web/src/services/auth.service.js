@@ -23,11 +23,11 @@ const signIn = async(nickname, password) => {
 }
 
 const logout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('token')
 }
 
 const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem('token'));
+  return JSON.parse(localStorage.getItem('token'))
 }
 
 const AuthService = {
@@ -37,4 +37,4 @@ const AuthService = {
   getCurrentUser,
 };
 
-export default AuthService;
+export default AuthService

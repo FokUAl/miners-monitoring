@@ -13,6 +13,7 @@ export default function SignUp() {
                 console.log(response.data.message)
             }, (error) => {
                 console.log(error)
+                AuthService.logout()
             }
         )
     }

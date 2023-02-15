@@ -84,10 +84,6 @@ func (s *AuthService) ParseToken(accessToken string) (int, error) {
 		return 0, errors.New("token claims are not of type *tokenClaims")
 	}
 
-	if claims.ExpiresAt > time.Now().Unix() {
-		return 0, errors.New("token is expired")
-	}
-
 	return claims.UserId, nil
 }
 
