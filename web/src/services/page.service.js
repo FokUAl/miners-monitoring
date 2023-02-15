@@ -7,10 +7,6 @@ const getHome = () => {
     return axios.get(API_URL + 'home', {headers: authHeader()})
 }
 
-const addDevice = () => {
-    return axios.post(API_URL + '/add-device', {headers: authHeader()})
-}
-
 const PageService = {
     getHome
 }

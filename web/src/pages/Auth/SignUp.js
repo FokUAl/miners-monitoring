@@ -23,11 +23,11 @@ export default function SignUp() {
                 <div className="form--title">Create a new account</div>
                 <div className="form--inputs">
                     <label>Email</label>
-                    <input name="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                     <label>Nickname</label>
-                    <input name="nickname" type="text" value={nickname} onChange={e => setNickname(e.target.value)} required />
+                    <input type="text" value={nickname} onChange={e => setNickname(e.target.value)} required />
                     <label>Password</label>
-                    <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
                     <input type="submit" value="Sign up" />
                 </div>
             </form>
