@@ -20,11 +20,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	router.Use(CORSMiddleware())
 
-	general := router.Group("/")
-	{
-		general.GET("/error", h.errorPage)
-	}
-
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)

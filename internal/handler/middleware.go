@@ -18,11 +18,10 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	id, err := h.services.Authorization.ParseToken(token)
 
 	if err != nil {
-		c.Redirect(http.StatusSeeOther, "/auth/sign-in")
-	} else {
-		c.Set(userCtx, id)
+		newErrorResponse(c, http.StatusUnauthorized, "Invalid Token")
 	}
 
+	c.Set(userCtx, id)
 }
 
 func CORSMiddleware() gin.HandlerFunc {

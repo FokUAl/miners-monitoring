@@ -13,16 +13,11 @@ type Error struct {
 
 func newErrorResponse(c *gin.Context, statusCode int, message string) {
 	log.Printf("ERROR %s\n", message)
-	c.Set("ErrorCode", statusCode)
-	c.Redirect(http.StatusSeeOther, "/error")
-}
-
-func (h *Handler) errorPage(c *gin.Context) {
-	errorCode := c.MustGet("ErrorCode").(int)
-
-	c.JSON(errorCode, struct {
-		Code int
+	c.JSON(statusCode, struct {
+		Code    int
+		Message string
 	}{
-		Code: errorCode,
+		Code:    statusCode,
+		Message: http.StatusText(statusCode),
 	})
 }
