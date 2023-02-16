@@ -1,37 +1,49 @@
-import React from 'react'
-import { usePagination, useTalbe, Column } from 'react-table'
+import React, { useMemo } from 'react'
+import TableContainer from './TableContainer'
+// import TableFilter from 'react-table-filter'
 import './devicesList.scss'
 
 export default function DevicesList(props) {
     const devices = props.devices.devices
-    console.log(devices)
+    const columns = [
+        {
+            Header: 'Owner',
+            accessor: 'Owner'
+        },
+        {
+            Header: 'Miner Type',
+            accessor: 'MinerType'
+        },
+        {
+            Header: 'Shelf',
+            accessor: 'Shelf'
+        },
+        {
+            Header: 'Row',
+            accessor: 'Row'
+        },
+        {
+            Header: 'Column',
+            accessor: 'Column'
+        },
+        {
+            Header: 'IP',
+            accessor: 'IPAddress'
+        },
+        {
+            Header: 'Status',
+            accessor: 'MinerStatus'
+        },
+        {
+            Header: 'Coin',
+            accessor: 'Coin'
+        }
+    ]
+
+
     return (
-        <div className="container">
-            <div className="list--title">ASICs list</div>
-            <table className="list">
-                <tr>
-                    <td>Miner Type</td>
-                    <td>Shelf</td>
-                    <td>Row</td>
-                    <td>Column</td>
-                    <td>IP Address</td>
-                    <td>MAC Address</td>
-                    <td>Status</td>
-                    <td>Owner</td>
-                    <td>Coin</td>
-                </tr>
-                <tr>
-                    <td>Miner Type</td>
-                    <td>Shelf</td>
-                    <td>Row</td>
-                    <td>Column</td>
-                    <td>IP Address</td>
-                    <td>MAC Address</td>
-                    <td>Status</td>
-                    <td>Owner</td>
-                    <td>Coin</td>
-                </tr>
-            </table>
+        <div>
+            <TableContainer columns={columns} data={devices} />
         </div>
     )
 }
