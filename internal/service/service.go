@@ -31,10 +31,16 @@ type User interface {
 	GetRole(username string) (string, error)
 }
 
+type Info interface {
+	GetInfo(ip_address string) ([]string, error)
+	ParsingFile(path string) error
+}
+
 type Service struct {
 	Authorization
 	Miner
 	User
+	Info
 }
 
 func NewService(repos *repository.Repository) *Service {
