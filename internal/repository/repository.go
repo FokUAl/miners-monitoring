@@ -29,7 +29,6 @@ type User interface {
 }
 
 type Info interface{
-	
 }
 
 type Repository struct {
