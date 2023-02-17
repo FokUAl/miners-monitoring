@@ -28,10 +28,15 @@ type User interface {
 	GetUserRole(username string) (string, error)
 }
 
+type Info interface{
+	
+}
+
 type Repository struct {
 	Authorization
 	User
 	Miner
+	Info
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
