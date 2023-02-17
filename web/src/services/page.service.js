@@ -7,8 +7,13 @@ const getHome = () => {
     return axios.get(API_URL + 'home', {headers: authHeader()})
 }
 
+const getDevice = (props) => {
+    return axios.get(props, {headers: authHeader()})
+}
+
 const PageService = {
-    getHome
+    getHome,
+    getDevice
 }
 
 export default PageService

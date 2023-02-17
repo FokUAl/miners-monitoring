@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import PageService from '../services/page.service'
 import TableContainer from './TableContainer'
 import ReactTable from 'react-table-6'
 // import TableFilter from 'react-table-filter'
@@ -13,6 +14,10 @@ export default function DevicesList(props) {
             Link: `http://localhost:8008/asic?shelf=${el.Shelf}&row=${el.Row}&column=${el.Column}`
         }
     })
+
+    const handleClick = (props) => {
+        PageService.getDevice(props).then((error) => console.log(error))
+    }
     const columns = [
         {
             Header: 'Owner',
@@ -85,7 +90,7 @@ export default function DevicesList(props) {
             {
                 Header: 'Link',
                 accessor: 'Link',
-                Cell: props => <a href='url'>{props.value}</a>
+                Cell: props => <button onClick={() => handleClick(props.value)}>Link</button>
             }]}/>
         </div>
     )
