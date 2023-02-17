@@ -22,26 +22,37 @@ function App() {
   }, [])
 
   return (
-    <Routes>
-        <Route path="/auth/signIn" element={<SignIn />} />
-        <Route path="/auth/signUp" element={<SignUp />} />
+    <div className="App">
+      <Routes>
+        <Route 
+          path="/auth/signIn" 
+          element={<SignIn />} 
+        />
+        <Route 
+          path="/auth/signUp" 
+          element={<SignUp />} 
+        />
 
         <Route 
           path='/' 
           element={
             <PrivateRoute><Home /></PrivateRoute>
-          } />
+          } 
+        />
         <Route 
           path='/addDevice' 
           element={
             <PrivateRoute><AddDevice /></PrivateRoute>
-          } />
+          } 
+        />
         <Route 
           path='/grid' 
           element={
             <PrivateRoute><Grid /></PrivateRoute>
-          } />
-    </Routes>
+          } 
+        />
+      </Routes>
+    </div>
   );
 }
 
