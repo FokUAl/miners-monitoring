@@ -93,6 +93,11 @@ def get_stats(ip):
 
 
 if __name__ == '__main__':
-    
-    L3 = CgminerAPI(host='192.168.0.104')
-    print(L3.summary())
+    command = sys.argv[1]
+    address = sys.argv[2]
+    api = CgminerAPI(host=address)
+
+    if command == 'summary':
+        print(api.summary())
+    elif command == 'stats':
+        print(api.stats())

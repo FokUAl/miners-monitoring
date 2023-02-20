@@ -1,24 +1,23 @@
 package pkg
 
 import (
-	"io/ioutil"
-	"log"
+	"io"
 	"os"
 
 	"github.com/kluctl/go-embed-python/python"
 )
 
-func GetSummary() string {
+func GetAsicInfo(ip string, command string) (string, error) {
 	ep, err := python.NewEmbeddedPython("example")
 	if err != nil {
-		log.Fatalf(err.Error())
+		return "", err
 	}
 
-	cmd := ep.PythonCmd("./pkg/cgminer.py")
+	cmd := ep.PythonCmd("./pkg/cgminer.py", command, ip)
 
 	r, w, err := os.Pipe()
 	if err != nil {
-		log.Fatalf(err.Error())
+		return "", err
 	}
 
 	cmd.Stderr = os.Stderr
@@ -26,14 +25,14 @@ func GetSummary() string {
 
 	err = cmd.Run()
 	if err != nil {
-		log.Fatalf(err.Error())
+		return "", err
 	}
 
 	w.Close()
-	out, err := ioutil.ReadAll(r)
+	out, err := io.ReadAll(r)
 	if err != nil {
-		log.Fatalf(err.Error())
+		return "", err
 	}
 
-	return string(out)
+	return string(out), nil
 }
