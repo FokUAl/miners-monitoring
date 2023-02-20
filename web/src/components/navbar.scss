@@ -8,8 +8,11 @@ nav {
     padding: 20px;
     max-width: 1400px;
     width: 100%;
+    margin-top: 20px;
 
     background-color: $secondary;
+    border-radius: 10px;
+    box-shadow: -3px -3px 1px $dp-primary, 3px 3px 1px $dp-secondary;
 }
 
 .nav--user {
@@ -20,16 +23,10 @@ nav {
     margin-inline: 10px;
 }
 
-.nav--links > a {
-    margin-inline: 10px;
-    color: $text;
-    transition: all .2s;
+.nav--links {
+    display: flex;
 }
 
-.nav--links > a:visited {
-    color: $text;
-}
-
-.nav--links > a:hover {
-    color: $text-hover;
+.link:visited {
+    color: $text
 }

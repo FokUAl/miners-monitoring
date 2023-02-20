@@ -6,8 +6,10 @@
 }
 
 .container {
-    margin-block: 20px;
+    margin-block: 45px;
     padding: 20px;
     
     background-color: $secondary;
+    border-radius: 10px;
+    box-shadow: -3px -3px 1px $dp-primary, 3px 3px 1px $dp-secondary;
 }

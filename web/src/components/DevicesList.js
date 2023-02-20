@@ -1,8 +1,7 @@
-import React, { StrictMode, useMemo } from 'react'
-import PageService from '../services/page.service'
-import TableContainer from './TableContainer'
+import React from 'react'
 import ReactTable from 'react-table-6'
-import TableFilter from 'react-table-filter'
+import { Link } from 'react-router-dom'
+import Button from './Button/Button'
 import './devicesList.scss'
 import "react-table-6/react-table.css"
 
@@ -13,7 +12,7 @@ export default function DevicesList(props) {
         models.push(el.MinerType)
         return {
             ...el,
-            Link: `http://localhost:8008/asic?shelf=${el.Shelf}&row=${el.Row}&column=${el.Column}`
+            Link: `/device?shelf=${el.Shelf}&row=${el.Row}&column=${el.Column}`
         }
     })
 
@@ -23,14 +22,8 @@ export default function DevicesList(props) {
         )
     })
 
-    console.log(modelsOptions)
-
-    const handleClick = (props) => {
-        PageService.getDevice(props).then((error) => console.log(error))
-    }
-
     return (
-        <div>
+        <div className="container">
             <ReactTable data={data} filterable={true} columns={[
                 {
                     Header: 'Owner',
@@ -91,7 +84,7 @@ export default function DevicesList(props) {
                     Header: 'Link',
                     accessor: 'Link',
                     filterable: false,
-                    Cell: props => <button onClick={() => handleClick(props.value)}>Link</button>
+                    Cell: props => <Link className="link" to={props.value}><Button className="btn--less" value="Link"></Button></Link>
                 }
             ]}/>
         </div>

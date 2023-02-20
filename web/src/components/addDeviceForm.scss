@@ -1,0 +1,23 @@
+@import '../scss/variables.scss';
+
+.form--title {
+    margin-block: 10px 20px;
+}
+
+.form--inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    input {
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: $input--bg;
+        box-shadow: -2px -2px 1px inset $dp-primary, 2px 2px 1px inset $dp-secondary;
+        &:focus {
+            outline: none;
+            background-color: white;
+        }
+    }
+}

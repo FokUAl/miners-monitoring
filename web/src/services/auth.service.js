@@ -11,8 +11,7 @@ const signUp = async(nickname, email, password) => {
 }
 
 const signIn = async(nickname, password) => {
-  return axios
-    .post(API_URL + 'sign-in', {
+  return axios.post(API_URL + 'sign-in', {
       nickname,
       password,
     })
