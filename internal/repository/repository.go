@@ -28,7 +28,7 @@ type User interface {
 	GetUserRole(username string) (string, error)
 }
 
-type Info interface{
+type Info interface {
 }
 
 type Repository struct {

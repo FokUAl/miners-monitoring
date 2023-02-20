@@ -33,7 +33,7 @@ type User interface {
 
 type Info interface {
 	GetInfo(ip_address string) ([]string, error)
-	ParsingFile(path string) error
+	ParsingData(data string) (app.MinerData, error)
 }
 
 type Service struct {
@@ -48,5 +48,6 @@ func NewService(repos *repository.Repository) *Service {
 		Authorization: NewAuthService(repos.Authorization),
 		User:          NewUserService(repos.User),
 		Miner:         NewMinerService(repos.Miner),
+		Info:          NewInfoService(repos.Info),
 	}
 }

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	app "github.com/FokUAl/miners-monitoring"
+	"github.com/FokUAl/miners-monitoring/pkg"
 	"github.com/gin-gonic/gin"
 )
 
@@ -105,39 +105,14 @@ func (h *Handler) minersGrid(c *gin.Context) {
 }
 
 func (h *Handler) getMinerCharacteristics(c *gin.Context) {
-	values := c.Request.URL.Query()
-
-	shelf, err := strconv.Atoi(values["shelf"][0])
+	info, err := pkg.GetAsicInfo("192.168.0.104", "summary")
 	if err != nil {
-		log.Printf("getMinerCharacteristics: %s\n", err.Error())
-		newErrorResponse(c, http.StatusInternalServerError,
-			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
-		return
+		log.Fatalf("%s\n", err.Error())
+	}
+	strct, err := h.services.Info.ParsingData(info)
+	if err != nil {
+		log.Fatalf("%s\n", err.Error())
 	}
 
-	row, err := strconv.Atoi(values["row"][0])
-	if err != nil {
-		log.Printf("getMinerCharacteristics: %s\n", err.Error())
-		newErrorResponse(c, http.StatusInternalServerError,
-			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
-		return
-	}
-
-	column, err := strconv.Atoi(values["column"][0])
-	if err != nil {
-		log.Printf("getMinerCharacteristics: %s\n", err.Error())
-		newErrorResponse(c, http.StatusInternalServerError,
-			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
-		return
-	}
-
-	device, err := h.services.GetDeviceByLocation(shelf, column, row)
-	if err != nil {
-		log.Printf("getMinerCharacteristics: %s\n", err.Error())
-		newErrorResponse(c, http.StatusBadRequest,
-			fmt.Sprintf("getMinerCharacteristics: %s", err.Error()))
-		return
-	}
-
-	c.JSON(http.StatusOK, device)
+	log.Println(strct)
 }
