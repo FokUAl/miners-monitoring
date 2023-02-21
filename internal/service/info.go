@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os/exec"
 	"regexp"
 	"strconv"
 	"strings"
@@ -93,4 +94,25 @@ func (s *InfoService) GetInfo(ip_address string) ([]string, error) {
 	log.Printf("INFO %v\n", res)
 
 	return nil, nil
+}
+
+func (s *InfoService) PingDevices() ([]string, error) {
+	cmd := exec.Command("arp", "-an")
+
+	out, err := cmd.Output()
+	if err != nil {
+		return nil, fmt.Errorf("pingDevices: %s", err.Error())
+	}
+
+	r, err := regexp.Compile(`\(.+\)`)
+	if err != nil {
+		return nil, fmt.Errorf("pingDevices: can't compile regexp: %s", err.Error())
+	}
+
+	result := r.FindAllString(string(out), -1)
+	for ind := 0; ind < len(result); ind++ {
+		result[ind] = strings.Trim(result[ind], "()")
+	}
+
+	return result, nil
 }
