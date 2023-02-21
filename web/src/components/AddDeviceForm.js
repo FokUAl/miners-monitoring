@@ -4,15 +4,46 @@ import Button from './Button/Button'
 import './addDeviceForm.scss'
 
 export default function AddDeviceForm() {
-    const [ IP, setIP ] = useState()
-    const [ shelf, setShelf ] = useState()
-    const [ column, setColumn ] = useState()
-    const [ row, setRow ] = useState()
-    const [ owner, setOwner ] = useState()
+    const initialData = [
+        {
+            IP: '',
+            shelf: '',
+            column: '',
+            row: '',
+            owner: ''
+        }
+    ]
+    const [data, setData] = useState(initialData)
+
+    const handleChange = (index, event) => {
+        const {value, name} = event.target
+        const newData = [...data]
+        newData[index][name] = value
+        console.log('changed')
+        setData(newData)
+    }
+
+    const addFormField = () => {
+        setData([...data, {
+            IP: '',
+            shelf: '',
+            column: '',
+            row: '',
+            owner: ''
+        }])
+    }
+
+    const removeFormField = () => {
+        if (data.length > 1) {
+            const newData = [...data]
+            newData.pop()
+            setData(newData)
+        }
+    }
 
     const handleAdd = async(e) => {
         e.preventDefault()
-        FormService.addDevice(IP, shelf, column, row, owner).catch(
+        FormService.addDevice(data).catch(
             (error) => { if (error) console.log('Add device ', error)}
         )
     }
@@ -28,14 +59,21 @@ export default function AddDeviceForm() {
                     <label>Row</label>
                     <label>Owner</label>
                 </div>
-                <div className="form--inputs">
-                    <input type="text" value={IP} onChange={e => setIP(e.target.value)} required/>
-                    <input type="text" value={shelf} onChange={e => setShelf(e.target.value)} required/>
-                    <input type="text" value={column} onChange={e => setColumn(e.target.value)} required/>
-                    <input type="text" value={row} onChange={e => setRow(e.target.value)} required/>
-                    <input type="text" value={owner} onChange={e => setOwner(e.target.value)} required/>
+                {data.map((data, index) => (
+                    <div className="form--inputs" key={index}>
+                        <label>{index+1}</label>
+                        <input type="text" name='IP' value={data.IP || ''} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='shelf' value={data.shelf || ''} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='column' value={data.column || ''} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='row' value={data.row || ''} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='owner' value={data.owner || ''} onChange={e => handleChange(index, e)} required/>
+                    </div>
+                ))}
+                <div className="form--btns">
+                    <Button type="submit" value="Add Devices" className="btn--less form--btn"/>
+                    <Button type="button" value="Add" onClick={addFormField} className="btn--less form--btn"/>
+                    <Button type="button" value="Remove" onClick={removeFormField} className="btn--less form--btn"/>
                 </div>
-                <Button type="submit" value="Add" className="btn--less form--btn"/>
             </form>
         </div>
     )

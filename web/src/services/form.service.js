@@ -3,13 +3,10 @@ import authHeader from './auth.header'
 
 const API_URL = 'http://localhost:8008/'
 
-const addDevice = (IP, shelf, column, row, owner) => {
-    return axios.post(API_URL + '/add', {
-        IP,
-        shelf,
-        column,
-        row,
-        owner
+const addDevice = (data) => {
+    console.log(data)
+    return axios.post(API_URL + 'add', {
+        data
     }, {
         headers: authHeader()
     })
