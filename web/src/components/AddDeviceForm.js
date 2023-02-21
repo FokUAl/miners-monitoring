@@ -12,8 +12,8 @@ export default function AddDeviceForm() {
 
     const handleAdd = async(e) => {
         e.preventDefault()
-        FormService.addDevice(IP, shelf, column, row, owner).then(
-            (error) => { console.log(error)}
+        FormService.addDevice(IP, shelf, column, row, owner).catch(
+            (error) => { if (error) console.log('Add device ', error)}
         )
     }
 
