@@ -14,6 +14,7 @@ export default function AddDeviceForm() {
         }
     ]
     const [data, setData] = useState(initialData)
+    // const [allOwners, setAllOwners] = useState('')
 
     const handleChange = (index, event) => {
         const {value, name} = event.target
@@ -62,18 +63,19 @@ export default function AddDeviceForm() {
                 {data.map((data, index) => (
                     <div className="form--inputs" key={index}>
                         <label>{index+1}</label>
-                        <input type="text" name='IP' value={data.IP || ''} onChange={e => handleChange(index, e)} required/>
-                        <input type="text" name='shelf' value={data.shelf || ''} onChange={e => handleChange(index, e)} required/>
-                        <input type="text" name='column' value={data.column || ''} onChange={e => handleChange(index, e)} required/>
-                        <input type="text" name='row' value={data.row || ''} onChange={e => handleChange(index, e)} required/>
-                        <input type="text" name='owner' value={data.owner || ''} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='IP' value={data.IP} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='shelf' value={data.shelf} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='column' value={data.column} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='row' value={data.row} onChange={e => handleChange(index, e)} required/>
+                        <input type="text" name='owner' value={data.owner} onChange={e => handleChange(index, e)} required/>
                     </div>
                 ))}
                 <div className="form--btns">
-                    <Button type="submit" value="Add Devices" className="btn--less form--btn"/>
                     <Button type="button" value="Add" onClick={addFormField} className="btn--less form--btn"/>
                     <Button type="button" value="Remove" onClick={removeFormField} className="btn--less form--btn"/>
+                    {/* <input type="text" value={allOwners} onChange={e => {setAllOwners(e.target.value)}} className="form--input-allOwners"/> */}
                 </div>
+                <Button type="submit" value="Add Devices" className="btn--less form--btn form--submit"/>
             </form>
         </div>
     )

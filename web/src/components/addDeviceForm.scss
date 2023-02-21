@@ -29,7 +29,28 @@
     }
 }
 
+.form--input-allOwners {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 30px;
+    background-color: $input--bg;
+    box-shadow: -2px -2px 1px inset $dp-primary, 2px 2px 1px inset $dp-secondary;
+    &:focus {
+        outline: none;
+        background-color: white;
+    }
+}
+
+.form--btns {
+    display: block;
+}
+
 .form--btn {
     margin-top: 30px;
-    padding-inline: 100px;
+    width: 200px;
+}
+
+.form--submit {
+    display: block;
 }
