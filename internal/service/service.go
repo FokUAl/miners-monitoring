@@ -34,6 +34,7 @@ type User interface {
 type Info interface {
 	GetInfo(ip_address string) ([]string, error)
 	ParsingData(data string) (app.MinerData, error)
+	PingDevices() ([]string, error)
 }
 
 type Service struct {
