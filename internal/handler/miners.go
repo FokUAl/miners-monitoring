@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -69,25 +70,61 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 	c.JSON(http.StatusOK, newInfo)
 }
 
+type AddInfo struct {
+	IP     string `json:"IP"`
+	Shelf  int    `json:"shelf"`
+	Column int    `json:"column"`
+	Row    int    `json:"row"`
+	Owner  int    `json:"owner"`
+}
+
+type FrontResponse struct {
+	Objects []AddInfo
+}
+
 func (h *Handler) addMiner(c *gin.Context) {
-	isIP := c.PostForm("connection") == "ip"
+	var frontData FrontResponse
+	dec := json.NewDecoder(c.Request.Body)
 
-	connections := c.PostFormArray("ip/mac")
-	shelfData := c.PostFormArray("shelf")
-	rowData := c.PostFormArray("row")
-	columnData := c.PostFormArray("column")
+	// t, err := dec.Token()
+	// if err != nil {
+	// 	newErrorResponse(c, http.StatusInternalServerError,
+	// 		fmt.Sprintf("addMiner: %s", err.Error()))
+	// 	return
+	// }
+	// log.Printf("%T: %v\n", t, t)
 
-	// info about location
-	locInfo := [][]string{shelfData, rowData, columnData}
+	count := 0
+	for dec.More() {
+		count += 1
+		var info AddInfo
+		err := dec.Decode(&info)
+		log.Printf("%d : %v\n", count, info)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError,
+				fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
 
-	err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, locInfo)
-
-	if err != nil {
-		c.SetCookie("ErrorContent", err.Error(), 10, "/add", "localhost", false, true)
-		c.Redirect(http.StatusSeeOther, "/add")
-	} else {
-		c.Redirect(http.StatusSeeOther, "/")
+		frontData.Objects = append(frontData.Objects, info)
 	}
+
+	// t, err = dec.Token()
+	// if err != nil {
+	// 	newErrorResponse(c, http.StatusInternalServerError,
+	// 		fmt.Sprintf("addMiner: %s", err.Error()))
+	// 	return
+	// }
+	// log.Printf("%T: %v\n", t, t)
+
+	//log.Println(frontData)
+	//err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, locInfo)
+
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, nil)
+	// } else {
+	// 	c.JSON(http.StatusOK, nil)
+	// }
 }
 
 func (h *Handler) minersGrid(c *gin.Context) {
@@ -95,6 +132,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	devices, err := h.services.GetAllDevices()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("minersGrid: %s", err.Error()))
+		return
 	}
 
 	newInfo := info{
@@ -105,14 +143,23 @@ func (h *Handler) minersGrid(c *gin.Context) {
 }
 
 func (h *Handler) getMinerCharacteristics(c *gin.Context) {
-	info, err := pkg.GetAsicInfo("192.168.0.104", "summary")
+	info, err := pkg.GetAsicInfo("192.168.0.1", "summary")
 	if err != nil {
-		log.Fatalf("%s\n", err.Error())
-	}
-	strct, err := h.services.Info.ParsingData(info)
-	if err != nil {
-		log.Fatalf("%s\n", err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with sending command: %s\n", err.Error()))
+		return
 	}
 
-	log.Println(strct)
+	err = h.services.CheckResponse(info)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't check response: %s\n", err.Error()))
+		return
+	}
+
+	strct, err := h.services.Info.ParsingData(info)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't parse data: %s\n", err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, strct)
 }
