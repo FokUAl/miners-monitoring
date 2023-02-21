@@ -74,6 +74,8 @@ func (s *MinerService) AddDevices(model string, isIP bool, connections []string,
 		existedDevice.Row = rowNum
 		existedDevice.Column = columnNum
 
+		existedDevice.Owner = locInfo[3][i]
+
 		err = s.AddNew(existedDevice)
 		if err != nil {
 			return err

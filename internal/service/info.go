@@ -116,3 +116,18 @@ func (s *InfoService) PingDevices() ([]string, error) {
 
 	return result, nil
 }
+
+func (s *InfoService) CheckResponse(response string) error {
+	// search target segment of string
+	regEx, err := regexp.Compile(`\[[a-zA-z0-9 ]+\]`)
+	if err != nil {
+		return err
+	}
+	errText := regEx.FindAllString(response, -1)
+	log.Println(errText[0])
+	if len(errText) != 1 || errText[0] == "[Errno 111]" {
+		return fmt.Errorf("unknown response")
+	}
+
+	return nil
+}
