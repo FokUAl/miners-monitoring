@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	app "github.com/FokUAl/miners-monitoring"
@@ -72,59 +71,21 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 
 type AddInfo struct {
 	IP     string `json:"IP"`
-	Shelf  int    `json:"shelf"`
-	Column int    `json:"column"`
-	Row    int    `json:"row"`
-	Owner  int    `json:"owner"`
-}
-
-type FrontResponse struct {
-	Objects []AddInfo
+	Shelf  int    `json:"shelf,string"`
+	Column int    `json:"column,string"`
+	Row    int    `json:"row,string"`
+	Owner  string `json:"owner"`
 }
 
 func (h *Handler) addMiner(c *gin.Context) {
-	var frontData FrontResponse
-	dec := json.NewDecoder(c.Request.Body)
+	var mappingInfo []AddInfo
 
-	// t, err := dec.Token()
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError,
-	// 		fmt.Sprintf("addMiner: %s", err.Error()))
-	// 	return
-	// }
-	// log.Printf("%T: %v\n", t, t)
-
-	count := 0
-	for dec.More() {
-		count += 1
-		var info AddInfo
-		err := dec.Decode(&info)
-		log.Printf("%d : %v\n", count, info)
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError,
-				fmt.Sprintf("addMiner: %s", err.Error()))
-			return
-		}
-
-		frontData.Objects = append(frontData.Objects, info)
+	err := json.NewDecoder(c.Request.Body).Decode(&mappingInfo)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		return
 	}
 
-	// t, err = dec.Token()
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError,
-	// 		fmt.Sprintf("addMiner: %s", err.Error()))
-	// 	return
-	// }
-	// log.Printf("%T: %v\n", t, t)
-
-	//log.Println(frontData)
-	//err := h.services.Miner.AddDevices(c.PostForm("model"), isIP, connections, locInfo)
-
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, nil)
-	// } else {
-	// 	c.JSON(http.StatusOK, nil)
-	// }
 }
 
 func (h *Handler) minersGrid(c *gin.Context) {
