@@ -1,5 +1,7 @@
+@import "../../scss/variables.scss";
+
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid $color-border;
     border-collapse: collapse;
     padding: 10px;
 }

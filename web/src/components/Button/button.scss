@@ -3,28 +3,20 @@
 .btn {
     padding: 15px 20px;
     border-radius: 10px;
-    background-color: $secondary;
+    background-color: $color-secondary;
     margin-inline: 10px;
-    color: $text;
+    color: $color-text;
     font-size: 16px;
     border: none;
     cursor: pointer;
-    box-shadow: -2px -2px 1px $dp-primary, 2px 2px 1px $dp-secondary;
-    &:active {
-        box-shadow: 2px 2px 1px $dp-secondary inset, -2px -2px 1px $dp-primary inset;
-    }
 }
 
 .btn--less {
     padding: 10px 10px;
     border-radius: 10px;
-    background-color: $secondary;
-    color: $text;
+    background-color: $color-secondary;
+    color: $color-text;
     font-size: 13px;
     border: none;
     cursor: pointer;
-    box-shadow: -2px -2px 1px $dp-primary, 2px 2px 1px $dp-secondary;
-    &:active {
-        box-shadow: 2px 2px 1px $dp-secondary inset, -2px -2px 1px $dp-primary inset;
-    }
 }

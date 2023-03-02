@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import PageService from '../services/page.service'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar/Navbar'
 
 export default function Device() {
     const [data, setData] = useState({})

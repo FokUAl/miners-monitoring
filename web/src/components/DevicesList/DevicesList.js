@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactTable from 'react-table-6'
 import { Link } from 'react-router-dom'
-import Button from './Button/Button'
+import Button from '../Button/Button'
+import Container from '../Container/Container'
 import './devicesList.scss'
 import "react-table-6/react-table.css"
 
@@ -23,7 +24,7 @@ export default function DevicesList(props) {
     })
 
     return (
-        <div className="container">
+        <Container>
             <ReactTable data={data} filterable={true} columns={[
                 {
                     Header: 'Owner',
@@ -87,6 +88,6 @@ export default function DevicesList(props) {
                     Cell: props => <Link className="link" to={props.value}><Button className="btn--less" value="Link"></Button></Link>
                 }
             ]}/>
-        </div>
+        </Container>
     )
 }

@@ -1,0 +1,18 @@
+@import '../../scss/variables.scss';
+
+.container {
+    padding: 20px;
+    background-color: $color-bg-secondary;
+    &.border-top {
+        border-top: 1px solid $color-border;
+    }
+    &.border-right {
+        border-right: 1px solid $color-border;
+    }
+    &.border-bottom {
+        border-bottom: 1px solid $color-border;
+    }
+    &.border-left {
+        border-left: 1px solid $color-border;
+    }
+}

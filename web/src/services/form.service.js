@@ -4,7 +4,7 @@ import authHeader from './auth.header'
 const API_URL = 'http://localhost:8008/'
 
 const addDevice = (data) => {
-    console.log(data)
+    console.log(JSON.stringify(data))
     return axios.post(API_URL + 'add', {
         data
     }, {

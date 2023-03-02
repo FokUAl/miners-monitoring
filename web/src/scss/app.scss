@@ -1,15 +1,22 @@
 @import "./variables.scss";
 
 .App {
-    max-width: 1400px;
     margin: 0 auto;
 }
 
-.container {
-    margin-block: 45px;
-    padding: 20px;
-    
-    background-color: $secondary;
-    border-radius: 10px;
-    box-shadow: -3px -3px 1px $dp-primary, 3px 3px 1px $dp-secondary;
+.grid-15-85 {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    column-gap: 20px;
+}
+
+.grid-50-50 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.grid-hor {
+    display: grid;
+    grid-template-columns: auto;
+    row-gap: 20px;
 }

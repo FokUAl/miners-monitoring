@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import FormService from '../services/form.service'
-import Button from './Button/Button'
+import FormService from '../../services/form.service'
+import Button from '../Button/Button'
 import './addDeviceForm.scss'
 
 export default function AddDeviceForm() {
