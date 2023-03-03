@@ -101,3 +101,5 @@ if __name__ == '__main__':
         print(api.summary())
     elif command == 'stats':
         print(api.stats())
+    else:
+        print(api.command(command))
