@@ -53,6 +53,11 @@ export default function AddDeviceForm() {
         <div className="container">
             <form onSubmit={handleAdd}>
                 <div className="form--title">Add new Device</div>
+                <div className="form--btns">
+                    <Button type="button" value="Add" onClick={addFormField} className="btn--less form--btn"/>
+                    <Button type="button" value="Remove" onClick={removeFormField} className="btn--less form--btn"/>
+                    {/* <input type="text" value={allOwners} onChange={e => {setAllOwners(e.target.value)}} className="form--input-allOwners"/> */}
+                </div>
                 <div className="form--labels">
                     <label>IP</label>
                     <label>Shelf</label>
@@ -70,11 +75,6 @@ export default function AddDeviceForm() {
                         <input type="text" name='owner' value={data.owner} onChange={e => handleChange(index, e)} required/>
                     </div>
                 ))}
-                <div className="form--btns">
-                    <Button type="button" value="Add" onClick={addFormField} className="btn--less form--btn"/>
-                    <Button type="button" value="Remove" onClick={removeFormField} className="btn--less form--btn"/>
-                    {/* <input type="text" value={allOwners} onChange={e => {setAllOwners(e.target.value)}} className="form--input-allOwners"/> */}
-                </div>
                 <Button type="submit" value="Add Devices" className="btn--less form--btn form--submit"/>
             </form>
         </div>
