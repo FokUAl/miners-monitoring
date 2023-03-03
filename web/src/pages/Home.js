@@ -23,10 +23,16 @@ export default function Home() {
             <Navbar />
             <div className="grid-15-85">
                 <Container />
-                <div className="grid-hor">
-                    <Dashboard devices={{devices}} />
-                    <DevicesList devices={{devices}} />
+                {devices ? 
+                    <div className="grid-hor">
+                        <Dashboard devices={{devices}} />
+                        <DevicesList devices={{devices}} />
+                    </div>
+                : <div className="grid-hor">
+                    <div/>
+                    <div/>
                 </div>
+                }
             </div>
         </>
     )
