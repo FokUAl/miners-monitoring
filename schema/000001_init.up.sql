@@ -18,8 +18,21 @@ CREATE TABLE miner_devices
     miner_status VARCHAR(255) NOT NULL,
     coin VARCHAR(255) NOT NULL,
     ip_address VARCHAR(255) NOT NULL,
-    mac_address VARCHAR(255) NOT NULL,
-    _pool VARCHAR(255) NOT NULL
+    mac_address VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE miner_characteristics
+(
+    id SERIAL PRIMARY KEY,
+    elapsed INTEGER DEFAULT 0,
+    mhs_av FLOAT(10, 5) DEFAULT 0.00,
+    temperature FLOAT(10, 5) DEFAULT 0.00,
+    fan_speed_in INTEGER DEFAULT 0,
+    fan_speed_out INTEGER DEFAULT 0,
+    power_mode VARCHAR(255) NOT NULL,
+    chip_temp_min FLOAT(10, 5) DEFAULT 0.00,
+    chip_temp_max FLOAT(10, 5) DEFAULT 0.00,
+    chip_temp_avg FLOAT(10, 5) DEFAULT 0.00
 );
 
 CREATE TABLE all_devices
