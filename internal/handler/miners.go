@@ -135,6 +135,29 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 		return
 	}
 
-	log.Println(ipArr)
+	var devicesIP []string
+	for i := 0; i < len(ipArr); i++ {
+		response, err := pkg.GetAsicInfo(ipArr[i], "summary")
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with get info from devices: %s\n", err.Error()))
+			return
+		}
+
+		err = h.services.CheckResponse(response)
+		if err != nil {
+			log.Printf("check response %s: %s", ipArr[i], err.Error())
+			continue
+		}
+		devicesIP = append(devicesIP, ipArr[i])
+	}
+
+	type IPDevices struct {
+		List []string
+	}
+
+	var IP IPDevices
+	IP.List = devicesIP
+
+	c.JSON(http.StatusOK, IP)
 
 }

@@ -42,7 +42,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.GET("/asic", h.getMinerCharacteristics)
 
 		//home.GET("/find-asic-ip", h.GetFindDeviceIP)
-		home.POST("/find-asic-ip", h.FindDeviceIP)
+		home.GET("/find-asic-ip", h.FindDeviceIP)
 	}
 
 	// static routes
