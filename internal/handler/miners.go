@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	app "github.com/FokUAl/miners-monitoring"
@@ -69,22 +70,26 @@ func (h *Handler) getAddMiner(c *gin.Context) {
 	c.JSON(http.StatusOK, newInfo)
 }
 
-type AddInfo struct {
-	IP     string `json:"IP"`
-	Shelf  int    `json:"shelf,string"`
-	Column int    `json:"column,string"`
-	Row    int    `json:"row,string"`
-	Owner  string `json:"owner"`
-}
-
 func (h *Handler) addMiner(c *gin.Context) {
-	var mappingInfo []AddInfo
+	type MappingInfo struct {
+		Data []app.AddInfo
+	}
 
-	err := json.NewDecoder(c.Request.Body).Decode(&mappingInfo)
+	var info MappingInfo
+
+	err := json.NewDecoder(c.Request.Body).Decode(&info)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 		return
 	}
+
+	log.Println(info)
+
+	// err = h.services.AddDevices(info)
+	// if err != nil {
+	// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+	// 	return
+	// }
 
 }
 
