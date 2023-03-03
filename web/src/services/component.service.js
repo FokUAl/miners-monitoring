@@ -7,7 +7,7 @@ const getAllIP = async () => {
     try {
         return axios.get(API_URL + 'find-asic-ip', {timeout: 2000, headers: authHeader()})
     } catch(error) {
-        console.log(error)
+        console.log('allIP: ' + error)
     }
 }
 

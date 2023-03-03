@@ -7,7 +7,8 @@ export default function AllIP () {
     useEffect(() => {
         ComponentService.getAllIP().then(
             (response) => {
-                setData(response.data)
+                console.log(response)
+                setData(response.data.List)
                 console.log('allIP ok ');
             },
             (error) => {
@@ -16,15 +17,16 @@ export default function AllIP () {
         );
     }, []);
 
-    const dataArr = data.map(el => {
-        return (
-            <div>{el}</div>
-        )
-    })    
+    // const dataArr = data.map(el => {
+    //     return (
+    //         <div>{el}</div>
+    //     )
+    // })    
 
     return (
         <div>
-            {dataArr}
+            {/* {dataArr} */}
+            {data}
         </div>
     )
 }
