@@ -13,14 +13,14 @@ type Authorization interface {
 }
 
 type Miner interface {
-	GetDevice(address string, isIP bool) (app.MinerDevice, error)
+	GetDevice(address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
-	AddDevices(model string, isIp bool, connections []string, locInfo [][]string) error
+	MappDevices(mappingInfo []app.AddInfo) error
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
 	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
-	IsDeviceAdded(address string, isIP bool) (bool, error)
+	IsDeviceAdded(address string) (bool, error)
 	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)
 	GetDevicesByUser(username string) ([]app.MinerDevice, error)
@@ -32,7 +32,6 @@ type User interface {
 }
 
 type Info interface {
-	GetInfo(ip_address string) ([]string, error)
 	ParsingData(data string) (app.MinerData, error)
 	PingDevices() ([]string, error)
 	CheckResponse(response string) error

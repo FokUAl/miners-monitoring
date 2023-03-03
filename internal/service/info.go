@@ -2,8 +2,6 @@ package service
 
 import (
 	"fmt"
-	"log"
-	"net/http"
 	"os/exec"
 	"regexp"
 	"strconv"
@@ -85,17 +83,6 @@ func (s *InfoService) ParsingData(data string) (app.MinerData, error) {
 	return minerData, nil
 }
 
-func (s *InfoService) GetInfo(ip_address string) ([]string, error) {
-	res, err := http.Get(ip_address)
-	if err != nil {
-		log.Fatalf("get info: %s\n", err.Error())
-	}
-
-	log.Printf("INFO %v\n", res)
-
-	return nil, nil
-}
-
 func (s *InfoService) PingDevices() ([]string, error) {
 	cmd := exec.Command("arp", "-an")
 
@@ -117,16 +104,18 @@ func (s *InfoService) PingDevices() ([]string, error) {
 	return result, nil
 }
 
+// func checks is it actually asic by IP
 func (s *InfoService) CheckResponse(response string) error {
 	// search target segment of string
-	regEx, err := regexp.Compile(`\[[a-zA-z0-9 ]+\]`)
+	regEx, err := regexp.Compile(`'STATUS': '[a-zA-Z]+'`)
 	if err != nil {
 		return err
 	}
 	errText := regEx.FindAllString(response, -1)
-	log.Println(errText[0])
-	if len(errText) != 1 || errText[0] == "[Errno 111]" {
-		return fmt.Errorf("unknown response")
+	if len(errText) != 1 {
+		return fmt.Errorf("unknown response %s", response)
+	} else if errText[0] == "'STATUS': 'error'" {
+		return fmt.Errorf("error response %s", response)
 	}
 
 	return nil
