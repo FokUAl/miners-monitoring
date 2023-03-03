@@ -12,3 +12,11 @@ type MinerData struct {
 	ChipTempMax float64
 	ChipTempAvg float64
 }
+
+type AddInfo struct {
+	IP     string `json:"IP"`
+	Shelf  int    `json:"shelf,string"`
+	Column int    `json:"column,string"`
+	Row    int    `json:"row,string"`
+	Owner  string `json:"owner"`
+}
