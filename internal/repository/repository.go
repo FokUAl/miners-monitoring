@@ -11,16 +11,16 @@ type Authorization interface {
 }
 
 type Miner interface {
-	GetDevice(address string, isIP bool) (app.MinerDevice, error)
+	GetDevice(address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
-	GetDeviceFromDB(address string, isIP bool) (app.MinerDevice, error)
 	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
 	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
 	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)
 	GetDevicesByUser(username string) ([]app.MinerDevice, error)
+	UpdateDevice(newInfo app.AddInfo) error
 }
 
 type User interface {

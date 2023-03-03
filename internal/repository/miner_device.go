@@ -17,24 +17,6 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 	}
 }
 
-func (p *MinerPostgres) GetDevice(address string, isIP bool) (app.MinerDevice, error) {
-	var device app.MinerDevice
-
-	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
-		ip_address, mac_address, _pool FROM all_devices WHERE ip_address = $1`
-
-	if !isIP {
-		query = `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
-		ip_address, mac_address, _pool FROM all_devices WHERE mac_address = $1`
-	}
-
-	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
-		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
-		&device.MACAddress, &device.Pool)
-
-	return device, err
-}
-
 func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 	var devices []app.MinerDevice
 
@@ -51,7 +33,7 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 		var device app.MinerDevice
 
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress)
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetAllDevices: %w", err)
 		}
@@ -64,27 +46,35 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 
 func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
 	query := `INSERT INTO miner_devices (miner_type, shelf, _row, col, owner_, miner_status,
-		coin, ip_address, mac_address, _pool) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+		coin, ip_address, mac_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
 	_, err := p.db.Exec(query, dev.MinerType, dev.Shelf, dev.Row, dev.Column, dev.Owner, dev.MinerStatus,
-		dev.Coin, dev.IPAddress, dev.MACAddress, dev.Pool)
+		dev.Coin, dev.IPAddress, dev.Characteristics.MAC)
+
+	if err != nil {
+		return err
+	}
+
+	query = `INSERT INTO miner_characteristics (elapsed, mhs_av, temperature, fan_speed_in, fan_speed_out, power_mode,
+		chip_temp_min, chip_temp_max, chip_temp_avg) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+
+	_, err = p.db.Exec(query, dev.Characteristics.Elapsed, dev.Characteristics.MHSav,
+		dev.Characteristics.Temperature, dev.Characteristics.FanSpeedIn, dev.Characteristics.FanSpeedOut,
+		dev.Characteristics.PowerMode, dev.Characteristics.ChipTempMin, dev.Characteristics.ChipTempMax,
+		dev.Characteristics.ChipTempAvg)
 
 	return err
 }
 
-func (p *MinerPostgres) GetDeviceFromDB(address string, isIP bool) (app.MinerDevice, error) {
+func (p *MinerPostgres) GetDevice(address string) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
 	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
 		ip_address, mac_address, _pool FROM miner_devices WHERE ip_address = $1`
-	if !isIP {
-		query = `SELECT miner_type, shelf, _row, col, miner_status, coin,
-		ip_address, mac_address, _pool FROM miner_devices WHERE mac_address = $1`
-	}
 
 	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
 		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
-		&device.MACAddress, &device.Pool)
+		&device.Characteristics.MAC)
 
 	return device, err
 }
@@ -98,7 +88,7 @@ func (p *MinerPostgres) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, e
 
 	err := p.db.QueryRow(query, shelfNum, rowNum, columnNum).Scan(&device.MinerType, &device.Shelf, &device.Row,
 		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
-		&device.MACAddress, &device.Pool)
+		&device.Characteristics.MAC)
 
 	return device == app.MinerDevice{}, err
 }
@@ -116,7 +106,7 @@ func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, 
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByType: %w", err)
 		}
@@ -140,7 +130,7 @@ func (p *MinerPostgres) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, e
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByCoin: %w", err)
 		}
@@ -164,7 +154,7 @@ func (p *MinerPostgres) GetDevicesByStatus(miner_status string) ([]app.MinerDevi
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByStatus: %w", err)
 		}
@@ -180,7 +170,7 @@ func (p *MinerPostgres) GetDeviceByLocation(shelf int, column int, row int) (app
 	statement := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address, _pool 
 		FROM miner_devices WHERE shelf = $1 and _row = $2 and col = $3`
 	err := p.db.QueryRow(statement, shelf, row, column).Scan(&result.MinerType, &result.Shelf, &result.Row,
-		&result.Column, &result.Owner, &result.MinerStatus, &result.Coin, &result.IPAddress, &result.MACAddress, &result.Pool)
+		&result.Column, &result.Owner, &result.MinerStatus, &result.Coin, &result.IPAddress, &result.Characteristics.MAC)
 	if err != nil {
 		return result, err
 	}
@@ -202,7 +192,7 @@ func (p *MinerPostgres) GetDevicesByUser(username string) ([]app.MinerDevice, er
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.MACAddress, &device.Pool)
+			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByUser: %w", err)
 		}
@@ -211,4 +201,13 @@ func (p *MinerPostgres) GetDevicesByUser(username string) ([]app.MinerDevice, er
 	}
 
 	return result, nil
+}
+
+func (p *MinerPostgres) UpdateDevice(newInfo app.AddInfo) error {
+	query := `UPDATE miner_devices SET owner_ = $1, shelf = $2, _row = $3, col = $4
+		WHERE ip_address = $5`
+
+	_, err := p.db.Exec(query, newInfo.Owner, newInfo.Shelf, newInfo.Row,
+		newInfo.Column, newInfo.IP)
+	return err
 }
