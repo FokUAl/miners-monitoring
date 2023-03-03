@@ -83,13 +83,11 @@ func (h *Handler) addMiner(c *gin.Context) {
 		return
 	}
 
-	log.Println(info)
-
-	// err = h.services.AddDevices(info)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-	// 	return
-	// }
+	err = h.services.MappDevices(info.Data)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		return
+	}
 
 }
 
@@ -128,4 +126,15 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, strct)
+}
+
+func (h *Handler) FindDeviceIP(c *gin.Context) {
+	ipArr, err := h.services.PingDevices()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with ping devices: %s\n", err.Error()))
+		return
+	}
+
+	log.Println(ipArr)
+
 }
