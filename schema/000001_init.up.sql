@@ -32,5 +32,6 @@ CREATE TABLE miner_characteristics
     power_mode VARCHAR(255) NOT NULL,
     chip_temp_min FLOAT DEFAULT 0.00,
     chip_temp_max FLOAT DEFAULT 0.00,
-    chip_temp_avg FLOAT DEFAULT 0.00
+    chip_temp_avg FLOAT DEFAULT 0.00,
+    creation_date DATE NOT NULL
 );
