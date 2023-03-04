@@ -29,6 +29,7 @@ type User interface {
 }
 
 type Info interface {
+	SaveMinerData(data app.MinerData) error
 }
 
 type Repository struct {
@@ -43,5 +44,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		User:          NewUserPostgres(db),
 		Miner:         NewMinerPostgres(db),
+		Info:          NewInfoPostgres(db),
 	}
 }
