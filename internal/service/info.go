@@ -120,3 +120,7 @@ func (s *InfoService) CheckResponse(response string) error {
 
 	return nil
 }
+
+func (s *InfoService) SaveMinerData(data app.MinerData) error {
+	return s.repo.SaveMinerData(data)
+}

@@ -1,10 +1,6 @@
 package service
 
 import (
-	"database/sql"
-	"fmt"
-	"strconv"
-
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/internal/repository"
 )
@@ -19,8 +15,8 @@ func NewMinerService(repo repository.Miner) *MinerService {
 	}
 }
 
-func (s *MinerService) GetDevice(address string, isIP bool) (app.MinerDevice, error) {
-	return s.repo.GetDevice(address, isIP)
+func (s *MinerService) GetDevice(address string) (app.MinerDevice, error) {
+	return s.repo.GetDevice(address)
 }
 
 func (s *MinerService) GetAllDevices() ([]app.MinerDevice, error) {
@@ -31,63 +27,19 @@ func (s *MinerService) AddNew(dev app.MinerDevice) error {
 	return s.repo.AddNew(dev)
 }
 
-func (s *MinerService) AddDevices(model string, isIP bool, connections []string, locInfo [][]string) error {
-	for i := 0; i < len(connections); i++ {
-		// check to existence of device physically
-		existedDevice, err := s.repo.GetDevice(connections[i], isIP)
-		if err != nil {
-			return fmt.Errorf("device is not exist: %s", connections[i])
-		}
-
-		// check device to existance in database
-		isAdded, err := s.IsDeviceAdded(connections[i], isIP)
-		if err != sql.ErrNoRows && err != nil {
-			return err
-		} else if isAdded {
-			return fmt.Errorf("device has already been added: %s", connections[i])
-		}
-
-		shelfNum, err := strconv.Atoi(locInfo[0][i])
+func (s *MinerService) MappDevices(mappingInfo []app.AddInfo) error {
+	for i := 0; i < len(mappingInfo); i++ {
+		err := s.repo.UpdateDevice(mappingInfo[i])
 		if err != nil {
 			return err
 		}
-		rowNum, err := strconv.Atoi(locInfo[1][i])
-		if err != nil {
-			return err
-		}
-		columnNum, err := strconv.Atoi(locInfo[2][i])
-		if err != nil {
-			return err
-		}
-
-		// is location free
-		isFree, err := s.IsLocationFree(shelfNum, rowNum, columnNum)
-		if err != sql.ErrNoRows && err != nil {
-			return err
-		} else if !isFree {
-			return fmt.Errorf("location isn't free: %d-%d-%d",
-				shelfNum, columnNum, rowNum)
-		}
-
-		// change device location
-		existedDevice.Shelf = shelfNum
-		existedDevice.Row = rowNum
-		existedDevice.Column = columnNum
-
-		existedDevice.Owner = locInfo[3][i]
-
-		err = s.AddNew(existedDevice)
-		if err != nil {
-			return err
-		}
-
 	}
 
 	return nil
 }
 
-func (s *MinerService) IsDeviceAdded(address string, isIP bool) (bool, error) {
-	device, err := s.repo.GetDeviceFromDB(address, isIP)
+func (s *MinerService) IsDeviceAdded(address string) (bool, error) {
+	device, err := s.repo.GetDevice(address)
 
 	return device != app.MinerDevice{}, err
 }
@@ -115,52 +67,3 @@ func (s *MinerService) GetDeviceByLocation(shelf int, column int, row int) (app.
 func (s *MinerService) GetDevicesByUser(username string) ([]app.MinerDevice, error) {
 	return s.repo.GetDevicesByUser(username)
 }
-
-// func (s *MinerService) GetDeviceInfo(address, path string) error {
-// 	etherI, err := net.InterfaceByName("enp0s31f6")
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	addrs, err := etherI.Addrs()
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	tcpAddr := &net.TCPAddr{
-// 		IP: addrs[3].(*net.IPNet).IP,
-// 	}
-
-// 	d := net.Dialer{LocalAddr: tcpAddr}
-// 	conn, err := d.Dial("tcp", path)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer conn.Close()
-
-// 	transport := &http.Transport{
-// 		Proxy:               http.ProxyFromEnvironment,
-// 		Dial:                (&net.Dialer{LocalAddr: tcpAddr}).Dial,
-// 		TLSHandshakeTimeout: 10 * time.Second,
-// 	}
-
-// 	client := &http.Client{
-// 		Transport: transport,
-// 	}
-
-// 	response, err := client.Get("https://" + path)
-
-// 	if err != nil {
-// 		return err
-// 	} else {
-// 		defer response.Body.Close()
-// 		contents, err := ioutil.ReadAll(response.Body)
-// 		if err != nil {
-// 			return err
-// 		}
-// 		var contentsStr = string(contents)
-// 		fmt.Printf("%s\n", contentsStr)
-// 	}
-
-// 	return nil
-// }
