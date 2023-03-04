@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg"
@@ -56,19 +57,19 @@ func (h *Handler) getHome(c *gin.Context) {
 	c.JSON(http.StatusOK, newInfo)
 }
 
-func (h *Handler) getAddMiner(c *gin.Context) {
-	notificationText, err := c.Cookie("ErrorContent")
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError,
-			fmt.Sprintf("getAddMiner: %s", err.Error()))
-		return
-	}
+// func (h *Handler) getAddMiner(c *gin.Context) {
+// 	notificationText, err := c.Cookie("ErrorContent")
+// 	if err != nil {
+// 		newErrorResponse(c, http.StatusInternalServerError,
+// 			fmt.Sprintf(" getAddMiner: %s", err.Error()))
+// 		return
+// 	}
 
-	newInfo := info{
-		Notification: notificationText,
-	}
-	c.JSON(http.StatusOK, newInfo)
-}
+// 	newInfo := info{
+// 		Notification: notificationText,
+// 	}
+// 	c.JSON(http.StatusOK, newInfo)
+// }
 
 func (h *Handler) addMiner(c *gin.Context) {
 	type MappingInfo struct {
@@ -81,6 +82,22 @@ func (h *Handler) addMiner(c *gin.Context) {
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 		return
+	}
+
+	for i := 0; i < len(info.Data); i++ {
+		var device app.MinerDevice
+
+		device.IPAddress = info.Data[i].IP
+		device.Shelf = info.Data[i].Shelf
+		device.Row = info.Data[i].Row
+		device.Column = info.Data[i].Column
+		device.Owner = info.Data[i].Owner
+
+		err = h.services.AddNew(device)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
 	}
 
 	err = h.services.MappDevices(info.Data)
@@ -107,7 +124,30 @@ func (h *Handler) minersGrid(c *gin.Context) {
 }
 
 func (h *Handler) getMinerCharacteristics(c *gin.Context) {
-	info, err := pkg.GetAsicInfo("192.168.0.1", "summary")
+	query_params := c.Request.URL.Query()
+	shelf, err := strconv.Atoi(query_params["shelf"][0])
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't convert to int: %s\n", err.Error()))
+		return
+	}
+	row, err := strconv.Atoi(query_params["row"][0])
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't convert to int: %s\n", err.Error()))
+		return
+	}
+	column, err := strconv.Atoi(query_params["column"][0])
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't convert to int: %s\n", err.Error()))
+		return
+	}
+
+	miner, err := h.services.GetDeviceByLocation(shelf, column, row)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("get device by location: %s\n", err.Error()))
+		return
+	}
+
+	info, err := pkg.GetAsicInfo(miner.IPAddress, "summary")
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with sending command: %s\n", err.Error()))
 		return

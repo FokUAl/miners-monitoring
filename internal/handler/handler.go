@@ -34,7 +34,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.GET("/home", h.getHome)
 		home.POST("/home", h.getHome)
 
-		home.GET("/add", h.getAddMiner)
+		//home.GET("/add", h.getAddMiner)
 		home.POST("/add", h.addMiner)
 
 		home.GET("/grid", h.minersGrid)
