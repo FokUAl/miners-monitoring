@@ -10,15 +10,15 @@ CREATE TABLE users
 CREATE TABLE miner_devices
 (
     id SERIAL PRIMARY KEY,
-    miner_type VARCHAR(255) NOT NULL,
+    miner_type VARCHAR(255) NOT NULL DEFAULT ' ',
     shelf INTEGER DEFAULT 0,
     _row INTEGER DEFAULT 0,
     col INTEGER DEFAULT 0,
-    owner_ VARCHAR(255) NOT NULL DEFAULT '',
-    miner_status VARCHAR(255) NOT NULL,
-    coin VARCHAR(255) NOT NULL,
+    owner_ VARCHAR(255) NOT NULL DEFAULT ' ',
+    miner_status VARCHAR(255) NOT NULL DEFAULT ' ',
+    coin VARCHAR(255) NOT NULL DEFAULT ' ',
     ip_address VARCHAR(255) NOT NULL,
-    mac_address VARCHAR(255) NOT NULL
+    mac_address VARCHAR(255) DEFAULT ' '
 );
 
 CREATE TABLE miner_characteristics
