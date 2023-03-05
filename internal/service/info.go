@@ -134,3 +134,37 @@ func (s *InfoService) CheckResponse(response string) error {
 func (s *InfoService) SaveMinerData(data app.MinerData) error {
 	return s.repo.SaveMinerData(data)
 }
+
+func (s *InfoService) Transform(devices []app.MinerDevice) ([][]app.MinerDevice, error) {
+	var result [][]app.MinerDevice
+	if len(devices) == 0 {
+		return nil, fmt.Errorf("transform: argument array is empty")
+	}
+
+	for _, dev := range devices {
+		length := len(result)
+
+		var emptyArr []app.MinerDevice
+		emptyArr = append(emptyArr, dev)
+
+		if length == 0 {
+			result = append(result, emptyArr)
+			continue
+		}
+
+		isDevAdded := false
+		for i := 0; i < length; i++ {
+			if result[i][0].Owner == dev.Owner {
+				result[i] = append(result[i], dev)
+				isDevAdded = true
+				break
+			}
+		}
+
+		if !isDevAdded {
+			result = append(result, emptyArr)
+		}
+	}
+
+	return result, nil
+}

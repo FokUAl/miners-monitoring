@@ -37,6 +37,7 @@ type Info interface {
 	PingDevices() ([]string, error)
 	CheckResponse(response string) error
 	SaveMinerData(data app.MinerData) error
+	Transform(devices []app.MinerDevice) ([][]app.MinerDevice, error)
 }
 
 type Service struct {
