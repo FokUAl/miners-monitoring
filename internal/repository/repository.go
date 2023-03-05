@@ -21,6 +21,7 @@ type Miner interface {
 	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)
 	GetDevicesByUser(username string) ([]app.MinerDevice, error)
 	UpdateDevice(newInfo app.AddInfo) error
+	IsIPFree(ip_address string) (bool, error)
 }
 
 type User interface {

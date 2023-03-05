@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -92,17 +93,26 @@ func (h *Handler) addMiner(c *gin.Context) {
 		device.Column = info.Data[i].Column
 		device.Owner = info.Data[i].Owner
 
-		isFree, err := h.services.IsLocationFree(device.Shelf, device.Row, device.Column)
-		if err != nil {
+		isFreeLocation, err := h.services.IsLocationFree(device.Shelf, device.Row, device.Column)
+		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
-
-		if !isFree {
-			c.JSON(http.StatusBadRequest, Notification{Message: "Location of device isn't free"})
+		if !isFreeLocation {
+			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n", device.Shelf, device.Column, device.Row)})
 			return
 		}
-		
+
+		isFreeIP, err := h.services.IsIPFree(device.IPAddress)
+		if err != nil && err != sql.ErrNoRows {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
+		if !isFreeIP {
+			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this IP exists: %s", device.IPAddress)})
+			return
+		}
+
 		err = h.services.AddNew(device)
 		if err != nil {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))

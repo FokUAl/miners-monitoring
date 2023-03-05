@@ -84,6 +84,20 @@ func (p *MinerPostgres) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, e
 	return device == app.MinerDevice{}, err
 }
 
+func (p *MinerPostgres) IsIPFree(ip_address string) (bool, error) {
+	var device app.MinerDevice
+
+	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
+		ip_address, mac_address FROM miner_devices 
+		WHERE ip_address = $1`
+
+	err := p.db.QueryRow(query, ip_address).Scan(&device.MinerType, &device.Shelf, &device.Row,
+		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
+		&device.Characteristics.MAC)
+
+	return device == app.MinerDevice{}, err
+}
+
 func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
 	var result []app.MinerDevice
 

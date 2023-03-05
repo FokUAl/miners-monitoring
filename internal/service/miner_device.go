@@ -68,3 +68,7 @@ func (s *MinerService) GetDeviceByLocation(shelf int, column int, row int) (app.
 func (s *MinerService) GetDevicesByUser(username string) ([]app.MinerDevice, error) {
 	return s.repo.GetDevicesByUser(username)
 }
+
+func (s *MinerService) IsIPFree(ip_address string) (bool, error) {
+	return s.repo.IsIPFree(ip_address)
+}
