@@ -57,20 +57,6 @@ func (h *Handler) getHome(c *gin.Context) {
 	c.JSON(http.StatusOK, newInfo)
 }
 
-// func (h *Handler) getAddMiner(c *gin.Context) {
-// 	notificationText, err := c.Cookie("ErrorContent")
-// 	if err != nil {
-// 		newErrorResponse(c, http.StatusInternalServerError,
-// 			fmt.Sprintf(" getAddMiner: %s", err.Error()))
-// 		return
-// 	}
-
-// 	newInfo := info{
-// 		Notification: notificationText,
-// 	}
-// 	c.JSON(http.StatusOK, newInfo)
-// }
-
 func (h *Handler) addMiner(c *gin.Context) {
 	type MappingInfo struct {
 		Data []app.AddInfo
