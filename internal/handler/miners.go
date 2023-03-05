@@ -97,11 +97,12 @@ func (h *Handler) addMiner(c *gin.Context) {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
+
 		if !isFree {
 			c.JSON(http.StatusBadRequest, Notification{Message: "Location of device isn't free"})
 			return
 		}
-
+		
 		err = h.services.AddNew(device)
 		if err != nil {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
