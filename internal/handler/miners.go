@@ -58,6 +58,7 @@ func (h *Handler) getHome(c *gin.Context) {
 
 	newInfo := info{
 		User:          user,
+		Devices:       devices,
 		FormedDevices: reformedDevices,
 	}
 
