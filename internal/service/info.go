@@ -135,8 +135,8 @@ func (s *InfoService) SaveMinerData(data app.MinerData) error {
 	return s.repo.SaveMinerData(data)
 }
 
-func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.MinerDevice, error) {
-	var result map[string][]app.MinerDevice = make(map[string][]app.MinerDevice)
+func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error) {
+	var result map[string][]app.MinerData = make(map[string][]app.MinerData)
 	if len(devices) == 0 {
 		return nil, fmt.Errorf("transform: argument array is empty")
 	}
@@ -144,9 +144,9 @@ func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.Min
 	for _, dev := range devices {
 		_, ok := result[dev.Owner]
 		if ok {
-			result[dev.Owner] = append(result[dev.Owner], dev)
+			result[dev.Owner] = append(result[dev.Owner], dev.Characteristics)
 		} else {
-			result[dev.Owner] = []app.MinerDevice{dev}
+			result[dev.Owner] = []app.MinerData{dev.Characteristics}
 		}
 
 	}

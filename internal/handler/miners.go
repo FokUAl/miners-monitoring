@@ -13,10 +13,10 @@ import (
 )
 
 type info struct {
-	Notification  string
-	User          app.User
-	FormedDevices map[string][]app.MinerDevice
-	Devices       []app.MinerDevice
+	Notification string
+	User         app.User
+	FormedData   map[string][]app.MinerData
+	Devices      []app.MinerDevice
 }
 
 func (h *Handler) getHome(c *gin.Context) {
@@ -50,16 +50,16 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	reformedDevices, err := h.services.Transform(devices)
+	reformedDeviceData, err := h.services.Transform(devices)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 		return
 	}
 
 	newInfo := info{
-		User:          user,
-		Devices:       devices,
-		FormedDevices: reformedDevices,
+		User:       user,
+		Devices:    devices,
+		FormedData: reformedDeviceData,
 	}
 
 	c.JSON(http.StatusOK, newInfo)
