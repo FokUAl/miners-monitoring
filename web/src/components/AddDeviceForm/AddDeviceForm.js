@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import FormService from '../../services/form.service'
 import Button from '../Button/Button'
 import './addDeviceForm.scss'
@@ -14,13 +15,13 @@ export default function AddDeviceForm() {
         }
     ]
     const [data, setData] = useState(initialData)
+    const navigate = useNavigate()
     // const [allOwners, setAllOwners] = useState('')
 
     const handleChange = (index, event) => {
         const {value, name} = event.target
         const newData = [...data]
         newData[index][name] = value
-        console.log('changed')
         setData(newData)
     }
 
@@ -44,8 +45,15 @@ export default function AddDeviceForm() {
 
     const handleAdd = async(e) => {
         e.preventDefault()
-        FormService.addDevice(data).catch(
-            (error) => { if (error) console.log('Add device ', error)}
+        FormService.addDevice(data).then(
+            response => {
+                navigate('/')
+                window.location.reload()
+            },
+            error => { if (error) {
+                console.log('Add device ', error)
+                alert(error.response.data.Message)
+            }}
         )
     }
 
