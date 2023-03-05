@@ -15,7 +15,7 @@ import (
 type info struct {
 	Notification  string
 	User          app.User
-	FormedDevices [][]app.MinerDevice
+	FormedDevices map[string][]app.MinerDevice
 	Devices       []app.MinerDevice
 }
 
