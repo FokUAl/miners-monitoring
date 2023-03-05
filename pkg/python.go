@@ -7,6 +7,8 @@ import (
 	"github.com/kluctl/go-embed-python/python"
 )
 
+// Uses python script to send request to cgminer interface
+// and return response from it as string.
 func GetAsicInfo(ip string, command string) (string, error) {
 	ep, err := python.NewEmbeddedPython("example")
 	if err != nil {

@@ -107,6 +107,7 @@ func (h *Handler) addMiner(c *gin.Context) {
 
 }
 
+// Heat map that explain location and temperature of device
 func (h *Handler) minersGrid(c *gin.Context) {
 
 	devices, err := h.services.GetAllDevices()
@@ -122,6 +123,8 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	c.JSON(http.StatusOK, newInfo)
 }
 
+// Find device IP by location and get characteristics like temperature,
+// hashrate and other.
 func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	query_params := c.Request.URL.Query()
 	shelf, err := strconv.Atoi(query_params["shelf"][0])

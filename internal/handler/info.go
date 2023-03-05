@@ -9,10 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Searches for the addresses of all devices in the local network
+// and determines the ASIC among them.
+// Result is sent to front.
 func (h *Handler) FindDeviceIP(c *gin.Context) {
 	ipArr, err := h.services.PingDevices()
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with ping devices: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("error with ping devices: %s\n", err.Error()))
 		return
 	}
 
@@ -20,7 +24,8 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 	for i := 0; i < len(ipArr); i++ {
 		response, err := pkg.GetAsicInfo(ipArr[i], "summary")
 		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with get info from devices: %s\n", err.Error()))
+			newErrorResponse(c, http.StatusInternalServerError,
+				fmt.Sprintf("error with get info from devices: %s\n", err.Error()))
 			return
 		}
 

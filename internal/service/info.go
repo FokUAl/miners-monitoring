@@ -21,9 +21,12 @@ func NewInfoService(repo repository.Info) *InfoService {
 	}
 }
 
+// Accept string and try parse it to MinerData struct
+// using regex.
 func (s *InfoService) ParsingData(data string) (app.MinerData, error) {
 	var minerData app.MinerData
 
+	// Searches key and value pairs in data string
 	r, err := regexp.Compile("'[A-Za-z0-9% ]+': ('?[0-9A-Za-z:._ -]+'?)")
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't compile regexp: %s", err.Error())
@@ -83,9 +86,14 @@ func (s *InfoService) ParsingData(data string) (app.MinerData, error) {
 	return minerData, nil
 }
 
+// Ping all IP adresses in specific range
+// and determine alive devices from them.
+// Return result as array of strings
 func (s *InfoService) PingDevices() ([]string, error) {
+	// Pinging in specific range for update ARP cache
 	cmd := exec.Command("fping", "-g", "-a", "--retry=1", "192.168.0.0/24")
 	cmd.Run()
+	// Determines alive devices
 	cmd = exec.Command("bash", "-c", "arp -an | grep 'ether'")
 
 	out, err := cmd.Output()

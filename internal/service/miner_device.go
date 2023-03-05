@@ -27,6 +27,7 @@ func (s *MinerService) AddNew(dev app.MinerDevice) error {
 	return s.repo.AddNew(dev)
 }
 
+// Mapping device IP with location and owner
 func (s *MinerService) MappDevices(mappingInfo []app.AddInfo) error {
 	for i := 0; i < len(mappingInfo); i++ {
 		err := s.repo.UpdateDevice(mappingInfo[i])
