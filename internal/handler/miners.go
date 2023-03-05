@@ -92,6 +92,16 @@ func (h *Handler) addMiner(c *gin.Context) {
 		device.Column = info.Data[i].Column
 		device.Owner = info.Data[i].Owner
 
+		isFree, err := h.services.IsLocationFree(device.Shelf, device.Row, device.Column)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
+		if !isFree {
+			c.JSON(http.StatusBadRequest, Notification{Message: "Location of device isn't free"})
+			return
+		}
+
 		err = h.services.AddNew(device)
 		if err != nil {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))

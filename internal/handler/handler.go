@@ -11,6 +11,10 @@ type Handler struct {
 	services *service.Service
 }
 
+type Notification struct {
+	Message string
+}
+
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
