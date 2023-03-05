@@ -3,15 +3,17 @@ import ComponentService from '../../services/component.service'
 
 export default function AllIP () {
     const [ data, setData ] = useState()
+    const [ loading, setLoading] = useState(true)
 
     useEffect(() => {
         ComponentService.getAllIP().then(
-            (response) => {
+            response => {
                 console.log(response)
                 setData(response.data.List)
                 console.log('allIP ok ');
+                setLoading(true)
             },
-            (error) => {
+            error => {
                 console.log('allIP error', error);
             }
         );
@@ -25,6 +27,7 @@ export default function AllIP () {
 
     return (
         <div>
+            {loading && {data}}
             {/* {dataArr} */}
             {data}
         </div>
