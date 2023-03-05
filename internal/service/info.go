@@ -84,7 +84,9 @@ func (s *InfoService) ParsingData(data string) (app.MinerData, error) {
 }
 
 func (s *InfoService) PingDevices() ([]string, error) {
-	cmd := exec.Command("arp", "-an")
+	cmd := exec.Command("fping", "-g", "-a", "--retry=1", "192.168.0.0/24")
+	cmd.Run()
+	cmd = exec.Command("bash", "-c", "arp -an | grep 'ether'")
 
 	out, err := cmd.Output()
 	if err != nil {
