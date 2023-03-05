@@ -13,10 +13,11 @@ export default function AllIP() {
 				console.log(response);
 				setData(response.data.List);
 				console.log('allIP ok ');
-				setLoading(true);
+				setLoading(false);
 			},
 			(error) => {
 				console.log('allIP error', error);
+				setLoading(false);
 			}
 		);
 	}, []);
