@@ -50,16 +50,19 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	reformedDeviceData, err := h.services.Transform(devices)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
-		return
+	var formedDeviceData map[string][]app.MinerData = make(map[string][]app.MinerData)
+	if len(devices) != 0 {
+		formedDeviceData, err = h.services.Transform(devices)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
+			return
+		}
 	}
 
 	newInfo := info{
 		User:       user,
 		Devices:    devices,
-		FormedData: reformedDeviceData,
+		FormedData: formedDeviceData,
 	}
 
 	c.JSON(http.StatusOK, newInfo)
@@ -104,6 +107,17 @@ func (h *Handler) addMiner(c *gin.Context) {
 		}
 		if !isFreeIP {
 			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this IP exists: %s", device.IPAddress)})
+			return
+		}
+
+		characteristics, err := pkg.ResponseToStruct(device.IPAddress)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
+		err = h.services.SaveMinerData(characteristics)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
 
