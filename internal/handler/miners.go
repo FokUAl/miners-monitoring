@@ -115,7 +115,8 @@ func (h *Handler) addMiner(c *gin.Context) {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
-		err = h.services.SaveMinerData(characteristics)
+
+		err = h.services.SaveMinerData(characteristics, device.IPAddress)
 		if err != nil {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
