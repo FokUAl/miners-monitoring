@@ -7,22 +7,20 @@ import PageService from '../services/page.service'
 import Container from '../components/Container/Container'
 
 export default function Home() {
-    const [ devices, setDevices ] = useState([])
+    const [ devices, setDevices ] = useState()
     useEffect(() => {
         PageService.getHome().then(
             (response) => {
                 setDevices(response.data.Devices)
-                console.log('home ok ')
+                console.log('home ok ', devices)
             }, (error) => {
-                console.log(error)
+                console.log('home error: ', error)
             }
         )
     }, [])
     return (
         <>
             <Navbar />
-            <div className="grid-15-85">
-                <Container />
                 {devices ? 
                     <div className="grid-hor">
                         <Dashboard devices={{devices}} />
@@ -33,7 +31,6 @@ export default function Home() {
                     <div/>
                 </div>
                 }
-            </div>
         </>
     )
 }

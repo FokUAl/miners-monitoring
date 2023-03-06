@@ -4,6 +4,12 @@
     margin: 0 auto;
 }
 
+.grid-10-90 {
+    display: grid;
+    grid-template-columns: 10% 90%;
+    column-gap: 20px;
+}
+
 .grid-15-85 {
     display: grid;
     grid-template-columns: 15% 85%;
