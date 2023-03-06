@@ -30,7 +30,7 @@ type User interface {
 }
 
 type Info interface {
-	SaveMinerData(data app.MinerData) error
+	SaveMinerData(data app.MinerData, ip_address string) error
 }
 
 type Repository struct {
