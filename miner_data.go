@@ -1,6 +1,7 @@
 package app
 
 type MinerData struct {
+	IP          string
 	Elapsed     int64
 	MHSav       float64
 	Temperature float64
