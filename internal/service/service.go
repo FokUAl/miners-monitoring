@@ -33,9 +33,7 @@ type User interface {
 }
 
 type Info interface {
-	ParsingData(data string) (app.MinerData, error)
 	PingDevices() ([]string, error)
-	CheckResponse(response string) error
 	SaveMinerData(data app.MinerData) error
 	Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error)
 }
