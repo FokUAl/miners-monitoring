@@ -48,8 +48,8 @@ func (s *InfoService) PingDevices() ([]string, error) {
 	return result, nil
 }
 
-func (s *InfoService) SaveMinerData(data app.MinerData) error {
-	return s.repo.SaveMinerData(data)
+func (s *InfoService) SaveMinerData(data app.MinerData, ip_address string) error {
+	return s.repo.SaveMinerData(data, ip_address)
 }
 
 func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error) {
