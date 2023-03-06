@@ -29,7 +29,7 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 			return
 		}
 
-		err = h.services.CheckResponse(response)
+		err = pkg.CheckResponse(response)
 		if err != nil {
 			log.Printf("check response %s: %s", ipArr[i], err.Error())
 			continue

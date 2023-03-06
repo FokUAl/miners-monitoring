@@ -164,21 +164,9 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
-	info, err := pkg.GetAsicInfo(miner.IPAddress, "summary")
+	strct, err := pkg.ResponseToStruct(miner.IPAddress)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("error with sending command: %s\n", err.Error()))
-		return
-	}
-
-	err = h.services.CheckResponse(info)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't check response: %s\n", err.Error()))
-		return
-	}
-
-	strct, err := h.services.Info.ParsingData(info)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't parse data: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("get device by location: %s\n", err.Error()))
 		return
 	}
 
