@@ -41,10 +41,12 @@ export default function AllIP() {
 				</Container>
 			) : (
 				<Container>
+					<div className="form--title">All IPs in network</div>
 					<div className="grid-10-90">
 						<Button value="Update IPs" onClick={HandleLoading}/>	
-						<Container>{data}</Container>
-					</div></Container>
+						<Container><div className="grid-12">{data}</div></Container>
+					</div>
+				</Container>
 			)}
 		</div>
 	);

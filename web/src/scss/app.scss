@@ -26,3 +26,9 @@
     grid-template-columns: auto;
     row-gap: 20px;
 }
+
+.grid-auto {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    row-gap: 10px;
+}

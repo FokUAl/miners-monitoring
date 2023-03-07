@@ -133,13 +133,11 @@ export default function DevicesList(props) {
                         muiTableBodyCellProps={{
                             sx: { fontSize: '14px', padding: '0 5px', margin: "0"},
                         }} 
-                        actions={[
-                            rowData => ({
-                            icon: () => <Link className="link" to={rowData.Link}>link</Link>,
-                            tooltip: 'Link to Device',
-                            onClick: (rowData)
-                            })
-                        ]}
+                        muiTableBodyProps={{
+                            sx: {
+                                backgroundColor: 'seconday'
+                            }
+                        }}
                     />
             </ThemeProvider>
 		</Container>

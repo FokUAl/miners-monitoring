@@ -12,7 +12,7 @@ export default function Device() {
         PageService.getDevice(search).then(
             (response) => {
                 setData(response.data)
-                console.log('device ok ', response.data)
+                console.log(data)
             }, (error) => console.log("device error", error)
         )
     }, [data])

@@ -7,8 +7,10 @@ export default function AddDevice() {
     return (
         <>
             <Navbar />
-            <AddDeviceForm />
-            <AllIP />
+            <div className="grid-hor">
+                <AddDeviceForm />
+                <AllIP />
+            </div>
         </>
     )
 }
