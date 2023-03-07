@@ -110,6 +110,17 @@ func (h *Handler) addMiner(c *gin.Context) {
 			return
 		}
 
+	}
+
+	for j := 0; j < len(info.Data); j++ {
+		var device app.MinerDevice
+
+		device.IPAddress = info.Data[j].IP
+		device.Shelf = info.Data[j].Shelf
+		device.Row = info.Data[j].Row
+		device.Column = info.Data[j].Column
+		device.Owner = info.Data[j].Owner
+
 		characteristics, err := pkg.ResponseToStruct(device.IPAddress)
 		if err != nil {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
