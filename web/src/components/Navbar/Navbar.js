@@ -42,7 +42,7 @@ export default function Navbar(props) {
 				</li>
 				<li>
 					<Link className="nav--link" to="/grid">
-						Device grid
+						Devices grid
 					</Link>
 				</li>
 				<li>

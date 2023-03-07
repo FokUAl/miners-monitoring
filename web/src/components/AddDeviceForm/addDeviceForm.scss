@@ -7,6 +7,7 @@
 .form--labels {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
+    width: 100%;
 }
 
 .form--inputs {
@@ -28,29 +29,16 @@
     }
 }
 
-.form--input-allOwners {
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    max-height: 30px;
-    background-color: $color-input-bg;
-    &:focus {
-        outline: none;
-        background-color: white;
-    }
-}
-
 .form--btns {
-    display: block;
+    display: flex;
     margin-bottom: 20px;
-    // float: left;
+    width: 100%;
+    justify-content: left;
 }
 
-.form--btn {
+.form--btn-submit {
+    display: flex;
+    width: 100%;
+    justify-content: left;
     margin-top: 30px;
-    width: 200px;
-}
-
-.form--submit {
-    display: block;
 }

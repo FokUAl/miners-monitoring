@@ -4,8 +4,7 @@ import Container from '../Container/Container';
 import Button from '../Button/Button'
 import './allIP.scss';
 
-export default function AllIP() {
-	const [data, setData] = useState();
+export default function AllIP({ allIP, setAllIP }) {
 	const [loading, setLoading] = useState(true);
 
 	const UpdateIPs = () => {	
@@ -13,7 +12,7 @@ export default function AllIP() {
 			ComponentService.getAllIP().then(
 				(response) => {
 					console.log(response);
-					setData(response.data.List);
+					setAllIP(response.data.List)
 					console.log('allIP ok ');
 					setLoading(false);
 				},
@@ -43,8 +42,8 @@ export default function AllIP() {
 				<Container>
 					<div className="form--title">All IPs in network</div>
 					<div className="grid-10-90">
-						<Button value="Update IPs" onClick={HandleLoading}/>	
-						<Container><div className="grid-12">{data}</div></Container>
+						<Button value="Update IPs" onClick={HandleLoading} size="l" />	
+						<Container><div className="grid-12">{allIP}</div></Container>
 					</div>
 				</Container>
 			)}

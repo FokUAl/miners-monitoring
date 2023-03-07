@@ -87,7 +87,7 @@ export default function DevicesList(props) {
                 accessorKey: 'Link',
                 size: 1,
 				enableGrouping: false,
-                Cell: ({ cell }) => {return <Link className="link" to={cell.getValue()}><Button className="btn--less" value="Link"></Button></Link>}
+                Cell: ({ cell }) => {return <Link className="link" to={cell.getValue()}><Button size="s" value="Link"></Button></Link>}
             },
 		],
 		[]
