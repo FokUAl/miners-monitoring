@@ -24,11 +24,17 @@ func NewInfoService(repo repository.Info) *InfoService {
 // and determine alive devices from them.
 // Return result as array of strings
 func (s *InfoService) PingDevices() ([]string, error) {
+<<<<<<< Updated upstream
 	// Pinging in specific range for update ARP cache
 	cmd := exec.Command("fping", "-g", "-a", "--retry=1", "192.168.0.0/24")
 	cmd.Run()
 	// Determines alive devices
 	cmd = exec.Command("bash", "-c", "arp -an | grep 'ether'")
+=======
+	cmd := exec.Command("fping", "-g", "-a", "--retry=1", "192.168.0.0/24")
+    cmd.Run()
+	cmd = exec.Command("arp", "-an")
+>>>>>>> Stashed changes
 
 	out, err := cmd.Output()
 	if err != nil {
