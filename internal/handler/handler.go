@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"net/http"
-
 	"github.com/FokUAl/miners-monitoring/internal/service"
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +29,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
 		auth.POST("/google/login", h.googleLogin)
-		auth.GET("/logout", h.logOut)
 
 	}
 
@@ -40,19 +37,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.GET("/home", h.getHome)
 		home.POST("/home", h.getHome)
 
-		//home.GET("/add", h.getAddMiner)
 		home.POST("/add", h.addMiner)
 
 		home.GET("/grid", h.minersGrid)
 
 		home.GET("/asic", h.getMinerCharacteristics)
 
-		//home.GET("/find-asic-ip", h.GetFindDeviceIP)
 		home.GET("/find-asic-ip", h.FindDeviceIP)
 	}
 
 	// static routes
-	router.StaticFS("/static/", http.Dir("./ui/static"))
+	//router.StaticFS("/static/", http.Dir("./ui/static"))
 
 	return router
 }
