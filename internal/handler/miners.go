@@ -31,6 +31,7 @@ func (h *Handler) getHome(c *gin.Context) {
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
+		device.MinerType = elem.MinerType
 		device.IPAddress = elem.IP
 		device.Shelf = elem.Shelf
 		device.Row = elem.Row
