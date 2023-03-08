@@ -49,11 +49,6 @@ func (h *Handler) getHome(c *gin.Context) {
 		devices = append(devices, device)
 	}
 
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
-		return
-	}
-
 	var formedDeviceData map[string][]app.MinerData = make(map[string][]app.MinerData)
 	if len(devices) != 0 {
 		formedDeviceData, err = h.services.Transform(devices)
@@ -137,10 +132,33 @@ func (h *Handler) addMiner(c *gin.Context) {
 // Heat map that explain location and temperature of device
 func (h *Handler) minersGrid(c *gin.Context) {
 
-	devices, err := h.services.GetAllDevices()
+	var devices []app.MinerDevice
+
+	devicesInfo, err := h.services.GetDevicesInfo()
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("minersGrid: %s", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
 		return
+	}
+
+	for _, elem := range devicesInfo {
+		var device app.MinerDevice
+
+		device.MinerType = elem.MinerType
+		device.IPAddress = elem.IP
+		device.Shelf = elem.Shelf
+		device.Row = elem.Row
+		device.Column = elem.Column
+		device.Owner = elem.Owner
+
+		minerInfo, err := pkg.ResponseToStruct(elem.IP)
+		if err != nil {
+			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
+			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
+			// return
+		}
+
+		device.Characteristics = minerInfo
+		devices = append(devices, device)
 	}
 
 	newInfo := info{
