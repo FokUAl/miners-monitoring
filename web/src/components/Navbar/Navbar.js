@@ -9,10 +9,10 @@ export default function Navbar(props) {
 	const [username, setUsername] = useState();
 	const [role, setRole] = useState();
 	useEffect(() => {
-		PageService.getHome().then(
+		PageService.userInfo().then(
 			(response) => {
-				setUsername(response.data.User.username);
-				setRole(response.data.User.role);
+				setUsername(response.data.username);
+				setRole(response.data.role);
 				console.log('navbar ok ');
 			},
 			(error) => {

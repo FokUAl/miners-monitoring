@@ -1,0 +1,24 @@
+@import '../../scss/variables.scss';
+
+.device-info--label- {
+    &1 {
+        width: 100%;
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    &2 {
+        width: 100%;
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+}
+
+
+.wrapper {
+    width: 100%;
+    border-bottom: 1px dotted white;
+    margin-bottom: 20px;
+}

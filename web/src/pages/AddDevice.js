@@ -4,7 +4,7 @@ import AddDeviceForm from '../components/AddDeviceForm/AddDeviceForm'
 import AllIP from '../components/AllIP/AllIP'
 
 export default function AddDevice() {
-    const [ allIP, setAllIP] = useState()
+    const [allIP, setAllIP] = useState()
     return (
         <>
             <Navbar />

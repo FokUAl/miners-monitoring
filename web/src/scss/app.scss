@@ -17,6 +17,7 @@
 }
 
 .grid-50-50 {
+    width: 100%;
     display: grid;
     grid-template-columns: 50% 50%;
 }
@@ -31,4 +32,15 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     row-gap: 10px;
+}
+
+.float-left {
+    display: flex;
+    float: left;
+}
+
+.float-right {
+    display: flex;
+    margin-right: 0;
+    margin-left: auto;
 }

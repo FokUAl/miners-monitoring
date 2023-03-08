@@ -15,9 +15,18 @@ const getDevice = (props) => {
     return axios.get(API_URL + 'asic' + props, {headers: authHeader()})
 }
 
+const userInfo = () => {
+    try {
+        return axios.get(API_URL + 'user-info', {timeout: 2000, headers: authHeader()})
+    } catch(error) {
+        console.log(error)
+    }
+}
+
 const PageService = {
     getHome,
-    getDevice
+    getDevice,
+    userInfo
 }
 
 export default PageService
