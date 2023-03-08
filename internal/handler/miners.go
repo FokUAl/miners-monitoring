@@ -14,7 +14,6 @@ import (
 
 type info struct {
 	Notification string
-	User         app.User
 	FormedData   map[string][]app.MinerData
 	Devices      []app.MinerDevice
 }
@@ -52,13 +51,6 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	id := c.MustGet(userCtx).(int)
-	user, err := h.services.GetUserByID(id)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
-		return
-	}
-
 	var formedDeviceData map[string][]app.MinerData = make(map[string][]app.MinerData)
 	if len(devices) != 0 {
 		formedDeviceData, err = h.services.Transform(devices)
@@ -69,7 +61,6 @@ func (h *Handler) getHome(c *gin.Context) {
 	}
 
 	newInfo := info{
-		User:       user,
 		Devices:    devices,
 		FormedData: formedDeviceData,
 	}

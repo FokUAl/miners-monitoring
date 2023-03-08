@@ -48,6 +48,16 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 
 }
 
+func (h *Handler) GetUserInfo(c *gin.Context) {
+	id := c.MustGet(userCtx).(int)
+	user, err := h.services.GetUserByID(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, user)
+}
+
 // func SaveMinerData(h *Handler) {
 // 	for {
 // 		time.Sleep(10 * time.Second)

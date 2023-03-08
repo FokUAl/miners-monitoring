@@ -44,6 +44,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.GET("/asic", h.getMinerCharacteristics)
 
 		home.GET("/find-asic-ip", h.FindDeviceIP)
+
+		home.GET("/user-info", h.GetUserInfo)
 	}
 
 	// static routes
