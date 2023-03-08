@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -38,8 +39,9 @@ func (h *Handler) getHome(c *gin.Context) {
 
 		minerInfo, err := pkg.ResponseToStruct(elem.IP)
 		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
-			return
+			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
+			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
+			// return
 		}
 
 		device.Characteristics = minerInfo
