@@ -14,12 +14,13 @@ type Authorization interface {
 
 type Miner interface {
 	GetDevice(address string) (app.MinerDevice, error)
+	GetDevicesInfo() ([]app.AddInfo, error)
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
 	MappDevices(mappingInfo []app.AddInfo) error
-	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
-	GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
-	GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
+	// GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
+	// GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
+	// GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 	IsDeviceAdded(address string) (bool, error)
 	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)

@@ -49,17 +49,17 @@ func (s *MinerService) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, er
 	return s.repo.IsLocationFree(shelfNum, rowNum, columnNum)
 }
 
-func (s *MinerService) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
-	return s.repo.GetDevicesByType(miner_type)
-}
+// func (s *MinerService) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
+// 	return s.repo.GetDevicesByType(miner_type)
+// }
 
-func (s *MinerService) GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error) {
-	return s.repo.GetDevicesByStatus(miner_status)
-}
+// func (s *MinerService) GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error) {
+// 	return s.repo.GetDevicesByStatus(miner_status)
+// }
 
-func (s *MinerService) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
-	return s.repo.GetDevicesByCoin(coin_type)
-}
+// func (s *MinerService) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
+// 	return s.repo.GetDevicesByCoin(coin_type)
+// }
 
 func (s *MinerService) GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error) {
 	return s.repo.GetDeviceByLocation(shelf, column, row)
@@ -71,4 +71,8 @@ func (s *MinerService) GetDevicesByUser(username string) ([]app.MinerDevice, err
 
 func (s *MinerService) IsIPFree(ip_address string) (bool, error) {
 	return s.repo.IsIPFree(ip_address)
+}
+
+func (s *MinerService) GetDevicesInfo() ([]app.AddInfo, error) {
+	return s.repo.GetDevicesInfo()
 }
