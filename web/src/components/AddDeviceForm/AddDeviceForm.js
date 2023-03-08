@@ -34,6 +34,7 @@ export default function AddDeviceForm({ allIP }) {
 				column: '',
 				row: '',
 				owner: '',
+				minerType: '',
 			},
 		]);
 	};
@@ -88,6 +89,7 @@ export default function AddDeviceForm({ allIP }) {
 					{/* <input type="text" value={allOwners} onChange={e => {setAllOwners(e.target.value)}} className="form--input-allOwners"/> */}
 				</div>
 				<div className="form--labels">
+					<label>Miner Type</label>
 					<label>IP</label>
 					<label>Shelf</label>
 					<label>Column</label>
@@ -97,6 +99,13 @@ export default function AddDeviceForm({ allIP }) {
 				{data.map((data, index) => (
 					<div className="form--inputs" key={index}>
 						<label>{index + 1}</label>
+						<input
+							type="text"
+							name="minerType"
+							value={data.minerType}
+							onChange={(e) => handleChange(index, e)}
+							required
+						/>
 						<input
 							type="text"
 							name="IP"
