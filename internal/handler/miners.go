@@ -21,21 +21,30 @@ type info struct {
 
 func (h *Handler) getHome(c *gin.Context) {
 	var devices []app.MinerDevice
-	var err error
-	filter_category := c.PostForm("category")
 
-	switch filter_category {
-	case "Miner Type":
-		miner_type := c.PostForm("target")
-		devices, err = h.services.GetDevicesByType(miner_type)
-	case "Status":
-		status := c.PostForm("target")
-		devices, err = h.services.GetDevicesByStatus(status)
-	case "Coin":
-		coin := c.PostForm("target")
-		devices, err = h.services.GetDevicesByCoin(coin)
-	default:
-		devices, err = h.services.GetAllDevices()
+	devicesInfo, err := h.services.GetDevicesInfo()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
+		return
+	}
+
+	for _, elem := range devicesInfo {
+		var device app.MinerDevice
+
+		device.IPAddress = elem.IP
+		device.Shelf = elem.Shelf
+		device.Row = elem.Row
+		device.Column = elem.Column
+		device.Owner = elem.Owner
+
+		minerInfo, err := pkg.ResponseToStruct(elem.IP)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
+			return
+		}
+
+		device.Characteristics = minerInfo
+		devices = append(devices, device)
 	}
 
 	if err != nil {
@@ -120,18 +129,6 @@ func (h *Handler) addMiner(c *gin.Context) {
 		device.Row = info.Data[j].Row
 		device.Column = info.Data[j].Column
 		device.Owner = info.Data[j].Owner
-
-		characteristics, err := pkg.ResponseToStruct(device.IPAddress)
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-			return
-		}
-
-		err = h.services.SaveMinerData(characteristics, device.IPAddress)
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-			return
-		}
 
 		err = h.services.AddNew(device)
 		if err != nil {
