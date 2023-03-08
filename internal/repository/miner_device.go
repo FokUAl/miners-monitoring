@@ -84,10 +84,10 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 }
 
 func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
-	query := `INSERT INTO miner_devices (shelf, _row, col, owner_, ip_address) 
+	query := `INSERT INTO miner_devices (shelf, _row, col, owner_, ip_address, miner_type) 
 	VALUES ($1, $2, $3, $4, $5)`
 
-	_, err := p.db.Exec(query, dev.Shelf, dev.Row, dev.Column, dev.Owner, dev.IPAddress)
+	_, err := p.db.Exec(query, dev.Shelf, dev.Row, dev.Column, dev.Owner, dev.IPAddress, dev.MinerType)
 
 	if err != nil {
 		return err

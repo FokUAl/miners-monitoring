@@ -84,31 +84,25 @@ func (h *Handler) addMiner(c *gin.Context) {
 	}
 
 	for i := 0; i < len(info.Data); i++ {
-		var device app.MinerDevice
 
-		device.IPAddress = info.Data[i].IP
-		device.Shelf = info.Data[i].Shelf
-		device.Row = info.Data[i].Row
-		device.Column = info.Data[i].Column
-		device.Owner = info.Data[i].Owner
-
-		isFreeLocation, err := h.services.IsLocationFree(device.Shelf, device.Row, device.Column)
+		isFreeLocation, err := h.services.IsLocationFree(info.Data[i].Shelf, info.Data[i].Row, info.Data[i].Column)
 		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
 		if !isFreeLocation {
-			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n", device.Shelf, device.Column, device.Row)})
+			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n",
+				info.Data[i].Shelf, info.Data[i].Column, info.Data[i].Row)})
 			return
 		}
 
-		isFreeIP, err := h.services.IsIPFree(device.IPAddress)
+		isFreeIP, err := h.services.IsIPFree(info.Data[i].IP)
 		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
 		if !isFreeIP {
-			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this IP exists: %s", device.IPAddress)})
+			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this IP exists: %s", info.Data[i].IP)})
 			return
 		}
 
@@ -122,6 +116,7 @@ func (h *Handler) addMiner(c *gin.Context) {
 		device.Row = info.Data[j].Row
 		device.Column = info.Data[j].Column
 		device.Owner = info.Data[j].Owner
+		device.MinerType = info.Data[j].MinerType
 
 		err = h.services.AddNew(device)
 		if err != nil {
@@ -130,11 +125,11 @@ func (h *Handler) addMiner(c *gin.Context) {
 		}
 	}
 
-	err = h.services.MappDevices(info.Data)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-		return
-	}
+	// err = h.services.MappDevices(info.Data)
+	// if err != nil {
+	// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+	// 	return
+	// }
 
 }
 

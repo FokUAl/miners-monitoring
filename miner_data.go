@@ -15,9 +15,10 @@ type MinerData struct {
 }
 
 type AddInfo struct {
-	IP     string `json:"IP"`
-	Shelf  int    `json:"shelf,string"`
-	Column int    `json:"column,string"`
-	Row    int    `json:"row,string"`
-	Owner  string `json:"owner"`
+	IP        string `json:"IP"`
+	MinerType string //`json:"miner-type"`
+	Shelf     int    `json:"shelf,string"`
+	Column    int    `json:"column,string"`
+	Row       int    `json:"row,string"`
+	Owner     string `json:"owner"`
 }
