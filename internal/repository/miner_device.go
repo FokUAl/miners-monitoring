@@ -17,6 +17,29 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 	}
 }
 
+func (p *MinerPostgres) GetDevicesInfo() ([]app.AddInfo, error) {
+	var devicesInfo []app.AddInfo
+
+	query := `SELECT ip_address, shelf, _row, col, owner_ FROM miner_devices`
+	rows, err := p.db.Query(query)
+	if err != nil {
+		return nil, fmt.Errorf("GetDevicesInfo: %w", err)
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		var info app.AddInfo
+		err = rows.Scan(&info.IP, &info.Shelf, &info.Row, &info.Column, &info.Owner)
+		if err != nil {
+			return nil, fmt.Errorf("GetDevicesInfo: %w", err)
+		}
+
+		devicesInfo = append(devicesInfo, info)
+	}
+
+	return devicesInfo, nil
+}
+
 func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 	var devices []app.MinerDevice
 

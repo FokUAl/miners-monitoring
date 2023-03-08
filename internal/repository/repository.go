@@ -13,6 +13,7 @@ type Authorization interface {
 type Miner interface {
 	GetDevice(address string) (app.MinerDevice, error)
 	GetAllDevices() ([]app.MinerDevice, error)
+	GetDevicesInfo() ([]app.AddInfo, error)
 	AddNew(dev app.MinerDevice) error
 	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 	GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
