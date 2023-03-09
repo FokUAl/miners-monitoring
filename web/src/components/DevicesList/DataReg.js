@@ -1,7 +1,5 @@
-import { useMemo } from 'react'
-import {
-	Box
-} from '@mui/material';
+import { useMemo } from 'react';
+import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 
@@ -101,6 +99,26 @@ function DataReg(devices) {
 				enableGrouping: false,
 			},
 			{
+				header: 'Status',
+				accessorKey: 'MinerStatus',
+				size: 1,
+				enableGrouping: false,
+				Cell: ({ cell }) => {
+					return (
+						<div>
+							<Box
+								sx={{
+									display: 'inline',
+									color: cell.getValue() === 'online' ? 'green' : 'red',
+								}}
+							>
+								{cell.getValue()}
+							</Box>
+						</div>
+					);
+				},
+			},
+			{
 				header: 'IP',
 				accessorKey: 'IPAddress',
 				size: 1,
@@ -122,7 +140,7 @@ function DataReg(devices) {
 		],
 		[]
 	);
-    return {columns, data}
+	return { columns, data };
 }
 
-export default DataReg
+export default DataReg;
