@@ -43,9 +43,6 @@ func (h *Handler) getHome(c *gin.Context) {
 			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
 			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
 			// return
-		}
-
-		if device.Characteristics.MHSav == 0 {
 			device.MinerStatus = "offline"
 		} else {
 			device.MinerStatus = "online"
@@ -161,9 +158,6 @@ func (h *Handler) minersGrid(c *gin.Context) {
 			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
 			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
 			// return
-		}
-
-		if device.Characteristics.MHSav == 0 {
 			device.MinerStatus = "offline"
 		} else {
 			device.MinerStatus = "online"
