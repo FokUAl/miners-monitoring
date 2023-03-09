@@ -16,7 +16,7 @@ export default function Device() {
             }, (error) => console.log("device error", error)
         )
     }, [data])
-
+    console.log(data)
     return (
         <div>
             <Navbar />
