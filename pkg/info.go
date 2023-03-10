@@ -1,47 +1,46 @@
 package pkg
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
-	"os"
+	"net"
 	"regexp"
 	"strconv"
 	"strings"
 
 	app "github.com/FokUAl/miners-monitoring"
-	"github.com/kluctl/go-embed-python/python"
 )
 
 // Uses python script to send request to cgminer interface
 // and return response from it as string.
 func GetAsicInfo(ip string, command string) (string, error) {
-	ep, err := python.NewEmbeddedPython("example")
+	con, err := net.Dial("tcp", ip+":4028")
 	if err != nil {
 		return "", err
 	}
 
-	cmd := ep.PythonCmd("./pkg/cgminer.py", command, ip)
+	defer con.Close()
 
-	r, w, err := os.Pipe()
+	payload := make(map[string]string)
+	payload["command"] = command
+	jsonPayload, err := json.Marshal(payload)
 	if err != nil {
 		return "", err
 	}
 
-	cmd.Stderr = os.Stderr
-	cmd.Stdout = w
-
-	err = cmd.Run()
+	_, err = con.Write(jsonPayload)
 	if err != nil {
 		return "", err
 	}
 
-	w.Close()
-	out, err := io.ReadAll(r)
+	reply := make([]byte, 2048)
+	_, err = con.Read(reply)
+
 	if err != nil {
 		return "", err
 	}
 
-	return string(out), nil
+	return string(reply), nil
 }
 
 // Func for getting data by IP and
@@ -70,7 +69,7 @@ func ParsingData(data string) (app.MinerData, error) {
 	var minerData app.MinerData
 
 	// Searches key and value pairs in data string
-	r, err := regexp.Compile("'[A-Za-z0-9% ]+': ('?[0-9A-Za-z:._ -]+'?)")
+	r, err := regexp.Compile(`"[A-Za-z0-9% ]+":("?[0-9A-Za-z:._ -]+"?)`)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't compile regexp: %s", err.Error())
 	}
@@ -78,9 +77,9 @@ func ParsingData(data string) (app.MinerData, error) {
 	arr := r.FindAllString(data, -1)
 	data_map := make(map[string]string)
 	for _, val := range arr {
-		keyvalue := strings.Split(val, ": ")
-		key := strings.Trim(keyvalue[0], "'")
-		value := strings.Trim(keyvalue[1], "'")
+		keyvalue := strings.Split(val, "\":")
+		key := strings.Trim(keyvalue[0], "\"")
+		value := strings.Trim(keyvalue[1], "\"")
 		data_map[key] = value
 	}
 
