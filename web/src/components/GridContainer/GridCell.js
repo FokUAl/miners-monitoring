@@ -1,7 +1,12 @@
 import './gridContainer.scss'
 
-export default function GridCell({ children }) {
+export default function GridCell({ children, id }) {
     return (
-        <div className="grid--cell">{children}</div>
+        <div className="grid--cell" id={id}>{children}</div>
     )
+}
+
+GridCell.defaultProps = {
+    children: '',
+    id: 0,
 }

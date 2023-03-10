@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:8008/'
 
 const getHome = async () => {
     try {
-        return axios.get(API_URL + 'home', {timeout: 2000, headers: authHeader()})
+        return axios.get(API_URL + 'home', {timeout: 3000, headers: authHeader()})
     } catch(error) {
         console.log(error)
     }

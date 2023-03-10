@@ -10,7 +10,7 @@ export default function Home() {
 		PageService.getHome().then(
 			(response) => {
 				setDevices(response.data.Devices);
-				console.log('home ok ', response.data);
+				console.log('home ok ', response.data.Devices);
 			},
 			(error) => {
 				console.log('home error: ', error);

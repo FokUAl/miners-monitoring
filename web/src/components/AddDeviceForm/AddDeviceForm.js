@@ -57,10 +57,10 @@ export default function AddDeviceForm({ allIP }) {
 					return;
 				}
 			}
-			if (!allIP.includes(data[i]['IP'])) {
-				alert('There is no such IP');
-				return;
-			}
+			// if (!allIP.includes(data[i]['IP'])) {
+			// 	alert('There is no such IP');
+			// 	return;
+			// }
 		}
 		FormService.addDevice(data).then(
 		    response => {
