@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	app "github.com/FokUAl/miners-monitoring"
 )
@@ -14,7 +15,8 @@ import (
 // Uses python script to send request to cgminer interface
 // and return response from it as string.
 func GetAsicInfo(ip string, command string) (string, error) {
-	con, err := net.Dial("tcp", ip+":4028")
+	d := net.Dialer{Timeout: time.Second}
+	con, err := d.Dial("tcp", ip+":4028")
 	if err != nil {
 		return "", err
 	}
