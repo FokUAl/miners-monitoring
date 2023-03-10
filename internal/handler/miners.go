@@ -38,7 +38,7 @@ func (h *Handler) getHome(c *gin.Context) {
 		device.Column = elem.Column
 		device.Owner = elem.Owner
 
-		minerInfo, err := pkg.ResponseToStruct(elem.IP)
+		minerInfo, err := pkg.StraightResponseToStruct(elem.IP)
 		if err != nil {
 			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
 			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))

@@ -64,6 +64,22 @@ func ResponseToStruct(ip_address string) (app.MinerData, error) {
 	return result, err
 }
 
+// Func for getting data by IP and
+// transforming data to MinerData struct
+// without checking
+func StraightResponseToStruct(ip_address string) (app.MinerData, error) {
+	var result app.MinerData
+
+	response, err := GetAsicInfo(ip_address, "summary")
+	if err != nil {
+		return result, err
+	}
+
+	result, err = ParsingData(response)
+
+	return result, err
+}
+
 // Accept string and try parse it to MinerData struct
 // using regex.
 func ParsingData(data string) (app.MinerData, error) {
