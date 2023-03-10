@@ -132,15 +132,8 @@ func ParsingData(data string) (app.MinerData, error) {
 // func checks is it actually asic by IP
 func CheckResponse(response string) error {
 	// search target segment of string
-	regEx, err := regexp.Compile(`'STATUS': '[a-zA-Z]+'`)
-	if err != nil {
-		return err
-	}
-	errText := regEx.FindAllString(response, -1)
-	if len(errText) != 1 {
-		return fmt.Errorf("unknown response %s", response)
-	} else if errText[0] == "'STATUS': 'error'" {
-		return fmt.Errorf("error response %s", response)
+	if response[13:30] == "'STATUS': 'error'" {
+		return fmt.Errorf("CheckResponse: error response: %s", response)
 	}
 
 	return nil
