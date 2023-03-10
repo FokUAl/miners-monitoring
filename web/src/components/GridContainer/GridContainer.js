@@ -11,12 +11,11 @@ export default function GridContainer({devices}) {
 		}
 		return gridRows;
 	};
-	const GridShelfBuilder = (devices) => {
-        // console.log(devices.devices)
+	const GridShelfBuilder = ({ devices }) => {
 		const gridShelfs = [];
 		for (let i = 0; i < 11; i++) {
-            // const devicesCurrentShelf = devices.devices.filter((el) => el === i.toString())
-            devices.devices.forEach(el => console.log(el))
+            // const devicesCurrentShelf = data.filter((el) => el === i.toString())
+            // devices.devices.forEach(el => console.log(el))
 			gridShelfs.push(
 				<GridComponent gridColumns="10" id={`${i + 1}`} key={`${i}`}>
 					{GridRowBuilder()}

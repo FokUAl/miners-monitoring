@@ -3,12 +3,8 @@ import authHeader from './auth.header'
 
 const API_URL = 'http://localhost:8008/'
 
-const getHome = async () => {
-    try {
-        return axios.get(API_URL + 'home', {timeout: 3000, headers: authHeader()})
-    } catch(error) {
-        console.log(error)
-    }
+const getHome = () => {
+    return axios.get(API_URL + 'home', {timeout: 3000, headers: authHeader()})
 }
 
 const getDevice = (props) => {
@@ -16,11 +12,7 @@ const getDevice = (props) => {
 }
 
 const userInfo = () => {
-    try {
-        return axios.get(API_URL + 'user-info', {timeout: 2000, headers: authHeader()})
-    } catch(error) {
-        console.log(error)
-    }
+    return axios.get(API_URL + 'user-info', {timeout: 2000, headers: authHeader()})
 }
 
 const PageService = {
