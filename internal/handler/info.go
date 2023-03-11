@@ -22,12 +22,7 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 
 	var devicesIP []string
 	for i := 0; i < len(ipArr); i++ {
-		response, err := pkg.GetAsicInfo(ipArr[i], "summary")
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError,
-				fmt.Sprintf("error with get info from devices: %s\n", err.Error()))
-			return
-		}
+		response, _ := pkg.GetAsicInfo(ipArr[i], "summary")
 
 		err = pkg.CheckResponse(response)
 		if err != nil {

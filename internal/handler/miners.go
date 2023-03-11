@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -28,6 +27,7 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
+	deviceResponse := make(chan app.MinerData)
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
@@ -38,18 +38,17 @@ func (h *Handler) getHome(c *gin.Context) {
 		device.Column = elem.Column
 		device.Owner = elem.Owner
 
-		minerInfo, err := pkg.ResponseToStruct(elem.IP)
-		if err != nil {
-			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
-			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
-			// return
-			device.MinerStatus = "offline"
-		} else {
-			device.MinerStatus = "online"
-		}
+		// start goroutune and
+		// send result to channel
+		go pkg.ResponseToStruct(elem.IP, deviceResponse)
 
-		device.Characteristics = minerInfo
 		devices = append(devices, device)
+	}
+
+	// reading data from channel
+	for i := 0; i < len(devicesInfo); i++ {
+		responseData := <-deviceResponse
+		pkg.UpdataDeviceInfo(&devices, responseData)
 	}
 
 	var formedDeviceData map[string][]app.MinerData = make(map[string][]app.MinerData)
@@ -143,6 +142,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 		return
 	}
 
+	deviceResponse := make(chan app.MinerData)
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
@@ -153,18 +153,17 @@ func (h *Handler) minersGrid(c *gin.Context) {
 		device.Column = elem.Column
 		device.Owner = elem.Owner
 
-		minerInfo, err := pkg.ResponseToStruct(elem.IP)
-		if err != nil {
-			log.Printf("getHome: (ip %s) %s\n", elem.IP, err.Error())
-			// newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
-			// return
-			device.MinerStatus = "offline"
-		} else {
-			device.MinerStatus = "online"
-		}
+		// start goroutune and
+		// send result to channel
+		go pkg.ResponseToStruct(elem.IP, deviceResponse)
 
-		device.Characteristics = minerInfo
 		devices = append(devices, device)
+	}
+
+	// reading data from channel
+	for i := 0; i < len(devicesInfo); i++ {
+		responseData := <-deviceResponse
+		pkg.UpdataDeviceInfo(&devices, responseData)
 	}
 
 	newInfo := info{
@@ -200,11 +199,9 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
-	strct, err := pkg.ResponseToStruct(miner.IPAddress)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("get device by location: %s\n", err.Error()))
-		return
-	}
+	channel := make(chan app.MinerData)
+	go pkg.ResponseToStruct(miner.IPAddress, channel)
+	strct := <-channel
 
 	c.JSON(http.StatusOK, strct)
 }

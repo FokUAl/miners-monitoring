@@ -3,6 +3,7 @@ package pkg
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net"
 	"regexp"
 	"strconv"
@@ -18,7 +19,7 @@ func GetAsicInfo(ip string, command string) (string, error) {
 	d := net.Dialer{Timeout: time.Second}
 	con, err := d.Dial("tcp", ip+":4028")
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
 	defer con.Close()
@@ -27,19 +28,19 @@ func GetAsicInfo(ip string, command string) (string, error) {
 	payload["command"] = command
 	jsonPayload, err := json.Marshal(payload)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
 	_, err = con.Write(jsonPayload)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
 	reply := make([]byte, 2048)
 	_, err = con.Read(reply)
 
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
 	return string(reply), nil
@@ -47,22 +48,38 @@ func GetAsicInfo(ip string, command string) (string, error) {
 
 // Func for getting data by IP and
 // transforming data to MinerData struct
-func ResponseToStruct(ip_address string) (app.MinerData, error) {
+func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	var result app.MinerData
 
 	response, err := GetAsicInfo(ip_address, "summary")
 	if err != nil {
-		return result, err
+		log.Printf("ResponseToStruct: %s", err.Error())
+		downstream <- result
+		return
 	}
 
 	err = CheckResponse(response)
 	if err != nil {
-		return result, err
+		log.Printf("ResponseToStruct: %s", err.Error())
+		downstream <- result
+		return
 	}
 
 	result, err = ParsingData(response)
+	if err != nil {
+		log.Printf("ResponseToStruct: %s", err.Error())
+		return
+	}
+	result.IP = ip_address
+	downstream <- result
+}
 
-	return result, err
+func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
+	for i := 0; i < len(*devices); i++ {
+		if (*devices)[i].IPAddress == newData.IP {
+			(*devices)[i].Characteristics = newData
+		}
+	}
 }
 
 // Accept string and try parse it to MinerData struct
@@ -133,8 +150,8 @@ func ParsingData(data string) (app.MinerData, error) {
 // func checks is it actually asic by IP
 func CheckResponse(response string) error {
 	// search target segment of string
-	if response[13:30] == "'STATUS': 'error'" {
-		return fmt.Errorf("CheckResponse: error response: %s", response)
+	if len(response) < 30 || response[13:30] == "'STATUS': 'error'" {
+		return fmt.Errorf("CheckResponse: error response: [%s]", response)
 	}
 
 	return nil
