@@ -51,7 +51,6 @@ func GetAsicInfo(ip string, command string) (string, error) {
 func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	var result app.MinerData
 	result.IP = ip_address
-
 	response, err := GetAsicInfo(ip_address, "summary")
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
@@ -70,6 +69,7 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
 	}
+	result.IP = ip_address
 	downstream <- result
 }
 
