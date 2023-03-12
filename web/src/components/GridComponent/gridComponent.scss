@@ -58,10 +58,14 @@
 }
 
 .grid--cell {
-    background-color: $color-success;
+    &.status- {
+        &online {
+            background-color: $color-success;
+        }
+        &offline {
+            background-color: $color-offline;
+        }
+    }
     min-width: 10px;
     min-height: 20px;
-    &:hover {
-        background-color: #8cc071;
-    }
 }

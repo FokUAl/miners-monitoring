@@ -18,7 +18,7 @@ function DataReg(devices) {
 			MHSav: el.Characteristics.MHSav,
 			PowerMode: el.Characteristics.PowerMode,
 			Temperature: el.Characteristics.Temperature,
-			Location: `${el.Shelf}-${el.Row}-${el.Column}`,
+			Location: `${el.Shelf}-${el.Column}-${el.Row}`,
 			Characteristics: null,
 		};
 	});

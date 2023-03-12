@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar/Navbar'
 import PageService from '../services/page.service';
 
 export default function Grid() {
-	const [devices, setDevices] = useState();
+	const [devices, setDevices] = useState([]);
 	useEffect(() => {
 		PageService.getHome().then(
 			(response) => {
