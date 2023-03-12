@@ -50,6 +50,7 @@ func GetAsicInfo(ip string, command string) (string, error) {
 // transforming data to MinerData struct
 func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	var result app.MinerData
+	result.IP = ip_address
 
 	response, err := GetAsicInfo(ip_address, "summary")
 	if err != nil {
@@ -68,9 +69,7 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	result, err = ParsingData(response)
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
-		return
 	}
-	result.IP = ip_address
 	downstream <- result
 }
 
@@ -78,6 +77,11 @@ func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
 	for i := 0; i < len(*devices); i++ {
 		if (*devices)[i].IPAddress == newData.IP {
 			(*devices)[i].Characteristics = newData
+		}
+		if (*devices)[i].Characteristics.MHSav == 0.0 {
+			(*devices)[i].MinerStatus = "offline"
+		} else {
+			(*devices)[i].MinerStatus = "online"
 		}
 	}
 }
