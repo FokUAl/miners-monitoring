@@ -30,12 +30,10 @@ export default function DeviceInfo({ data }) {
 	const [row, setRow] = useState(data.Row);
 	const [column, setColumn] = useState(data.Column);
 	const [owner, setOwner] = useState(data.Owner)
-	const [IP, setIP] = useState(data.IPAddress)
 
 	const handleEdit = async(e) => {
 		e.preventDefault();
-		setIP(data.IPAddress)
-		FormService.editDevice(minerType, shelf, row, column, owner, IP).then(
+		FormService.editDevice(minerType, shelf, row, column, owner, data.IPAddress).then(
 		    response => {
 				console.log(response)
 		        window.location.reload()
