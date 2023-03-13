@@ -213,4 +213,13 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 		return
 	}
 
+	var infoHolder []app.AddInfo
+	infoHolder = append(infoHolder, info)
+
+	err = h.services.MappDevices(infoHolder)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		return
+	}
+
 }
