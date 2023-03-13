@@ -1,0 +1,46 @@
+@import '../../scss/variables.scss';
+
+.input {
+    border: none;
+    background-color: $color-bg-secondary;
+    border-radius: 5px;
+    color: $color-text;
+    font-size: 16px;
+    &:focus {
+        outline: none;
+        background-color: $color-secondary;
+    }
+    &.size- {
+        &s {
+            padding: 0px;
+        }
+        &m {
+            padding: 10px;
+        }
+        &l {
+            padding: 15px;
+        }
+    }
+    &.width- {
+        &s {
+            width: 50px;
+        }
+        &m {
+            width: 100px
+        }
+        &l {
+            width: 150px;
+        }
+        &fluid {
+            width: 100%;
+        }
+    }
+    &.text-align- {
+        &left {
+            text-align: left;
+        }
+        &right {
+            text-align: right;
+        }
+    }
+}

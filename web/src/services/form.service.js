@@ -4,7 +4,6 @@ import authHeader from './auth.header'
 const API_URL = 'http://localhost:8008/'
 
 const addDevice = (data) => {
-    console.log(JSON.stringify(data))
     return axios.post(API_URL + 'add', {
         data
     }, {
@@ -12,8 +11,17 @@ const addDevice = (data) => {
     })
 }
 
+const editDevice = (minerType, shelf, row, column, owner) => {
+    return axios.post(API_URL + '/update-asic-info', {
+        minerType, shelf, row, column, owner
+    }, {
+        headers: authHeader()
+    })
+}
+
 const FormService = {
-    addDevice
+    addDevice,
+    editDevice
 }
 
 export default FormService

@@ -22,3 +22,14 @@
     border-bottom: 1px dotted white;
     margin-bottom: 20px;
 }
+
+input {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: $color-input-bg;
+    &:focus {
+        outline: none;
+        background-color: white;
+    }
+}
