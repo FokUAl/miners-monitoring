@@ -123,12 +123,6 @@ func (h *Handler) addMiner(c *gin.Context) {
 		}
 	}
 
-	// err = h.services.MappDevices(info.Data)
-	// if err != nil {
-	// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-	// 	return
-	// }
-
 }
 
 // Heat map that explain location and temperature of device
@@ -201,7 +195,27 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 
 	channel := make(chan app.MinerData)
 	go pkg.ResponseToStruct(miner.IPAddress, channel)
-	strct := <-channel
+	data := <-channel
 
-	c.JSON(http.StatusOK, strct)
+	c.JSON(http.StatusOK, struct {
+		Device app.MinerDevice
+		Data   app.MinerData
+	}{
+		Device: miner,
+		Data:   data,
+	})
+}
+
+func (h *Handler) UpdateAsicInfo(c *gin.Context) {
+	type MappingInfo struct {
+		Data []app.AddInfo
+	}
+
+	var info MappingInfo
+
+	err := json.NewDecoder(c.Request.Body).Decode(&info)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		return
+	}
 }
