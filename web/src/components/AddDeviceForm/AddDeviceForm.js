@@ -111,27 +111,34 @@ export default function AddDeviceForm({ allIP }) {
 							name="IP"
 							value={data.IP}
 							onChange={(e) => handleChange(index, e)}
+							pattern="^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$"
 							required
 						/>
 						<input
-							type="text"
+							type="number"
 							name="shelf"
 							value={data.shelf}
 							onChange={(e) => handleChange(index, e)}
+							min="1"
+							max="44"
 							required
 						/>
 						<input
-							type="text"
-							name="column"
-							value={data.column}
-							onChange={(e) => handleChange(index, e)}
-							required
-						/>
-						<input
-							type="text"
+							type="number"
 							name="row"
 							value={data.row}
 							onChange={(e) => handleChange(index, e)}
+							min="1"
+							max="14"
+							required
+						/>
+						<input
+							type="number"
+							name="column"
+							value={data.column}
+							onChange={(e) => handleChange(index, e)}
+							min="1"
+							max="10"
 							required
 						/>
 						<input
