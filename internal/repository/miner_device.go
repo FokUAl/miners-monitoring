@@ -248,10 +248,10 @@ func (p *MinerPostgres) GetDevicesByUser(username string) ([]app.MinerDevice, er
 }
 
 func (p *MinerPostgres) UpdateDevice(newInfo app.AddInfo) error {
-	query := `UPDATE miner_devices SET owner_ = $1, shelf = $2, _row = $3, col = $4
-		WHERE ip_address = $5`
+	query := `UPDATE miner_devices SET owner_ = $1, shelf = $2, _row = $3, col = $4,
+		miner_type = $5 WHERE ip_address = $6`
 
 	_, err := p.db.Exec(query, newInfo.Owner, newInfo.Shelf, newInfo.Row,
-		newInfo.Column, newInfo.IP)
+		newInfo.Column, newInfo.MinerType, newInfo.IP)
 	return err
 }

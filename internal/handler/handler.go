@@ -50,8 +50,5 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.POST("/update-asic-info", h.UpdateAsicInfo)
 	}
 
-	// static routes
-	//router.StaticFS("/static/", http.Dir("./ui/static"))
-
 	return router
 }
