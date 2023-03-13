@@ -53,7 +53,6 @@ export default function AddDeviceForm({ allIP }) {
 			for (let j = i + 1; j < data.length; j++) {
 				if (data[i]['IP'] === data[j]['IP']) {
 					alert('All IPs must be unique');
-
 					return;
 				}
 			}

@@ -37,6 +37,7 @@ export default function DeviceInfo({ data }) {
 		setIP(data.IPAddress)
 		FormService.editDevice(minerType, shelf, row, column, owner, IP).then(
 		    response => {
+				console.log(response)
 		        window.location.reload()
 		    },
 		    error => { if (error) {
@@ -110,7 +111,6 @@ export default function DeviceInfo({ data }) {
 										value="OK"
 										size="m"
 										type="submit"
-										onClick={() => setIsEdit(false)}
 									/>
 								</form>
                             </>

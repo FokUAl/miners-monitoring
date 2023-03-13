@@ -12,7 +12,8 @@ const addDevice = (data) => {
 }
 
 const editDevice = (minerType, shelf, row, column, owner, IP) => {
-    return axios.post(API_URL + '/update-asic-info', {
+    console.log(minerType, shelf, row, column, owner, IP)
+    return axios.post(API_URL + 'update-asic-info', {
         minerType, shelf, row, column, owner, IP
     }, {
         headers: authHeader()
