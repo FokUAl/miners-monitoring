@@ -46,6 +46,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.GET("/find-asic-ip", h.FindDeviceIP)
 
 		home.GET("/user-info", h.GetUserInfo)
+
+		home.POST("/update-asic-info", h.UpdateAsicInfo)
 	}
 
 	// static routes
