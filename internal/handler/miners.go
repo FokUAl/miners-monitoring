@@ -18,6 +18,10 @@ type info struct {
 	Devices      []app.MinerDevice
 }
 
+type MappingInfo struct {
+	Data []app.AddInfo
+}
+
 func (h *Handler) getHome(c *gin.Context) {
 	var devices []app.MinerDevice
 
@@ -69,10 +73,6 @@ func (h *Handler) getHome(c *gin.Context) {
 }
 
 func (h *Handler) addMiner(c *gin.Context) {
-	type MappingInfo struct {
-		Data []app.AddInfo
-	}
-
 	var info MappingInfo
 
 	err := json.NewDecoder(c.Request.Body).Decode(&info)
@@ -195,27 +195,22 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 
 	channel := make(chan app.MinerData)
 	go pkg.ResponseToStruct(miner.IPAddress, channel)
-	data := <-channel
+	miner.Characteristics = <-channel
 
-	c.JSON(http.StatusOK, struct {
-		Device app.MinerDevice
-		Data   app.MinerData
-	}{
-		Device: miner,
-		Data:   data,
-	})
+	if miner.Characteristics.MHSav == 0.0 {
+		miner.MinerStatus = "offline"
+	}
+
+	c.JSON(http.StatusOK, miner)
 }
 
 func (h *Handler) UpdateAsicInfo(c *gin.Context) {
-	type MappingInfo struct {
-		Data []app.AddInfo
-	}
-
-	var info MappingInfo
+	var info app.AddInfo
 
 	err := json.NewDecoder(c.Request.Body).Decode(&info)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 		return
 	}
+
 }
