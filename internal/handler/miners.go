@@ -222,4 +222,5 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 		return
 	}
 
+	c.JSON(http.StatusOK, nil)
 }
