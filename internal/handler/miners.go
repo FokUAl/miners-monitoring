@@ -209,16 +209,32 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 
 	err := json.NewDecoder(c.Request.Body).Decode(&info)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
+		return
+	}
+
+	device, err := h.services.GetDeviceByLocation(info.Shelf, info.Column, info.Row)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 	}
 
 	var infoHolder []app.AddInfo
 	infoHolder = append(infoHolder, info)
 
+	isLocFree, err := h.services.IsLocationFree(info.Shelf, info.Row, info.Column)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
+		return
+	} else if !isLocFree && info.IP != device.IPAddress {
+		c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n",
+			info.Shelf, info.Column, info.Row)})
+		return
+	}
+
 	err = h.services.MappDevices(infoHolder)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 	}
 

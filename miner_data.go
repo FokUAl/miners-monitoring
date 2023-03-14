@@ -16,7 +16,7 @@ type MinerData struct {
 
 type AddInfo struct {
 	IP        string `json:"IP"`
-	MinerType string //`json:"miner-type"`
+	MinerType string `json:"minerType"`
 	Shelf     int    `json:"shelf,string"`
 	Column    int    `json:"column,string"`
 	Row       int    `json:"row,string"`
