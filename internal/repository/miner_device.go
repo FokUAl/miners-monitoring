@@ -255,3 +255,10 @@ func (p *MinerPostgres) UpdateDevice(newInfo app.AddInfo) error {
 		newInfo.Column, newInfo.MinerType, newInfo.IP)
 	return err
 }
+
+func (p *MinerPostgres) DeleteDevice(ip_address string) error {
+	query := `DELETE FROM miner_devices WHERE ip_address = $1`
+
+	_, err := p.db.Exec(query, ip_address)
+	return err
+}

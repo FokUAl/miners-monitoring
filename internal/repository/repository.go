@@ -23,6 +23,7 @@ type Miner interface {
 	GetDevicesByUser(username string) ([]app.MinerDevice, error)
 	UpdateDevice(newInfo app.AddInfo) error
 	IsIPFree(ip_address string) (bool, error)
+	DeleteDevice(ip_address string) error
 }
 
 type User interface {

@@ -240,3 +240,21 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, nil)
 }
+
+func (h *Handler) DeleteDevice(c *gin.Context) {
+	var ip_address string
+
+	err := json.NewDecoder(c.Request.Body).Decode(&ip_address)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteDevice: %s", err.Error()))
+		return
+	}
+
+	err = h.services.DeleteDevice(ip_address)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteDevice: %s", err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+}

@@ -18,14 +18,12 @@ type Miner interface {
 	GetAllDevices() ([]app.MinerDevice, error)
 	AddNew(dev app.MinerDevice) error
 	MappDevices(mappingInfo []app.AddInfo) error
-	// GetDevicesByType(miner_type string) ([]app.MinerDevice, error)
-	// GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error)
-	// GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error)
 	IsDeviceAdded(address string) (bool, error)
 	IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error)
 	GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error)
 	GetDevicesByUser(username string) ([]app.MinerDevice, error)
 	IsIPFree(ip_address string) (bool, error)
+	DeleteDevice(ip_address string) error
 }
 
 type User interface {
