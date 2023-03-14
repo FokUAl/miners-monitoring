@@ -91,8 +91,8 @@ export default function AddDeviceForm({ allIP }) {
 					<label>Miner Type</label>
 					<label>IP</label>
 					<label>Shelf</label>
-					<label>Column</label>
 					<label>Row</label>
+					<label>Column</label>
 					<label>Owner</label>
 				</div>
 				{data.map((data, index) => (
