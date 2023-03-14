@@ -40,7 +40,7 @@ export default function DeviceInfo({ data }) {
 		    },
 		    error => { if (error) {
 		        console.log('Add device ', error)
-		        // alert(error.response.data.Message)
+		        alert(error.response.data.Message)
 		    }}
 		)
 	}

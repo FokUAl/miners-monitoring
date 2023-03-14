@@ -39,13 +39,15 @@ export default function AllIP({ allIP, setAllIP }) {
 				</Container>
 			) : (
 				<Container>
-					<div className="form--title">All IPs in network</div>
 					<div className="grid-10-90">
-						<Button value="Update IPs" onClick={HandleLoading} size="l" />
-						<Container>
-							<div className="grid-12">{allIP}</div>
-						</Container>
+						<Button value="Update IPs" onClick={HandleLoading} size="l"/>
+						<div className="form--title">All IPs in network</div>
 					</div>
+						<Container>
+							<div className="grid-auto">
+								{allIP.map(IP => <div >{IP}</div>)}
+							</div>
+						</Container>
 				</Container>
 			)}
 		</div>
