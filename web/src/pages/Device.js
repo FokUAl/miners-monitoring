@@ -15,7 +15,7 @@ export default function Device() {
                 console.log(data)
             }, (error) => console.log("device error", error)
         )
-    }, [])
+    }, [data])
     console.log(data)
     return (
         <div>
