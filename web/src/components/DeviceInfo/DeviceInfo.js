@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import Container from '../Container/Container';
 import DataDisplay from './DataDisplay';
 import Button from '../Button/Button';
@@ -23,6 +24,8 @@ export default function DeviceInfo({ data }) {
 		};
 	}
 
+	const navigate = useNavigate()
+
 	const [isEdit, setIsEdit] = useState(false);
 
 	const [minerType, setMinerType] = useState(data.MinerType);
@@ -35,7 +38,7 @@ export default function DeviceInfo({ data }) {
 		e.preventDefault();
 		FormService.editDevice(minerType, shelf, row, column, owner, data.IPAddress).then(
 		    response => {
-				console.log(response)
+                navigate(`/device?shelf=${shelf}&row=${row}&column=${column}`)
 		        window.location.reload()
 		    },
 		    error => { if (error) {
