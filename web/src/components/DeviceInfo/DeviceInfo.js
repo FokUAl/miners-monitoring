@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import Container from '../Container/Container';
 import DataDisplay from './DataDisplay';
 import Button from '../Button/Button';
-import DataEdit from './DataEdit'
+import DataEdit from './DataEdit';
 import FormService from '../../services/form.service';
 import './deviceInfo.scss';
 
@@ -24,7 +24,7 @@ export default function DeviceInfo({ data }) {
 		};
 	}
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const [isEdit, setIsEdit] = useState(false);
 
@@ -32,21 +32,40 @@ export default function DeviceInfo({ data }) {
 	const [shelf, setShelf] = useState(data.Shelf);
 	const [row, setRow] = useState(data.Row);
 	const [column, setColumn] = useState(data.Column);
-	const [owner, setOwner] = useState(data.Owner)
+	const [owner, setOwner] = useState(data.Owner);
 
-	const handleEdit = async(e) => {
+	const handleEdit = async (e) => {
 		e.preventDefault();
-		FormService.editDevice(minerType, shelf, row, column, owner, data.IPAddress).then(
-		    response => {
-                navigate(`/device?shelf=${shelf}&row=${row}&column=${column}`)
-		        window.location.reload()
-		    },
-		    error => { if (error) {
-		        console.log('Add device ', error)
-		        alert(error.response.data.Message)
-		    }}
-		)
-	}
+		FormService.editDevice(
+			minerType,
+			shelf,
+			row,
+			column,
+			owner,
+			data.IPAddress
+		).then(
+			(response) => {
+				navigate(`/device?shelf=${shelf}&row=${row}&column=${column}`);
+				window.location.reload();
+			},
+			(error) => {
+				console.log('Add device ', error);
+				alert(error.response.data.Message);
+			}
+		);
+	};
+
+	const handleDelete = async (IP) => {
+		FormService.deleteDevice(IP).then(
+			(response) => {
+				navigate('/');
+				window.location.reload();
+			},
+			(error) => {
+				console.log('Add device ', error);
+			}
+		);
+	};
 
 	return (
 		<Container>
@@ -93,28 +112,54 @@ export default function DeviceInfo({ data }) {
 					/>
 					<Container borderTop borderRight borderBottom borderLeft>
 						{isEdit ? (
-                            <>
-                                <div className="device-info--label-1 float-left">
-                                    Location and Miner Type
-                                </div>
+							<>
+								<div className="device-info--label-1 float-left">
+									Location and Miner Type
+								</div>
 								<form onSubmit={handleEdit}>
-									<DataEdit text="Miner Type" value={minerType} width='l' setValue={setMinerType}/>
-									<DataEdit text="Owner" value={owner} width='l' setValue={setOwner}/>
-									<DataEdit text="Shelf" value={shelf} width='l' setValue={setShelf}/>
-									<DataEdit text="Row" value={row} width='l' setValue={setRow}/>
-									<DataEdit text="Column" value={column} width='l' setValue={setColumn}/>
-									<Button 
+									<DataEdit
+										text="Miner Type"
+										value={minerType}
+										width="l"
+										setValue={setMinerType}
+									/>
+									<DataEdit
+										text="Owner"
+										value={owner}
+										width="l"
+										setValue={setOwner}
+									/>
+									<DataEdit
+										text="Shelf"
+										value={shelf}
+										width="l"
+										setValue={setShelf}
+									/>
+									<DataEdit
+										text="Row"
+										value={row}
+										width="l"
+										setValue={setRow}
+									/>
+									<DataEdit
+										text="Column"
+										value={column}
+										width="l"
+										setValue={setColumn}
+									/>
+									<Button
 										value="Cancel"
 										size="m"
 										onClick={() => setIsEdit(false)}
 									/>
-									<Button 
-										value="OK"
+									<Button value="OK" size="m" type="submit" />
+									<Button
+										value="Delete"
 										size="m"
-										type="submit"
+										onClick={() => handleDelete(data.IPAddress)}
 									/>
 								</form>
-                            </>
+							</>
 						) : (
 							<>
 								<div className="device-info--label-1 float-left">

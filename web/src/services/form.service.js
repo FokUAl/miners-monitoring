@@ -20,9 +20,18 @@ const editDevice = (minerType, shelf, row, column, owner, IP) => {
     })
 }
 
+const deleteDevice = (IP) => {
+    return axios.post(API_URL + 'delete-device', {
+        IP
+    }, {
+        headers: authHeader()
+    })
+}
+
 const FormService = {
     addDevice,
-    editDevice
+    editDevice,
+    deleteDevice
 }
 
 export default FormService
