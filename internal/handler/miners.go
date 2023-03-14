@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -242,15 +243,20 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 }
 
 func (h *Handler) DeleteDevice(c *gin.Context) {
-	var ip_address string
+	type inputJson struct {
+		IP string `json:"IP"`
+	}
 
-	err := json.NewDecoder(c.Request.Body).Decode(&ip_address)
+	var inputInfo inputJson
+
+	err := json.NewDecoder(c.Request.Body).Decode(&inputInfo)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteDevice: %s", err.Error()))
 		return
 	}
 
-	err = h.services.DeleteDevice(ip_address)
+	log.Println(inputInfo.IP)
+	err = h.services.DeleteDevice(inputInfo.IP)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteDevice: %s", err.Error()))
 		return
