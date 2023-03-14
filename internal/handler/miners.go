@@ -214,7 +214,7 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 	}
 
 	device, err := h.services.GetDeviceByLocation(info.Shelf, info.Column, info.Row)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 	}
@@ -223,7 +223,7 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 	infoHolder = append(infoHolder, info)
 
 	isLocFree, err := h.services.IsLocationFree(info.Shelf, info.Row, info.Column)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 	} else if !isLocFree && info.IP != device.IPAddress {
