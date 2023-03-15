@@ -153,11 +153,6 @@ export default function DeviceInfo({ data }) {
 										onClick={() => setIsEdit(false)}
 									/>
 									<Button value="OK" size="m" type="submit" />
-									<Button
-										value="Delete"
-										size="m"
-										onClick={() => handleDelete(data.IPAddress)}
-									/>
 								</form>
 							</>
 						) : (
@@ -178,6 +173,11 @@ export default function DeviceInfo({ data }) {
 							</>
 						)}
 					</Container>
+					<Button
+						value="Delete Device"
+						size="m"
+						onClick={() => handleDelete(data.IPAddress)}
+					/>
 				</div>
 			</div>
 		</Container>

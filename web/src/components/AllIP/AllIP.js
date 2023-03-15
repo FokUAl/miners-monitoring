@@ -8,11 +8,11 @@ export default function AllIP({ allIP, setAllIP }) {
 	const [loading, setLoading] = useState(true);
 
 	const UpdateIPs = () => {
+		console.log(1)
 		ComponentService.getAllIP().then(
 			(response) => {
-				console.log(response);
 				setAllIP(response.data.List);
-				console.log('allIP ok ');
+				console.log('allIP ok ', allIP);
 				setLoading(false);
 			},
 			(error) => {
@@ -45,7 +45,7 @@ export default function AllIP({ allIP, setAllIP }) {
 					</div>
 						<Container>
 							<div className="grid-auto">
-								{allIP ? allIP.map(IP => <div key={IP}>{IP}</div>) : 'No Data'}
+								{allIP ? allIP.map(IP => <div key={IP}>{IP[1]}</div>) : 'No Data'}
 							</div>
 						</Container>
 				</Container>

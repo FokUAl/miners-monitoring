@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormService from '../../services/form.service';
 import Button from '../Button/Button';
 import './addDeviceForm.scss';
 
 export default function AddDeviceForm({ allIP }) {
+	const [allOwners, setAllOwners] = useState('');
+
 	const initialData = [
 		{
+			minerType: '',
 			IP: '',
 			shelf: '',
 			column: '',
 			row: '',
 			owner: '',
+			allOwners: allOwners,
 		},
 	];
 	const [data, setData] = useState(initialData);
 	const navigate = useNavigate();
-	// const [allOwners, setAllOwners] = useState('')
 
 	const handleChange = (index, event) => {
 		const { value, name } = event.target;
@@ -25,16 +28,27 @@ export default function AddDeviceForm({ allIP }) {
 		setData(newData);
 	};
 
+	useEffect(() => {
+		const newData = data.map((data) => ({ ...data, allOwners: allOwners }));
+		setData(newData);
+	}, [allOwners])
+		
+	const handleOwners = (event) => {
+		setAllOwners(event.target.value);
+		console.log(allOwners, data);
+	};
+
 	const addFormField = () => {
 		setData([
 			...data,
 			{
+				minerType: '',
 				IP: '',
 				shelf: '',
 				column: '',
 				row: '',
 				owner: '',
-				minerType: '',
+				allOwners: allOwners,
 			},
 		]);
 	};
@@ -55,22 +69,34 @@ export default function AddDeviceForm({ allIP }) {
 					alert('All IPs must be unique');
 					return;
 				}
+				if (data[i]['shelf']+data[i]['row']+data[i]['column'] === data[j]['shelf']+data[j]['row']+data[j]['column']){
+					alert('All Locations must be unique');
+					return;
+				}
 			}
 			// if (!allIP.includes(data[i]['IP'])) {
 			// 	alert('There is no such IP');
 			// 	return;
 			// }
 		}
+
+		for (let i = 0; i < data.length; i++) {
+			data[i]['owner'] = allOwners
+		}
+
+		console.log(data)
 		FormService.addDevice(data).then(
-		    response => {
-		        navigate('/')
-		        window.location.reload()
-		    },
-		    error => { if (error) {
-		        console.log('Add device ', error)
-		        alert(error.response.data.Message)
-		    }}
-		)
+			(response) => {
+				navigate('/');
+				window.location.reload();
+			},
+			(error) => {
+				if (error) {
+					console.log('Add device ', error);
+					alert(error.response.data.Message);
+				}
+			}
+		);
 	};
 
 	return (
@@ -85,7 +111,15 @@ export default function AddDeviceForm({ allIP }) {
 						onClick={removeFormField}
 						size="m"
 					/>
-					{/* <input type="text" value={allOwners} onChange={e => {setAllOwners(e.target.value)}} className="form--input-allOwners"/> */}
+					<input
+						type="text"
+						value={allOwners}
+						name="allOwners"
+						onChange={(e) => {
+							handleOwners(e);
+						}}
+						className="form--input-allOwners"
+					/>
 				</div>
 				<div className="form--labels">
 					<label>Miner Type</label>
@@ -143,7 +177,8 @@ export default function AddDeviceForm({ allIP }) {
 						<input
 							type="text"
 							name="owner"
-							value={data.owner}
+							value={data.allOwners ? data.allOwners : data.owner}
+							disabled={data.allOwners}
 							onChange={(e) => handleChange(index, e)}
 							required
 						/>
