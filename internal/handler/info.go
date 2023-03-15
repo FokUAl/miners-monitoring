@@ -53,10 +53,3 @@ func (h *Handler) GetUserInfo(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, user)
 }
-
-// func SaveMinerData(h *Handler) {
-// 	for {
-// 		time.Sleep(10 * time.Second)
-// 		h.services.
-// 	}
-// }
