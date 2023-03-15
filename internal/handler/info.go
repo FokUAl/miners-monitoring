@@ -13,31 +13,32 @@ import (
 // and determines the ASIC among them.
 // Result is sent to front.
 func (h *Handler) FindDeviceIP(c *gin.Context) {
-	ipArr, err := h.services.PingDevices()
+	allAddresses, err := h.services.PingDevices()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError,
 			fmt.Sprintf("error with ping devices: %s\n", err.Error()))
 		return
 	}
 
-	var devicesIP []string
-	for i := 0; i < len(ipArr); i++ {
-		response, _ := pkg.GetAsicInfo(ipArr[i], "summary")
+	var devicesAdresses map[string]string = make(map[string]string)
+
+	for key, value := range allAddresses {
+		response, _ := pkg.GetAsicInfo(value, "summary")
 
 		err = pkg.CheckResponse(response)
 		if err != nil {
-			log.Printf("check response %s: %s", ipArr[i], err.Error())
+			log.Printf("check response %s: %s", value, err.Error())
 			continue
 		}
-		devicesIP = append(devicesIP, ipArr[i])
+		devicesAdresses[key] = value
 	}
 
 	type IPDevices struct {
-		List []string
+		List map[string]string
 	}
 
 	var IP IPDevices
-	IP.List = devicesIP
+	IP.List = devicesAdresses
 
 	c.JSON(http.StatusOK, IP)
 

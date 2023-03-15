@@ -32,7 +32,7 @@ type User interface {
 }
 
 type Info interface {
-	PingDevices() ([]string, error)
+	PingDevices() (map[string]string, error)
 	SaveMinerData(data app.MinerData, ip_address string) error
 	Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error)
 }
