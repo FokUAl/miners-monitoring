@@ -23,8 +23,8 @@ func NewInfoService(repo repository.Info) *InfoService {
 // Ping all IP adresses in specific range
 // and determine alive devices from them.
 // Return result as array of strings
-func (s *InfoService) PingDevices() (map[string]string, error) {
-	var result map[string]string = make(map[string]string)
+func (s *InfoService) PingDevices() ([][]string, error) {
+	var result [][]string
 
 	// Pinging in specific range for update ARP cache
 	cmd := exec.Command("fping", "-g", "-a", "--retry=1", "192.168.0.0/24")
@@ -51,9 +51,11 @@ func (s *InfoService) PingDevices() (map[string]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("pingDevices: can't compile regexp: %s", err.Error())
 	}
+
 	allMAC := r.FindAllString(string(out), -1)
 	for ind := 0; ind < len(allMAC); ind++ {
-		result[allMAC[ind]] = allIP[ind]
+		var arr []string = []string{allMAC[ind], allIP[ind]}
+		result = append(result, arr)
 	}
 
 	return result, nil

@@ -20,21 +20,21 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 		return
 	}
 
-	var devicesAdresses map[string]string = make(map[string]string)
+	var devicesAdresses [][]string
 
-	for key, value := range allAddresses {
-		response, _ := pkg.GetAsicInfo(value, "summary")
+	for _, value := range allAddresses {
+		response, _ := pkg.GetAsicInfo(value[1], "summary")
 
 		err = pkg.CheckResponse(response)
 		if err != nil {
 			log.Printf("check response %s: %s", value, err.Error())
 			continue
 		}
-		devicesAdresses[key] = value
+		devicesAdresses = append(devicesAdresses, value)
 	}
 
 	type IPDevices struct {
-		List map[string]string
+		List [][]string
 	}
 
 	var IP IPDevices
