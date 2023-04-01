@@ -13,8 +13,8 @@ import (
 	app "github.com/FokUAl/miners-monitoring"
 )
 
-// Uses python script to send request to cgminer interface
-// and return response from it as string.
+// Sends request to cgminer interface and returns
+// response from it in string type.
 func GetAsicInfo(ip string, command string) (string, error) {
 	d := net.Dialer{Timeout: time.Second}
 	con, err := d.Dial("tcp", ip+":4028")
@@ -73,6 +73,7 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	downstream <- result
 }
 
+// Check device characteristics and set miner status
 func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
 	for i := 0; i < len(*devices); i++ {
 		if (*devices)[i].IPAddress == newData.IP {
