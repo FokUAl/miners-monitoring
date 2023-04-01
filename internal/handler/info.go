@@ -57,8 +57,8 @@ func (h *Handler) GetUserInfo(c *gin.Context) {
 
 func (h *Handler) CommentDevice(c *gin.Context) {
 	type comment struct {
-		Content string
-		Address string
+		Content string `json:"comment"`
+		Address string `json:"IP"`
 	}
 
 	var input comment
