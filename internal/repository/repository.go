@@ -33,6 +33,7 @@ type User interface {
 
 type Info interface {
 	SaveMinerData(data app.MinerData, ip_address string) error
+	Comment(ip_address, username, comment string) error
 }
 
 type Repository struct {

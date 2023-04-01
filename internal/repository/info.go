@@ -27,3 +27,12 @@ func (p *InfoPostgres) SaveMinerData(data app.MinerData, ip_address string) erro
 		data.ChipTempAvg, time.Now(), ip_address)
 	return err
 }
+
+func (p *InfoPostgres) Comment(ip_address, username, comment string) error {
+	query := `INSERT INTO comments (ip_address, username, comment, creation_date)
+		VALUES ($1, $2, $3, $4)`
+
+	_, err := p.db.Exec(query, ip_address, username, comment, time.Now())
+
+	return err
+}
