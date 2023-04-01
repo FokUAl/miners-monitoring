@@ -204,7 +204,7 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 
 	comments, err := h.services.GetCommentsHistory(miner.IPAddress)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("get device by location: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinersCharacteristics: %s\n", err.Error()))
 		return
 	}
 

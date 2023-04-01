@@ -1,5 +1,7 @@
 package app
 
+import "time"
+
 type MinerData struct {
 	IP          string
 	Elapsed     int64
@@ -21,4 +23,10 @@ type AddInfo struct {
 	Column    int    `json:"column,string"`
 	Row       int    `json:"row,string"`
 	Owner     string `json:"owner"`
+}
+
+type Comment struct {
+	CreationDate time.Time
+	Username     string
+	Content      string
 }

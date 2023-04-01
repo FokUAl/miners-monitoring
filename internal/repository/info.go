@@ -44,7 +44,7 @@ func (p *InfoPostgres) GetCommentsHistory(ip_address string) ([]app.Comment, err
 
 	rows, err := p.db.Query(query, ip_address)
 	if err != nil {
-		return nil, fmt.Errorf("GetAllDevices: %w", err)
+		return nil, fmt.Errorf("GetCommentsHistory: %w", err)
 	}
 
 	defer rows.Close()
