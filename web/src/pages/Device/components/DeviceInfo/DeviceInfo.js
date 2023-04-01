@@ -79,11 +79,14 @@ export default function DeviceInfo({ data }) {
 		);
 	};
 
-	const handleAddComm = async (IP, comment) => {
+	const handleAddComm = async (e, IP, comment) => {
+		e.preventDefault()
 		FormService.addComment(IP, comment).then(
 			(response) => {
-				console.log('Add comment ok')
-				window.location.reload();
+				console.log('Add comment ok');
+				// navigate(`/device?shelf=${data.Miner.shelf}&row=${data.Miner.row}&column=${data.Miner.column}`)
+				// window.location.reload();
+				setComment('')
 			},
 			(error) => {
 				console.log('Add comment', error);
