@@ -49,6 +49,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 		home.POST("/update-asic-info", h.UpdateAsicInfo)
 		home.POST("/delete-device", h.DeleteDevice)
+		home.POST("/comment-device", h.CommentDevice)
 	}
 
 	return router

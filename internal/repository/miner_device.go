@@ -216,7 +216,7 @@ func (p *MinerPostgres) GetDeviceByLocation(shelf int, column int, row int) (app
 	err := p.db.QueryRow(statement, shelf, row, column).Scan(&result.MinerType, &result.Shelf, &result.Row,
 		&result.Column, &result.Owner, &result.MinerStatus, &result.Coin, &result.IPAddress, &result.Characteristics.MAC)
 	if err != nil {
-		return result, err
+		return result, fmt.Errorf("get device by location: %s", err.Error())
 	}
 
 	return result, nil

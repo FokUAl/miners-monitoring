@@ -174,23 +174,23 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	query_params := c.Request.URL.Query()
 	shelf, err := strconv.Atoi(query_params["shelf"][0])
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't convert to int: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinerCharacteristics: can't convert to int: %s\n", err.Error()))
 		return
 	}
 	row, err := strconv.Atoi(query_params["row"][0])
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't convert to int: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinerCharacteristics: can't convert to int: %s\n", err.Error()))
 		return
 	}
 	column, err := strconv.Atoi(query_params["column"][0])
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("can't convert to int: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinerCharacteristics: can't convert to int: %s\n", err.Error()))
 		return
 	}
 
 	miner, err := h.services.GetDeviceByLocation(shelf, column, row)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("get device by location: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinerCharacteristics: %s\n", err.Error()))
 		return
 	}
 
@@ -202,7 +202,19 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		miner.MinerStatus = "offline"
 	}
 
-	c.JSON(http.StatusOK, miner)
+	comments, err := h.services.GetCommentsHistory(miner.IPAddress)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("get device by location: %s\n", err.Error()))
+		return
+	}
+
+	c.JSON(http.StatusOK, struct {
+		Miner    app.MinerDevice
+		Comments []app.Comment
+	}{
+		Miner:    miner,
+		Comments: comments,
+	})
 }
 
 func (h *Handler) UpdateAsicInfo(c *gin.Context) {

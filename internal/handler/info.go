@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -52,4 +53,32 @@ func (h *Handler) GetUserInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, user)
+}
+
+func (h *Handler) CommentDevice(c *gin.Context) {
+	type comment struct {
+		Content string
+		Address string
+	}
+
+	var input comment
+	err := json.NewDecoder(c.Request.Body).Decode(&input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("CommentDevice: %s", err.Error()))
+		return
+	}
+
+	id := c.MustGet(userCtx).(int)
+	user, err := h.services.GetUserByID(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
+		return
+	}
+
+	err = h.services.Info.Comment(input.Address, user.Username, input.Content)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
+		return
+	}
+
 }

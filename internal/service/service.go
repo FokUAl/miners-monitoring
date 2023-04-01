@@ -36,6 +36,7 @@ type Info interface {
 	SaveMinerData(data app.MinerData, ip_address string) error
 	Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error)
 	Comment(ip_address, username, comment string) error
+	GetCommentsHistory(ip_address string) ([]app.Comment, error)
 }
 
 type Service struct {

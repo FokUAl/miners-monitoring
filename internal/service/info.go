@@ -87,3 +87,7 @@ func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.Min
 func (s *InfoService) Comment(ip_address, username, comment string) error {
 	return s.repo.Comment(ip_address, username, comment)
 }
+
+func (s *InfoService) GetCommentsHistory(ip_address string) ([]app.Comment, error) {
+	return s.repo.GetCommentsHistory(ip_address)
+}
