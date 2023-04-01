@@ -82,6 +82,7 @@ export default function DeviceInfo({ data }) {
 	const handleAddComm = async (IP, comment) => {
 		FormService.addComment(IP, comment).then(
 			(response) => {
+				console.log('Add comment ok')
 				window.location.reload();
 			},
 			(error) => {
@@ -223,7 +224,7 @@ export default function DeviceInfo({ data }) {
 							width="fluid"
 							placeholder="Type your comment here"
 						/>
-						<Button value="add comment" />
+						<Button value="add comment" type="submit" />
 					</form>
 				</div>
 			</Container>
