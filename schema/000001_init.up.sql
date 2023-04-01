@@ -17,7 +17,7 @@ CREATE TABLE miner_devices
     owner_ VARCHAR(255) NOT NULL DEFAULT ' ',
     miner_status VARCHAR(255) NOT NULL DEFAULT ' ',
     coin VARCHAR(255) NOT NULL DEFAULT ' ',
-    ip_address VARCHAR(255) NOT NULL,
+    ip_address VARCHAR(255) NOT NULL UNIQUE,
     mac_address VARCHAR(255) DEFAULT ' '
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE miner_characteristics
     chip_temp_max FLOAT DEFAULT 0.00,
     chip_temp_avg FLOAT DEFAULT 0.00,
     creation_date TIMESTAMP NOT NULL,
-    CONSTRAINT (fk_ip_address)
+    CONSTRAINT fk_ip_address
         FOREIGN KEY (ip_address)
             REFERENCES miner_devices(ip_address)
             ON DELETE CASCADE
