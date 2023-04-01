@@ -46,5 +46,6 @@ CREATE TABLE comments
     id SERIAL PRIMARY KEY,
     ip_address VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
-    creation_date TIMESTAMP NOT NULL
+    creation_date TIMESTAMP NOT NULL,
+    comment VARCHAR(255)
 );
