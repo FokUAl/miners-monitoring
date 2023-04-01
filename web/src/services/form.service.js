@@ -28,9 +28,10 @@ const deleteDevice = (IP) => {
     })
 }
 
-const addComment = (IP, comm) => {
+const addComment = (IP, comment) => {
+    console.log(IP, comment)
     return axios.post(API_URL + 'comment-device', {
-        IP, comm
+        IP, comment
     }, {
         headers: authHeader()
     })

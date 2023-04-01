@@ -79,9 +79,9 @@ export default function DeviceInfo({ data }) {
 		);
 	};
 
-	const handleAddComm = async (e, IP, comment) => {
+	const handleAddComm = async (e) => {
 		e.preventDefault()
-		FormService.addComment(IP, comment).then(
+		FormService.addComment(data.Miner.IPAddress, comment).then(
 			(response) => {
 				console.log('Add comment ok');
 				// navigate(`/device?shelf=${data.Miner.shelf}&row=${data.Miner.row}&column=${data.Miner.column}`)
