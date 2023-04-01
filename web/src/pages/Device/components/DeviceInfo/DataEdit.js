@@ -1,4 +1,4 @@
-import Input from '../Input/Input'
+import Input from '../../../../components/Input/Input'
 
 const DataEdit = ({text, value, width, setValue}) => {
     return (
@@ -6,7 +6,7 @@ const DataEdit = ({text, value, width, setValue}) => {
             <div className="grid-50-50">
                 <div className="float-left">{text}</div>
                 <div className="float-right">
-                    <Input size='s' width={width} textAlign='right' value={value} setValue={setValue}/>
+                    <Input size='s' width={width} color='secondary' textAlign='right' value={value} setValue={setValue}/>
                 </div>
             </div>
             <div className="wrapper" />
@@ -16,7 +16,6 @@ const DataEdit = ({text, value, width, setValue}) => {
 
 DataEdit.defaultProps = {
     text: '',
-
 }
 
 export default DataEdit

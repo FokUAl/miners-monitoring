@@ -1,46 +1,58 @@
 @import '../../scss/variables.scss';
 
-.input {
-    border: none;
-    background-color: $color-bg-secondary;
-    border-radius: 5px;
-    color: $color-text;
-    font-size: 16px;
-    &:focus {
-        outline: none;
-        background-color: $color-secondary;
-    }
-    &.size- {
-        &s {
-            padding: 0px;
+.input--wrapper {
+    display: flex;
+    flex-direction: column;
+    &.input {
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        color: $color-text;
+        &:focus {
+            outline: none;
+            background-color: $color-secondary;
         }
-        &m {
-            padding: 10px;
+        &.size- {
+            &s {
+                padding: 0px;
+            }
+            &m {
+                padding: 10px;
+            }
+            &l {
+                padding: 15px;
+            }
         }
-        &l {
-            padding: 15px;
+        &.width- {
+            &s {
+                width: 50px;
+            }
+            &m {
+                width: 100px
+            }
+            &l {
+                width: 150px;
+            }
+            &fluid {
+                width: 100%;
+            }
         }
-    }
-    &.width- {
-        &s {
-            width: 50px;
+        &.text-align- {
+            &left {
+                text-align: left;
+            }
+            &right {
+                text-align: right;
+            }
         }
-        &m {
-            width: 100px
-        }
-        &l {
-            width: 150px;
-        }
-        &fluid {
-            width: 100%;
-        }
-    }
-    &.text-align- {
-        &left {
-            text-align: left;
-        }
-        &right {
-            text-align: right;
+        &.color- {
+            &primary {
+                background-color: $color-input-bg-primary;
+            }
+            &secondary {
+                background-color: $color-input-bg-secondary;
+            }
         }
     }
 }
+

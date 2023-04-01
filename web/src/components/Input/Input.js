@@ -9,12 +9,15 @@ const Input = ({
 	required,
 	size,
 	width,
-	textAlign
+	textAlign,
+	label,
+	color
 }) => {
 	return (
 		<div className="input--wrapper">
+			{label && <label>{label}</label>}
 			<input
-				className={`input size-${size} width-${width} text-align-${textAlign}`}
+				className={`input size-${size} width-${width} text-align-${textAlign} color-${color}`}
 				type={type}
 				name={name}
 				value={value}
@@ -36,7 +39,9 @@ Input.defaultProps = {
 	required: false,
 	size: 's',
 	width: 'fluid',
-	textAlign: 'left'
+	textAlign: 'left',
+	label: undefined,
+	color: 'primary'	
 };
 
 export default Input;

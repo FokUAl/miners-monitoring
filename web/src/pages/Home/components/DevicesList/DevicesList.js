@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../Button/Button';
-import Container from '../Container/Container';
+import Button from '../../../../components/Button/Button';
+import Container from '../../../../components/Container/Container';
 import './devicesList.scss';
 import 'react-table-6/react-table.css';
 import {
@@ -11,7 +11,7 @@ import {
 	ThemeProvider,
 } from '@mui/material';
 import MaterialReactTable from 'material-react-table';
-import PageService from '../../services/page.service';
+import PageService from '../../../../services/page.service';
 import DataReg from './DataReg'
 
 export default function DevicesList({ devices, setDevices }) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FormService from '../../services/form.service';
-import Button from '../Button/Button';
+import FormService from '../../../../services/form.service';
+import Button from '../../../../components/Button/Button';
 import './addDeviceForm.scss';
 
 export default function AddDeviceForm({ allIP }) {
@@ -79,9 +79,11 @@ export default function AddDeviceForm({ allIP }) {
 			// 	return;
 			// }
 		}
-
-		for (let i = 0; i < data.length; i++) {
-			data[i]['owner'] = allOwners
+		
+		if (allOwners) {
+			for (let i = 0; i < data.length; i++) {
+				data[i]['owner'] = allOwners
+			}
 		}
 
 		console.log(data)

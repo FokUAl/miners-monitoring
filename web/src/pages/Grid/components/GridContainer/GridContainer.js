@@ -1,5 +1,5 @@
-import Container from '../Container/Container';
-import GridComponent from '../GridComponent/GridComponent';
+import Container from '../../../../components/Container/Container';
+import GridComponent from '../../../../components/GridComponent/GridComponent';
 import GridCell from './GridCell';
 import './gridContainer.scss';
 

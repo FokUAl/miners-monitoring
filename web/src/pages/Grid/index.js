@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import GridContainer from '../components/GridContainer/GridContainer'
-import Navbar from '../components/Navbar/Navbar'
-import PageService from '../services/page.service';
+import GridContainer from './components/GridContainer/GridContainer'
+import Navbar from '../../components/Navbar/Navbar'
+import PageService from '../../services/page.service';
 
 export default function Grid() {
 	const [devices, setDevices] = useState([]);

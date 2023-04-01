@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar/Navbar';
-import Dashboard from '../components/Dashboard/Dashboard';
-import DevicesList from '../components/DevicesList/DevicesList';
-import PageService from '../services/page.service';
+import Navbar from '../../components/Navbar/Navbar';
+import Dashboard from './components/Dashboard/Dashboard';
+import DevicesList from './components/DevicesList/DevicesList';
+import PageService from '../../services/page.service';
 
 export default function Home() {
 	const [devices, setDevices] = useState();

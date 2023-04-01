@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import ComponentService from '../../services/component.service';
-import Container from '../Container/Container';
-import Button from '../Button/Button';
+import ComponentService from '../../../../services/component.service';
+import Container from '../../../../components/Container/Container';
+import Button from '../../../../components/Button/Button';
 import './allIP.scss';
 
 export default function AllIP({ allIP, setAllIP }) {
