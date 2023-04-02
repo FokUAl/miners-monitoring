@@ -17,10 +17,15 @@
 }
 
 
-.wrapper {
+.data-display-wrapper {
     width: 100%;
     border-bottom: 1px dotted white;
     margin-bottom: 20px;
+    &-plus {
+        width: 100%;
+        border-bottom: 1px dotted white;
+        margin-bottom: 40px;
+    }
 }
 
 input {

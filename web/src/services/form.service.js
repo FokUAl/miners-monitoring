@@ -37,11 +37,29 @@ const addComment = (IP, comment) => {
     })
 }
 
+const deleteComment = (username, content, creationDate) => {
+    return axios.post(API_URL + 'delete-comment', {
+        username, content, creationDate 
+    }, {
+        headers: authHeader()
+    })
+}
+
+const editComment = (username, content, creationDate) => {
+    return axios.post(API_URL + 'edit-comment', {
+        username, content, creationDate 
+    }, {
+        headers: authHeader()
+    })
+}
+
 const FormService = {
     addDevice,
     editDevice,
     deleteDevice,
-    addComment
+    addComment,
+    deleteComment,
+    editComment
 }
 
 export default FormService
