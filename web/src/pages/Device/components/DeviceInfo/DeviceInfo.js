@@ -80,18 +80,27 @@ export default function DeviceInfo({ data }) {
 	};
 
 	const handleAddComm = async (e) => {
-		e.preventDefault()
+		e.preventDefault();
 		FormService.addComment(data.Miner.IPAddress, comment).then(
 			(response) => {
 				console.log('Add comment ok');
 				// navigate(`/device?shelf=${data.Miner.shelf}&row=${data.Miner.row}&column=${data.Miner.column}`)
 				// window.location.reload();
-				setComment('')
+				setComment('');
 			},
 			(error) => {
 				console.log('Add comment', error);
 			}
 		);
+	};
+
+	const commentsGenerator = (comments) => {
+		return comments.map((comment) => (
+			<>
+				<DataDisplay text={comment.Username} data={comment.Content}/>
+				{comment.CreationDate}
+			</>
+		));
 	};
 
 	return (
@@ -192,7 +201,10 @@ export default function DeviceInfo({ data }) {
 									<div className="device-info--label-1 float-left">
 										Location and Miner Type
 									</div>
-									<DataDisplay text={'Miner Type'} data={data.Miner.MinerType} />
+									<DataDisplay
+										text={'Miner Type'}
+										data={data.Miner.MinerType}
+									/>
 									<DataDisplay text={'Owner'} data={data.Miner.Owner} />
 									<DataDisplay text={'Shelf'} data={data.Miner.Shelf} />
 									<DataDisplay text={'Row'} data={data.Miner.Row} />
@@ -214,10 +226,13 @@ export default function DeviceInfo({ data }) {
 				</div>
 			</Container>
 			<Container>
-				<div className="grid-50-50">
+				<div
+					className="grid-50-50"
+					style={{ columnGap: '20px', paddingInline: '20px' }}
+				>
 					<div className="grid-hor">
 						Comments section
-						{data.Comments}
+						{data.Comments && commentsGenerator(data.Comments)}
 					</div>
 					<form onSubmit={handleAddComm} className="grid-85-15">
 						<Input
