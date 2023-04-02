@@ -30,3 +30,8 @@ type Comment struct {
 	Username     string
 	Content      string
 }
+
+type InputCommentData struct {
+	Content string `json:"comment"`
+	Address string `json:"IP"`
+}

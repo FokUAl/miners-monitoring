@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg"
 	"github.com/gin-gonic/gin"
 )
@@ -56,12 +57,7 @@ func (h *Handler) GetUserInfo(c *gin.Context) {
 }
 
 func (h *Handler) CommentDevice(c *gin.Context) {
-	type comment struct {
-		Content string `json:"comment"`
-		Address string `json:"IP"`
-	}
-
-	var input comment
+	var input app.InputCommentData
 	err := json.NewDecoder(c.Request.Body).Decode(&input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("CommentDevice: %s", err.Error()))
@@ -80,5 +76,19 @@ func (h *Handler) CommentDevice(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
 		return
 	}
+}
 
+func (h *Handler) DeleteComment(c *gin.Context) {
+	var input app.InputCommentData
+	err := json.NewDecoder(c.Request.Body).Decode(&input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteComment: %s", err.Error()))
+		return
+	}
+
+	err = h.services.Info.DeleteComment(input.Address, input.Content)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteComment: %s", err.Error()))
+		return
+	}
 }
