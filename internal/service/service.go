@@ -37,6 +37,7 @@ type Info interface {
 	Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error)
 	Comment(ip_address, username, comment string) error
 	GetCommentsHistory(ip_address string) ([]app.Comment, error)
+	DeleteComment(ip_address, content string) error
 }
 
 type Service struct {

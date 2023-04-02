@@ -91,3 +91,7 @@ func (s *InfoService) Comment(ip_address, username, comment string) error {
 func (s *InfoService) GetCommentsHistory(ip_address string) ([]app.Comment, error) {
 	return s.repo.GetCommentsHistory(ip_address)
 }
+
+func (s *InfoService) DeleteComment(ip_address, content string) error {
+	return s.repo.DeleteComment(ip_address, content)
+}
