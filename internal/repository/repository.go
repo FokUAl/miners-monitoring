@@ -35,6 +35,7 @@ type Info interface {
 	SaveMinerData(data app.MinerData, ip_address string) error
 	Comment(ip_address, username, comment string) error
 	GetCommentsHistory(ip_address string) ([]app.Comment, error)
+	DeleteComment(ip_address, content string) error
 }
 
 type Repository struct {

@@ -63,3 +63,10 @@ func (p *InfoPostgres) GetCommentsHistory(ip_address string) ([]app.Comment, err
 
 	return result, nil
 }
+
+func (p *InfoPostgres) DeleteComment(ip_address, content string) error {
+	query := `DELETE FROM comments WHERE ip_address = $1 and comment = $2 LIMIT 1`
+
+	_, err := p.db.Exec(query, ip_address, content)
+	return err
+}
