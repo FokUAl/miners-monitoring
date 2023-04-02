@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/internal/repository"
 )
@@ -35,9 +37,13 @@ type Info interface {
 	PingDevices() ([][]string, error)
 	SaveMinerData(data app.MinerData, ip_address string) error
 	Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error)
+}
+
+type Comment interface {
 	Comment(ip_address, username, comment string) error
 	GetCommentsHistory(ip_address string) ([]app.Comment, error)
-	DeleteComment(ip_address, content string) error
+	DeleteComment(creation_date time.Time) error
+	EditComment(creation_date time.Time, newContent string) error
 }
 
 type Service struct {
@@ -45,6 +51,7 @@ type Service struct {
 	Miner
 	User
 	Info
+	Comment
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -53,5 +60,6 @@ func NewService(repos *repository.Repository) *Service {
 		User:          NewUserService(repos.User),
 		Miner:         NewMinerService(repos.Miner),
 		Info:          NewInfoService(repos.Info),
+		Comment:       NewCommentService(repos.Comment),
 	}
 }

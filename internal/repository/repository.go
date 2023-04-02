@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/jmoiron/sqlx"
 )
@@ -33,9 +35,13 @@ type User interface {
 
 type Info interface {
 	SaveMinerData(data app.MinerData, ip_address string) error
+}
+
+type Comment interface {
 	Comment(ip_address, username, comment string) error
 	GetCommentsHistory(ip_address string) ([]app.Comment, error)
-	DeleteComment(ip_address, content string) error
+	DeleteComment(creation_date time.Time) error
+	EditComment(creation_date time.Time, newContent string) error
 }
 
 type Repository struct {
@@ -43,6 +49,7 @@ type Repository struct {
 	User
 	Miner
 	Info
+	Comment
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -51,5 +58,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		User:          NewUserPostgres(db),
 		Miner:         NewMinerPostgres(db),
 		Info:          NewInfoPostgres(db),
+		Comment:       NewCommentPostgres(db),
 	}
 }

@@ -1,12 +1,10 @@
 package handler
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
-	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg"
 	"github.com/gin-gonic/gin"
 )
@@ -54,41 +52,4 @@ func (h *Handler) GetUserInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, user)
-}
-
-func (h *Handler) CommentDevice(c *gin.Context) {
-	var input app.InputCommentData
-	err := json.NewDecoder(c.Request.Body).Decode(&input)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("CommentDevice: %s", err.Error()))
-		return
-	}
-
-	id := c.MustGet(userCtx).(int)
-	user, err := h.services.GetUserByID(id)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
-		return
-	}
-
-	err = h.services.Info.Comment(input.Address, user.Username, input.Content)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s", err.Error()))
-		return
-	}
-}
-
-func (h *Handler) DeleteComment(c *gin.Context) {
-	var input app.InputCommentData
-	err := json.NewDecoder(c.Request.Body).Decode(&input)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteComment: %s", err.Error()))
-		return
-	}
-
-	err = h.services.Info.DeleteComment(input.Address, input.Content)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteComment: %s", err.Error()))
-		return
-	}
 }

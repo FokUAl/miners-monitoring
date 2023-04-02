@@ -83,15 +83,3 @@ func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.Min
 
 	return result, nil
 }
-
-func (s *InfoService) Comment(ip_address, username, comment string) error {
-	return s.repo.Comment(ip_address, username, comment)
-}
-
-func (s *InfoService) GetCommentsHistory(ip_address string) ([]app.Comment, error) {
-	return s.repo.GetCommentsHistory(ip_address)
-}
-
-func (s *InfoService) DeleteComment(ip_address, content string) error {
-	return s.repo.DeleteComment(ip_address, content)
-}
