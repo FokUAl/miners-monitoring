@@ -36,7 +36,7 @@ func GetAsicInfo(ip string, command string) (string, error) {
 		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
-	reply := make([]byte, 2048)
+	reply := make([]byte, 4096)
 	_, err = con.Read(reply)
 
 	if err != nil {
