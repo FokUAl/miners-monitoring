@@ -22,8 +22,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	router.Use(CORSMiddleware())
 
-	//go SaveMinerData(h)
-
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)

@@ -79,7 +79,7 @@ func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
 		if (*devices)[i].IPAddress == newData.IP {
 			(*devices)[i].Characteristics = newData
 		}
-		if (*devices)[i].Characteristics.MHSav == 0.0 {
+		if (*devices)[i].Characteristics.Temperature == 0.0 {
 			(*devices)[i].MinerStatus = "offline"
 		} else {
 			(*devices)[i].MinerStatus = "online"

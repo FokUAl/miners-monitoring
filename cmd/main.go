@@ -12,6 +12,7 @@ import (
 	"github.com/FokUAl/miners-monitoring/internal/repository"
 	"github.com/FokUAl/miners-monitoring/internal/service"
 	"github.com/FokUAl/miners-monitoring/pkg"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -56,9 +57,17 @@ func main() {
 
 	log.Printf("Server started\n")
 
+	exitChan := make(chan bool)
+	// start goroutine for saving miner characteristics to db
+	go handlers.SaveMinerData(&gin.Context{}, exitChan)
+
+	// channel for checking server exit
 	quit := make(chan os.Signal, 1)
+
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
 	<-quit
+
+	exitChan <- true
 
 	log.Printf("Server shutting down\n")
 
