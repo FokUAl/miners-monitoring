@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -208,12 +207,20 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		return
 	}
 
+	characteristicsHistory, err := h.services.GetCharacteristicsHistory(miner.IPAddress)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinersCharacteristics: %s\n", err.Error()))
+		return
+	}
+
 	c.JSON(http.StatusOK, struct {
-		Miner    app.MinerDevice
-		Comments []app.Comment
+		Miner                  app.MinerDevice
+		Comments               []app.Comment
+		CharacteristicsHistory []app.MinerData
 	}{
-		Miner:    miner,
-		Comments: comments,
+		Miner:                  miner,
+		Comments:               comments,
+		CharacteristicsHistory: characteristicsHistory,
 	})
 }
 
@@ -267,7 +274,6 @@ func (h *Handler) DeleteDevice(c *gin.Context) {
 		return
 	}
 
-	log.Println(inputInfo.IP)
 	err = h.services.DeleteDevice(inputInfo.IP)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("DeleteDevice: %s", err.Error()))

@@ -14,6 +14,7 @@ type MinerData struct {
 	ChipTempMin float64
 	ChipTempMax float64
 	ChipTempAvg float64
+	Time        time.Time
 }
 
 type AddInfo struct {

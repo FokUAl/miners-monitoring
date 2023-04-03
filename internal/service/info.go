@@ -83,3 +83,7 @@ func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.Min
 
 	return result, nil
 }
+
+func (s *InfoService) GetCharacteristicsHistory(device_ip string) ([]app.MinerData, error) {
+	return s.repo.GetCharacteristicsHistory(device_ip)
+}

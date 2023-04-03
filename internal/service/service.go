@@ -37,6 +37,7 @@ type Info interface {
 	PingDevices() ([][]string, error)
 	SaveMinerData(data app.MinerData, ip_address string) error
 	Transform(devices []app.MinerDevice) (map[string][]app.MinerData, error)
+	GetCharacteristicsHistory(device_ip string) ([]app.MinerData, error)
 }
 
 type Comment interface {
