@@ -106,12 +106,19 @@ export default function AddDeviceForm({ allIP }) {
 			<form onSubmit={handleAdd}>
 				<div className="form--title">Add new Device</div>
 				<div className="form--btns">
-					<Button type="button" value="Add" onClick={addFormField} size="m" />
+					<Button
+						type="button"
+						float="left"
+						value="Add"
+						onClick={addFormField}
+						size="m"
+					/>
 					<Button
 						type="button"
 						value="Remove"
 						onClick={removeFormField}
 						size="m"
+						float="left"
 					/>
 					<input
 						type="text"
@@ -187,7 +194,7 @@ export default function AddDeviceForm({ allIP }) {
 					</div>
 				))}
 				<div className="form--btn-submit">
-					<Button type="submit" value="Add Devices" size="l" />
+					<Button type="submit" value="Add Devices" size="l" float="left"/>
 				</div>
 			</form>
 		</div>

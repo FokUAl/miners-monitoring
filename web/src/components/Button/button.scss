@@ -24,4 +24,16 @@
             font-size: 16px;
         }
     }
+
+    &.float- {
+        &left {
+            float: left;
+        }
+        &right {
+            float: right;
+        }
+        &center {
+            margin: 0 auto;
+        }
+    }
 }
