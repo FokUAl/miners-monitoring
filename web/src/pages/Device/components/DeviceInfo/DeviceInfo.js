@@ -6,7 +6,6 @@ import Button from '../../../../components/Button/Button';
 import DataEdit from './DataEdit';
 import FormService from '../../../../services/form.service';
 import Input from '../../../../components/Input/Input';
-import CommentDisplay from './CommentDisplay';
 import './deviceInfo.scss';
 
 export default function DeviceInfo({ data }) {
@@ -23,6 +22,7 @@ export default function DeviceInfo({ data }) {
 			MHSav: data.Miner.Characteristics.MHSav,
 			PowerMode: data.Miner.Characteristics.PowerMode,
 			Temperature: data.Miner.Characteristics.Temperature,
+			IPAddress: data.Miner.IPAddress,
 		};
 	}
 
@@ -53,7 +53,7 @@ export default function DeviceInfo({ data }) {
 			row,
 			column,
 			owner,
-			data.Miner.IPAddress
+			data.IPAddress
 		).then(
 			(response) => {
 				navigate(`/device?shelf=${shelf}&row=${row}&column=${column}`);
@@ -91,39 +91,39 @@ export default function DeviceInfo({ data }) {
 					<DataDisplay
 						text={'Time of work'}
 						type="time"
-						data={data.Miner.Elapsed}
+						data={data.Elapsed}
 					/>
 					<div className="device-info--label-2 float-left">Temperature</div>
 					<DataDisplay
 						text={'Current Temperature'}
-						data={data.Miner.Temperature && data.Miner.Temperature + '°'}
+						data={data.Temperature && data.Temperature + '°'}
 					/>
 					<DataDisplay
 						text={'Chips Temperature Average'}
-						data={data.Miner.ChipTempAvg && data.Miner.ChipTempAvg + '°'}
+						data={data.ChipTempAvg && data.ChipTempAvg + '°'}
 					/>
 					<DataDisplay
 						text={'Chips Temperature Max'}
-						data={data.Miner.ChipTempMax && data.Miner.ChipTempMax + '°'}
+						data={data.ChipTempMax && data.ChipTempMax + '°'}
 					/>
 					<DataDisplay
 						text={'Chips Temperature Min'}
-						data={data.Miner.ChipTempMin && data.Miner.ChipTempMin + '°'}
+						data={data.ChipTempMin && data.ChipTempMin + '°'}
 					/>
 					<div className="device-info--label-2 float-left">Fans Speed</div>
-					<DataDisplay text={'Fan Speed In'} data={data.Miner.FanSpeedIn} />
-					<DataDisplay text={'Fan Speed Out'} data={data.Miner.FanSpeedOut} />
+					<DataDisplay text={'Fan Speed In'} data={data.FanSpeedIn} />
+					<DataDisplay text={'Fan Speed Out'} data={data.FanSpeedOut} />
 				</div>
 				<div>
 					<div className="device-info--label-1 float-left">
 						Additional Characteristics
 					</div>
-					<DataDisplay text={'IP address'} data={data.Miner.IPAddress} />
-					<DataDisplay text={'MAC address'} data={data.Miner.MAC} />
-					<DataDisplay text={'Power Mode'} data={data.Miner.PowerMode} />
+					<DataDisplay text={'IP address'} data={data.IPAddress} />
+					<DataDisplay text={'MAC address'} data={data.MAC} />
+					<DataDisplay text={'Power Mode'} data={data.PowerMode} />
 					<DataDisplay
 						text={'Mega Hashrate per second Average'}
-						data={data.Miner.MHSav}
+						data={data.MHSav}
 					/>
 					<Container borderTop borderRight borderBottom borderLeft>
 						{isEdit ? (
@@ -193,7 +193,7 @@ export default function DeviceInfo({ data }) {
 						value="Delete Device"
 						size="m"
 						float="center"
-						onClick={() => handleDelete(data.Miner.IPAddress)}
+						onClick={() => handleDelete(data.IPAddress)}
 					/>
 				</div>
 			</div>

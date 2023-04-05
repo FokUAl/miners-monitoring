@@ -1,4 +1,4 @@
-import './deviceInfo.scss'
+import '../DeviceInfo/deviceInfo.scss'
 
 export default function CommentDisplay ({username, date, content}) {
 	const newDate = new Date(date).toUTCString()

@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom'
 import PageService from '../../services/page.service'
 import Navbar from '../../components/Navbar/Navbar'
 import DeviceInfo from './components/DeviceInfo/DeviceInfo'
-import Comments from './components/DeviceInfo/Comments'
+import Comments from './components/Comments/Comments'
+import DeviceGraph from './components/DeviceGraph/DeviceGraph'
 
 export default function Device() {
     const [data, setData] = useState({})
@@ -22,6 +23,7 @@ export default function Device() {
         <div>
             <Navbar />
             {data.Miner && <DeviceInfo data={data} />}
+            {data.CharacteristicsHistory && <DeviceGraph charHistory={data.CharacteristicsHistory}/>}
             <Comments data={data} />
         </div>
     )
