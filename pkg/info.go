@@ -1,8 +1,10 @@
 package pkg
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"regexp"
@@ -36,14 +38,14 @@ func GetAsicInfo(ip string, command string) (string, error) {
 		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
-	reply := make([]byte, 4096)
-	_, err = con.Read(reply)
+	var reply bytes.Buffer
+	io.Copy(&reply, con)
 
 	if err != nil {
 		return "", fmt.Errorf("GetAsicInfo: %s", err.Error())
 	}
 
-	return string(reply), nil
+	return reply.String(), nil
 }
 
 // Func for getting data by IP and
@@ -51,7 +53,7 @@ func GetAsicInfo(ip string, command string) (string, error) {
 func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	var result app.MinerData
 	result.IP = ip_address
-	response, err := GetAsicInfo(ip_address, "summary")
+	response, err := GetAsicInfo(ip_address, "stats")
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
 		downstream <- result
@@ -65,7 +67,7 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 		return
 	}
 
-	result, err = ParsingData(response)
+	result, err = ParsingDataOld(response)
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
 	}
@@ -88,8 +90,8 @@ func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
 }
 
 // Accept string and try parse it to MinerData struct
-// using regex.
-func ParsingData(data string) (app.MinerData, error) {
+// using regex. Only for cgminer newer than 4 version.
+func ParsingDataNew(data string) (app.MinerData, error) {
 	var minerData app.MinerData
 
 	// Searches key and value pairs in data string
@@ -152,6 +154,71 @@ func ParsingData(data string) (app.MinerData, error) {
 	return minerData, nil
 }
 
+// Accept string and try parse it to MinerData struct
+// using regex. Only for cgminer 1 version.
+func ParsingDataOld(data string) (app.MinerData, error) {
+	var minerData app.MinerData
+
+	// Searches key and value pairs in data string
+	r, err := regexp.Compile(`"[A-Za-z0-9% _]+":"?[0-9A-Za-z:._ -]+"?`)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't compile regexp: %s", err.Error())
+	}
+
+	arr := r.FindAllString(data, -1)
+	data_map := make(map[string]string)
+	for _, val := range arr {
+		keyvalue := strings.Split(val, "\":")
+		key := strings.Trim(keyvalue[0], "\"")
+		value := strings.Trim(keyvalue[1], "\"")
+		data_map[key] = value
+	}
+
+	minerData.PowerMode = "Normal"
+
+	temp_pcb1 := strings.Split(data_map["temp_pcb1"], "-")
+	temp_pcb2 := strings.Split(data_map["temp_pcb2"], "-")
+	temp_pcb3 := strings.Split(data_map["temp_pcb3"], "-")
+	minerData.Temperature, err = Max(temp_pcb1, temp_pcb2, temp_pcb3)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse temp of boards: %s", err.Error())
+	}
+
+	temp_chip1 := strings.Split(data_map["temp_chip1"], "-")
+	temp_chip2 := strings.Split(data_map["temp_chip2"], "-")
+	temp_chip3 := strings.Split(data_map["temp_chip3"], "-")
+	chip_temp_stats, err := ChipTempStats(temp_chip1, temp_chip2, temp_chip3)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse temp of chips: %s", err.Error())
+	}
+
+	minerData.ChipTempMax = chip_temp_stats[0]
+	minerData.ChipTempMin = chip_temp_stats[1]
+	minerData.ChipTempAvg = chip_temp_stats[2]
+
+	minerData.MHSav, err = strconv.ParseFloat(data_map["GHS av"], 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse GHS av: %s", err.Error())
+	}
+
+	minerData.FanSpeedIn, err = strconv.ParseInt(data_map["fan1"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed In: %s", err.Error())
+	}
+
+	minerData.FanSpeedOut, err = strconv.ParseInt(data_map["fan3"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed Out: %s", err.Error())
+	}
+
+	minerData.Elapsed, err = strconv.ParseInt(data_map["Elapsed"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse Elapsed: %s", err.Error())
+	}
+
+	return minerData, nil
+}
+
 // func checks is it actually asic by IP
 func CheckResponse(response string) error {
 	// search target segment of string
@@ -160,4 +227,68 @@ func CheckResponse(response string) error {
 	}
 
 	return nil
+}
+
+// finds the maximum number in arrays.
+func Max(arr1 []string, arr2 []string, arr3 []string) (float64, error) {
+	max := 0.0
+	arr1 = append(arr1, arr2...)
+	arr1 = append(arr1, arr3...)
+
+	nums, err := ParseFloatArr(arr1)
+	if err != nil {
+		return 0.0, fmt.Errorf("Max: %s", err.Error())
+	}
+
+	for _, elem := range nums {
+		if elem > max {
+			max = elem
+		}
+	}
+
+	return max, nil
+}
+
+// finds max temp, min temp, average temp for chips.
+func ChipTempStats(arr1 []string, arr2 []string, arr3 []string) ([]float64, error) {
+	// combining arrays
+	arr1 = append(arr1, arr2...)
+	arr1 = append(arr1, arr3...)
+
+	nums, err := ParseFloatArr(arr1)
+	if err != nil {
+		return nil, fmt.Errorf("ChipTempStats: %s", err.Error())
+	}
+
+	max := 0.0
+	min := 100.0
+	sum := 0.0
+	for _, elem := range nums {
+		if elem < min {
+			min = elem
+		}
+		if elem > max {
+			max = elem
+		}
+		sum += elem
+	}
+
+	result := []float64{max, min, sum / 12}
+
+	return result, nil
+}
+
+// parse array of string to array of float
+func ParseFloatArr(arr []string) ([]float64, error) {
+	var result []float64
+	for i := 0; i < len(arr); i++ {
+		num, err := strconv.ParseFloat(arr[i], 64)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, num)
+	}
+
+	return result, nil
 }
