@@ -11,9 +11,10 @@ export default function DeviceGraph({ charHistory }) {
 	for (let i = 0; i < graphLength; i++) {
 		const newDate = new Date(charHistory[i].Time);
 		const hoursAndMinutes =
-			padTo2Digits(newDate.getHours()) +
+			padTo2Digits(newDate.getHours()-6) +
 			':' +
 			padTo2Digits(newDate.getMinutes());
+			// newDate.getHours() + ":" + newDate.getMinutes()
 		const temp = {
 			time: hoursAndMinutes,
 			temperature: charHistory[i].ChipTempMax,
