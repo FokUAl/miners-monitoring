@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../../../../components/Button/Button';
-import Container from '../../../../components/Container/Container';
+import Button from '@components/Button/Button';
+import Container from '@components/Container/Container';
 import './devicesList.scss';
 import 'react-table-6/react-table.css';
 import {
@@ -11,11 +11,12 @@ import {
 	ThemeProvider,
 } from '@mui/material';
 import MaterialReactTable from 'material-react-table';
-import PageService from '../../../../services/page.service';
-import DataReg from './DataReg'
+import PageService from '@services/page.service';
+import DataReg from './DataReg';
+import { darken } from '@mui/material';
 
 export default function DevicesList({ devices, setDevices }) {
-	const {columns, data} = DataReg(devices)
+	const { columns, data } = DataReg(devices);
 
 	const theme = createTheme({
 		components: {
@@ -28,7 +29,7 @@ export default function DevicesList({ devices, setDevices }) {
 			},
 		},
 	});
-	
+
 	const UpdateRequest = () => {
 		PageService.getHome().then(
 			(response) => {
@@ -40,11 +41,12 @@ export default function DevicesList({ devices, setDevices }) {
 			}
 		);
 	};
-	
+
 	return (
 		<Container>
-			<Button size="m" value="Update Table" onClick={UpdateRequest} />
-			<ThemeProvider theme={theme}>
+			<div className="m-bm">
+				<Button size="m" value="Update Table" onClick={UpdateRequest} />
+			</div>
 				<MaterialReactTable
 					columns={columns}
 					data={data}
@@ -61,22 +63,26 @@ export default function DevicesList({ devices, setDevices }) {
 						pagination: { pageIndex: 0, PageSize: 100 },
 						sorting: [{ id: 'Owner', desc: false }],
 					}}
-					muiTableContainerProps={{
-						sx: { padding: '0' },
+					muiTableBodyProps={{
+						sx: (theme) => ({
+							'& tr:nth-of-type(odd)': {
+								backgroundColor: darken(theme.palette.background.default, 0.1),
+							},
+						}),
+					}}
+					muiTablePaperProps={{
+						sx: {
+							fontSize: '12px',
+						},
 					}}
 					muiTableHeadCellProps={{
-						sx: { fontSize: '14px', padding: '0 5px' },
-					}}
-					muiTableBodyCellProps={{
-						sx: { fontSize: '14px', padding: '0 5px', margin: '0' },
-					}}
-					muiTableBodyProps={{
 						sx: {
-							backgroundColor: 'seconday',
+							// backgroundColor: 'black',
+							// color: 'white',
+							fontSize: '12px',
 						},
 					}}
 				/>
-			</ThemeProvider>
 		</Container>
 	);
 }

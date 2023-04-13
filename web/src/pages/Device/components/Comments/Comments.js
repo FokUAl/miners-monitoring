@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import FormService from '../../../../services/form.service';
-import Container from '../../../../components/Container/Container';
-import Button from '../../../../components/Button/Button';
-import Input from '../../../../components/Input/Input';
+import FormService from '@services/form.service';
+import Container from '@components/Container/Container';
+import Button from '@components/Button/Button';
+import Input from '@components/Input/Input';
 import CommentDisplay from './CommentDisplay';
 
 export default function Comments({ data }) {

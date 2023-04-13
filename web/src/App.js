@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Home from './pages/Home';
-import AddDevice from './pages/AddDevice';
-import Grid from './pages/Grid';
-import SignIn from './pages/Auth/SignIn';
-import SignUp from './pages/Auth/SignUp';
-import AuthService from './services/auth.service';
+import Home from '@pages/Home';
+import AddDevice from '@pages/AddDevice';
+import Grid from '@pages/Grid';
+import SignIn from '@pages/Auth/SignIn';
+import SignUp from '@pages/Auth/SignUp';
+import AuthService from '@services/auth.service';
 import PrivateRoute from './PrivateRoute';
-import Device from './pages/Device';
-import './scss/app.scss';
-import PageService from './services/page.service';
+import Device from '@pages/Device';
+import '@scss/app.scss';
+import PageService from '@services/page.service';
 import jwt_decode from 'jwt-decode';
 
 function App() {

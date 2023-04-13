@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Container from '../../../../components/Container/Container';
+import Container from '@components/Container/Container';
 import DataDisplay from './DataDisplay';
-import Button from '../../../../components/Button/Button';
+import Button from '@components/Button/Button';
 import DataEdit from './DataEdit';
-import FormService from '../../../../services/form.service';
-import Input from '../../../../components/Input/Input';
+import FormService from '@services/form.service';
+import Input from '@components/Input/Input';
 import './deviceInfo.scss';
 
 export default function DeviceInfo({ data }) {

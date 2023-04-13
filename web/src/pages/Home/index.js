@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar from '@components/Navbar/Navbar';
 import Dashboard from './components/Dashboard/Dashboard';
 import DevicesList from './components/DevicesList/DevicesList';
-import PageService from '../../services/page.service';
+import Empty from './components/Empty/Empty'
+import PageService from '@services/page.service';
 
 export default function Home() {
 	const [devices, setDevices] = useState();
@@ -28,8 +29,7 @@ export default function Home() {
 				</div>
 			) : (
 				<div className="grid-hor">
-					<div />
-					<div />
+					<Empty />
 				</div>
 			)}
 		</>

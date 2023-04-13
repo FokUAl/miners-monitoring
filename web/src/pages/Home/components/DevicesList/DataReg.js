@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Button from '../../../../components/Button/Button';
+import Button from '@components/Button/Button';
 
 function DataReg(devices) {
 	const data = devices.map((el) => {

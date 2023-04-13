@@ -1,14 +1,14 @@
 import React from 'react';
 import './button.scss';
 
-export default function Button(props) {
+export default function Button({type, size, float, onClick, value, className}) {
 	return (
 		<button
-			type={props.type}
-			className={`btn size-${props.size} float-${props.float}`}
-			onClick={props.onClick}
+			type={type}
+			className={`btn size-${size} float-${float} ${className}`}
+			onClick={onClick}
 		>
-			{props.value}
+			{value}
 		</button>
 	);
 }

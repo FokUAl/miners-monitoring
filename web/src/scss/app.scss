@@ -3,6 +3,7 @@
 .App {
     margin: 0 auto;
     font-weight: 400;
+    font-style: normal;
 }
 
 .grid-10-90 {
@@ -41,6 +42,12 @@
     row-gap: 20px;
 }
 
+.grid-hor-20-80 {
+    display: grid;
+    grid-template-columns: 10%, 90%;
+    
+}
+
 .grid-auto {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -57,3 +64,39 @@
     margin-right: 0;
     margin-left: auto;
 }
+
+.m-bl {
+    margin-block: 20px;
+}
+
+.m-in {
+    margin-inline: 20px;
+}
+
+.m-tp {
+    margin-top: 20px;
+}
+
+.m-bm {
+    margin-bottom: 20px;
+}
+
+.m-lt {
+    margin-left: 20px;
+}
+
+.m-rt {
+    margin-right: 20px;
+}
+
+// .MuiTableContainer-root {
+//     background-color: $color-bg-primary;
+// }
+
+// .MuiTableRow-head {
+//     background-color: $color-bg-secondary;
+// }
+
+// .MuiTableCell-root {
+//     color: white;
+// }

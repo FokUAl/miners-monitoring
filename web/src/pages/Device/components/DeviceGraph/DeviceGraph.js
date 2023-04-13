@@ -1,4 +1,4 @@
-import Container from '../../../../components/Container/Container';
+import Container from '@components/Container/Container';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './deviceGraph.scss';
 
