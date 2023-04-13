@@ -32,7 +32,7 @@ func (p *InfoPostgres) SaveMinerData(data app.MinerData, ip_address string) erro
 func (p *InfoPostgres) GetCharacteristicsHistory(device_ip string) ([]app.MinerData, error) {
 	query := `SELECT elapsed, mhs_av, temperature, fan_speed_in, fan_speed_out, power_mode, chip_temp_min,
 		chip_temp_max, chip_temp_avg, creation_date FROM miner_characteristics
-		WHERE ip_address = $1`
+		WHERE ip_address = $1 ORDER BY creation_date ASC`
 
 	rows, err := p.db.Query(query, device_ip)
 	if err != nil {
