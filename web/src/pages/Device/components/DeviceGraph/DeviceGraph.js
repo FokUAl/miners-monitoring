@@ -4,7 +4,7 @@ import './deviceGraph.scss';
 
 export default function DeviceGraph({ charHistory }) {
 	const dataMinutes = [];
-	const isLonger = charHistory.length > 8 ? true : false
+	const isLonger = charHistory.length > 80 ? true : false
 	function padTo2Digits(num) {
 		return String(num).padStart(2, '0');
 	}
