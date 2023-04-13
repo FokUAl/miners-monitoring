@@ -4,22 +4,22 @@ import './deviceGraph.scss';
 
 export default function DeviceGraph({ charHistory }) {
 	const dataMinutes = [];
-	const graphLength = charHistory.length > 80 ? 80 : charHistory.length;
+	const isLonger = charHistory.length > 8 ? true : false
 	function padTo2Digits(num) {
 		return String(num).padStart(2, '0');
 	}
-	for (let i = 0; i < graphLength; i++) {
+	for (let i = (isLonger ? (charHistory.length - 80) : 0); i < (isLonger ? charHistory.length : 80); i++) {
 		const newDate = new Date(charHistory[i].Time);
 		const hoursAndMinutes =
 			padTo2Digits(newDate.getHours()-6) +
 			':' +
 			padTo2Digits(newDate.getMinutes());
-			// newDate.getHours() + ":" + newDate.getMinutes()
-		const temp = {
+		const stats = {
 			time: hoursAndMinutes,
 			temperature: charHistory[i].ChipTempMax,
+			hash: charHistory[i].MHSav
 		};
-		dataMinutes.push(temp);
+		dataMinutes.push(stats);
 	}
 
 	const RATIO_THRESHOLD = 70;
@@ -29,7 +29,7 @@ export default function DeviceGraph({ charHistory }) {
 	var threshold = min_ratio + ((max_ratio - min_ratio) * RATIO_THRESHOLD) / 100;
 	console.log('Ratio', min_ratio, max_ratio, threshold);
 
-	const renderLineChart = (
+	const renderLineChartTemp = (
 		<LineChart width={1400} height={400} data={dataMinutes} margin={{}}>
 			<defs>
 				<linearGradient id="color50pct" x1="0%" x2="0%" y2="0%" y1="100%">
@@ -49,11 +49,24 @@ export default function DeviceGraph({ charHistory }) {
 		</LineChart>
 	);
 
+	const renderLineChartHash = (
+		<LineChart width={1400} height={400} data={dataMinutes} margin={{}}>
+			<Line type="monotone" dataKey="hash" stroke="#eb4034" />
+			<XAxis dataKey="time" />
+			<Tooltip />
+		</LineChart>
+	)
+
 	return (
 		<div style={{ marginTop: '20px' }}>
 			<Container>
 				<div className="graph--container">
-					<ResponsiveContainer>{renderLineChart}</ResponsiveContainer>
+					<ResponsiveContainer>{renderLineChartTemp}</ResponsiveContainer>
+				</div>
+			</Container>
+			<Container>
+				<div className="graph--container">
+					<ResponsiveContainer>{renderLineChartHash}</ResponsiveContainer>
 				</div>
 			</Container>
 		</div>
