@@ -45,7 +45,7 @@ export default function AllIP({ allIP, setAllIP }) {
 					</div>
 						<Container>
 							<div className="grid-auto">
-								{allIP ? allIP.map(IP => <div key={IP}>{IP[1]}</div>) : 'No Data'}
+								{allIP ? allIP.map(IP => <div key={IP}>{IP[1]}:{IP[0]}</div>) : 'No Data'}
 							</div>
 						</Container>
 				</Container>
