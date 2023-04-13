@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Home from '@pages/Home';
 import AddDevice from '@pages/AddDevice';
@@ -15,7 +15,7 @@ import jwt_decode from 'jwt-decode';
 function App() {
 	const location = useLocation();
 	const navigation = useNavigate();
-
+	const [isHidden, setIsHidden] = useState(false)
 	useEffect(() => {
 		const token = AuthService.getCurrentUser();
 		if (token) {
@@ -43,7 +43,7 @@ function App() {
 					path="/"
 					element={
 						<PrivateRoute>
-							<Home />
+							<Home isHidden={isHidden} setIsHidden={setIsHidden}/>
 						</PrivateRoute>
 					}
 				/>
@@ -51,7 +51,7 @@ function App() {
 					path="/addDevice"
 					element={
 						<PrivateRoute>
-							<AddDevice />
+							<AddDevice isHidden={isHidden} setIsHidden={setIsHidden}/>
 						</PrivateRoute>
 					}
 				/>
@@ -59,7 +59,7 @@ function App() {
 					path="/grid"
 					element={
 						<PrivateRoute>
-							<Grid />
+							<Grid isHidden={isHidden} setIsHidden={setIsHidden}/>
 						</PrivateRoute>
 					}
 				/>
@@ -67,7 +67,7 @@ function App() {
 					path="/device"
 					element={
 						<PrivateRoute>
-							<Device />
+							<Device isHidden={isHidden} setIsHidden={setIsHidden}/>
 						</PrivateRoute>
 					}
 				/>

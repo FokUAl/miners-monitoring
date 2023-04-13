@@ -1,0 +1,20 @@
+<svg width="49" height="49" xmlns="http://www.w3.org/2000/svg" fill="none">
+ <defs>
+  <linearGradient y2="0.49993" x2="1.08332" y1="0.49993" x1="0.00003" id="paint0_linear">
+   <stop stop-color="#5CC2A4" offset="0"/>
+   <stop stop-color="#5ABE9E" offset="0.08187"/>
+   <stop stop-color="#53B48F" offset="0.2045"/>
+   <stop stop-color="#48A77B" offset="0.3528"/>
+   <stop stop-color="#379763" offset="0.5196"/>
+   <stop stop-color="#2A8D58" offset="0.6323"/>
+   <stop stop-color="#336848" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_1" fill="white" d="m20.052,28.1911c2.739,0 2.739,-4.243 0,-4.243c-2.716,0 -2.716,4.243 0,4.243z"/>
+  <path id="svg_2" fill="white" d="m26.11301,28.1911c2.73999,0 2.73999,-4.2429 0,-4.2429c-2.74001,0 -2.74001,4.2429 0,4.2429z"/>
+  <path id="svg_3" stroke-miterlimit="10" stroke-width="5" stroke="url(#paint0_linear)" d="m6.28,7.09747l36.34399,0l0,36.68333l-35.495,0"/>
+  <path id="svg_4" stroke-miterlimit="10" stroke-width="5" stroke-opacity="0.31" stroke="#00F30C" d="m6.28,7.09747l36.34399,0l0,36.68333l-35.495,0"/>
+ </g>
+</svg>

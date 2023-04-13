@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.scss';
 import { ReactComponent as Logo } from '@assets/images/logo_white.svg';
+import { ReactComponent as LogoLess } from '@assets/images/logo_white_less.svg';
 import AuthService from '@services/auth.service';
 import PageService from '@services/page.service';
+import Button from '@components/Button/Button';
+import { BsListNested, BsList, BsPlusCircle, BsGrid3X3, BsDoorOpen } from 'react-icons/bs'
 
-export default function Navbar(props) {
+export default function Navbar({ isHidden, setIsHidden }) {
 	const [username, setUsername] = useState();
 	const [role, setRole] = useState();
 	useEffect(() => {
@@ -25,32 +28,49 @@ export default function Navbar(props) {
 		AuthService.logout();
 	};
 
+	const handleHidden = () => {
+		setIsHidden(!isHidden);
+	};
+
 	return (
-		<nav>
-			<Link to="/">
-				<Logo />
-			</Link>
-			<div className="nav--user">
-				<div className="nav--user-nickname">{username}</div>
-				<div className="nav--user-role">{role}</div>
+		<nav className={isHidden ? 'nav-less' : 'nav'}>
+			<div className="nav--logo">
+				<Link to="/">
+					{isHidden ? <LogoLess /> : <Logo />}
+				</Link>
 			</div>
 			<ul className="nav--links">
 				<li>
 					<Link className="nav--link" to="/addDevice">
-						Add new Device
+						<BsPlusCircle color="white" size="25" />{!isHidden && <div className='m-lt'>Add new device</div>}
 					</Link>
 				</li>
 				<li>
 					<Link className="nav--link" to="/grid">
-						Devices grid
+						<BsGrid3X3 color="white" size="25" />{!isHidden && <div className='m-lt'>Devices grid</div>}
 					</Link>
 				</li>
 				<li>
 					<Link className="nav--link" to="/auth/signIn" onClick={handleLogOut}>
-						Log out
+						<BsDoorOpen color="white" size="25" />{!isHidden && <div className='m-lt'>Log out</div>}
 					</Link>
 				</li>
 			</ul>
+			{!isHidden && (
+				<div className="nav--user">
+					<div className="nav--user-nickname">{username}</div>
+					<div className="nav--user-role">{role}</div>
+				</div>
+			)}
+			<div className="float-bottom">
+				<Button
+					value={isHidden ? <BsList /> : <BsListNested />}
+					float="center"
+					fluid
+					size="m"
+					onClick={handleHidden}
+				/>
+			</div>
 		</nav>
 	);
 }

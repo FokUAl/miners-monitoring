@@ -6,7 +6,7 @@ import DeviceInfo from './components/DeviceInfo/DeviceInfo'
 import Comments from './components/Comments/Comments'
 import DeviceGraph from './components/DeviceGraph/DeviceGraph'
 
-export default function Device() {
+export default function Device({isHidden, setIsHidden}) {
     const [data, setData] = useState({})
     const { search } = useLocation()
 
@@ -20,11 +20,13 @@ export default function Device() {
     }, [data])
     console.log(data)
     return (
-        <div>
-            <Navbar />
-            {data.Miner && <DeviceInfo data={data} />}
-            {data.CharacteristicsHistory && <DeviceGraph charHistory={data.CharacteristicsHistory}/>}
-            <Comments data={data} />
+		<div className={isHidden? "grid-5-95" : "grid-15-85"}>
+            <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
+            <div>
+                {data.Miner && <DeviceInfo data={data} />}
+                {data.CharacteristicsHistory && <DeviceGraph charHistory={data.CharacteristicsHistory}/>}
+                <Comments data={data} />
+            </div>
         </div>
     )
 }

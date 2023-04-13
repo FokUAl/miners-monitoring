@@ -43,10 +43,11 @@ export default function DevicesList({ devices, setDevices }) {
 	};
 
 	return (
-		<Container>
-			<div className="m-bm">
-				<Button size="m" value="Update Table" onClick={UpdateRequest} />
-			</div>
+		<div className="container-fluid">
+			<Container>
+				<div className="m-bm">
+					<Button size="m" value="Update Table" onClick={UpdateRequest} />
+				</div>
 				<MaterialReactTable
 					columns={columns}
 					data={data}
@@ -83,6 +84,7 @@ export default function DevicesList({ devices, setDevices }) {
 						},
 					}}
 				/>
-		</Container>
+			</Container>
+		</div>
 	);
 }

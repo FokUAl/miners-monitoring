@@ -2,7 +2,7 @@ import Container from '@components/Container/Container'
 
 const Empty = () => {
     return (
-        <Container>There is no any devices yet</Container>
+        <Container>There is no any device yet</Container>
     )
 }
 
