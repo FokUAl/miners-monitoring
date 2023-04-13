@@ -8,7 +8,7 @@ export default function DeviceGraph({ charHistory }) {
 	function padTo2Digits(num) {
 		return String(num).padStart(2, '0');
 	}
-	for (let i = (isLonger ? (charHistory.length - 80) : 0); i < (isLonger ? charHistory.length : 80); i++) {
+	for (let i = (isLonger ? (charHistory.length - 80) : 0); i < charHistory.length; i++) {
 		const newDate = new Date(charHistory[i].Time);
 		const hoursAndMinutes =
 			padTo2Digits(newDate.getHours()-6) +
