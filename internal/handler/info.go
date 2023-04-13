@@ -35,14 +35,11 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 		devicesAdresses = append(devicesAdresses, value)
 	}
 
-	type IPDevices struct {
+	c.JSON(http.StatusOK, struct {
 		List [][]string
-	}
-
-	var IP IPDevices
-	IP.List = devicesAdresses
-
-	c.JSON(http.StatusOK, IP)
+	}{
+		List: devicesAdresses,
+	})
 
 }
 
@@ -99,7 +96,7 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 				h.services.SaveMinerData(devices[j].Characteristics, devices[j].IPAddress)
 			}
 
-			time.Sleep(time.Minute)
+			time.Sleep(59 * time.Second)
 		}
 	}
 }
