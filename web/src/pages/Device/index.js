@@ -17,7 +17,7 @@ export default function Device({isHidden, setIsHidden}) {
                 console.log(data)
             }, (error) => console.log("device error", error)
         )
-    }, [data])
+    }, [])
     console.log(data)
     return (
 		<div className={isHidden? "grid-5-95" : "grid-15-85"}>

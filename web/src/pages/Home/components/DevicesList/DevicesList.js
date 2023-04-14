@@ -64,24 +64,33 @@ export default function DevicesList({ devices, setDevices }) {
 						pagination: { pageIndex: 0, PageSize: 100 },
 						sorting: [{ id: 'Owner', desc: false }],
 					}}
-					muiTableBodyProps={{
-						sx: (theme) => ({
-							'& tr:nth-of-type(odd)': {
-								backgroundColor: darken(theme.palette.background.default, 0.1),
-							},
-						}),
+					muiTableHeadCellProps={{
+						sx: {
+							backgroundColor: '#888787',
+							color: 'white',
+							fontSize: '12px',
+						},
+					}}
+					muiTableBodyCellProps={{
+						sx: {
+							backgroundColor: '#888787',
+							color: 'white',
+							fontSize: '12px',
+						}
 					}}
 					muiTablePaperProps={{
 						sx: {
+							backgroundColor: '#888787',
+							color: 'white',
 							fontSize: '12px',
-						},
+						}
 					}}
-					muiTableHeadCellProps={{
+					muiTopToolbarProps={{
 						sx: {
-							// backgroundColor: 'black',
-							// color: 'white',
-							fontSize: '12px',
-						},
+							backgroundColor: '#1e1e1e',
+							color: 'white',
+							fontSize: '10px'
+						}
 					}}
 				/>
 			</Container>

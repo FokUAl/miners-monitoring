@@ -131,6 +131,7 @@ export default function AddDeviceForm({ allIP }) {
 					/>
 				</div>
 				<div className="form--labels">
+					<label></label>
 					<label>Miner Type</label>
 					<label>IP</label>
 					<label>Shelf</label>

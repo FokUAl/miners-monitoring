@@ -60,7 +60,8 @@
                 background-color: $color-bg-secondary;
             }
             a {
-                display: block;
+                display: flex;
+                justify-content: center;
                 border-radius: 5px;
                 width: 100%;
                 padding: 10px 5px;

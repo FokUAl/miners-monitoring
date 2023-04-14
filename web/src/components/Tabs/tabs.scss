@@ -1,0 +1,22 @@
+@import '@scss/variables.scss';
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: $color-bg-primary;
+    margin-inline: 2px;
+    color: $color-text;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px;
+    &.active {
+        background-color: $color-bg-hover;
+    }
+}
