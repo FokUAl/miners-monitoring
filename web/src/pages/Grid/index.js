@@ -17,7 +17,7 @@ export default function Grid({isHidden, setIsHidden}) {
 		);
 	}, []);
     return (
-		<div className={isHidden? "grid-5-95" : "grid-15-85"}>
+		<div className={isHidden? "nav-hidden" : "nav-full"}>
             <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
             <GridContainer devices={devices}/>
         </div>

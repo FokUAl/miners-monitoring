@@ -8,6 +8,7 @@ import DeviceGraph from './components/DeviceGraph/DeviceGraph'
 
 export default function Device({isHidden, setIsHidden}) {
     const [data, setData] = useState({})
+    const [seconds, setSeconds] = useState(0);
     const { search } = useLocation()
 
     useEffect(() => {
@@ -17,12 +18,16 @@ export default function Device({isHidden, setIsHidden}) {
                 console.log(data)
             }, (error) => console.log("device error", error)
         )
+        const interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 1000);
+        return () => clearInterval(interval);
     }, [])
     console.log(data)
     return (
-		<div className={isHidden? "grid-5-95" : "grid-15-85"}>
+		<div className={isHidden? "nav-hidden" : "nav-full"}>
             <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
-            <div>
+            <div style={{marginLeft: '20px'}}>
                 {data.Miner && <DeviceInfo data={data} />}
                 {data.CharacteristicsHistory && <DeviceGraph charHistory={data.CharacteristicsHistory}/>}
                 <Comments data={data} />

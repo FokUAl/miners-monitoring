@@ -6,7 +6,7 @@ import AllIP from './components/AllIP/AllIP'
 export default function AddDevice({isHidden, setIsHidden}) {
     const [allIP, setAllIP] = useState()
     return (
-		<div className={isHidden? "grid-5-95" : "grid-15-85"}>
+		<div className={isHidden? "nav-hidden" : "nav-full"}>
             <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
             <div className="grid-hor">
                 <AddDeviceForm allIP={allIP} />

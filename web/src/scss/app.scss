@@ -20,8 +20,6 @@
     display: grid;
     grid-template-columns: 15% 85%;
     column-gap: 20px;
-    height: 100vh;
-    transition: all .2s;
 }
 
 .grid-85-15 {
@@ -39,8 +37,7 @@
 .grid-5-95 {
     display: grid;
     grid-template-columns: 5% 95%;
-    height: 100vh;
-    transition: all .2s;
+    column-gap: 20px;
 }
 
 .grid-hor {
@@ -97,6 +94,12 @@
     transform: translateX(-50%);
     width: 90%;
     margin-bottom: 10px;
+}
+
+.centrilized-cont {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 // .MuiTableContainer-root {

@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import ComponentService from '../../../../services/component.service';
 import Container from '../../../../components/Container/Container';
 import Button from '../../../../components/Button/Button';
+import MaterialReactTable from 'material-react-table';
 import './allIP.scss';
 
 export default function AllIP({ allIP, setAllIP }) {
 	const [loading, setLoading] = useState(true);
 
 	const UpdateIPs = () => {
-		console.log(1)
+		console.log(1);
 		ComponentService.getAllIP().then(
 			(response) => {
 				setAllIP(response.data.List);
@@ -27,7 +28,24 @@ export default function AllIP({ allIP, setAllIP }) {
 		UpdateIPs();
 	};
 
-	(!allIP && UpdateIPs())
+	!allIP && UpdateIPs();
+	const columns = useMemo(
+		() => [
+			{
+				header: 'IP',
+				accessorKey: 'IP',
+				size: 1,
+				enableGrouping: false,
+			},
+			{
+				header: 'MAC',
+				accessorKey: 'MAC',
+				size: 1,
+				enableGrouping: false,
+			},
+		],
+		[]
+	);
 
 	return (
 		<div>
@@ -39,15 +57,23 @@ export default function AllIP({ allIP, setAllIP }) {
 				</Container>
 			) : (
 				<Container>
-					<div className="grid-10-90">
-						<Button value="Update IPs" onClick={HandleLoading} size="l"/>
-						<div className="form--title">All IPs in network</div>
-					</div>
+					<div >
+						<div className="grid-15-85">
+							<Button value="Update IPs" onClick={HandleLoading} size="l" />
+							<div className="form--title">All IPs in network</div>
+						</div>
 						<Container>
 							<div className="grid-auto">
-								{allIP ? allIP.map(IP => <div key={IP}>{IP[1]}:{IP[0]}</div>) : 'No Data'}
+								{allIP
+									? 
+									<MaterialReactTable 
+										columns={columns}
+										data={allIP}
+									/>
+									: 'No Data'}
 							</div>
 						</Container>
+					</div>
 				</Container>
 			)}
 		</div>

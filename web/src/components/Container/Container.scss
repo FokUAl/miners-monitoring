@@ -4,16 +4,15 @@
     padding: 20px;
     background-color: $color-bg-secondary;
     &.border-top {
-        border-top: 1px solid $color-border;
+        margin-top: 20px;
     }
     &.border-right {
-        border-right: 1px solid $color-border;
+        margin-right: 20px;
     }
     &.border-bottom {
-        border-bottom: 1px solid $color-border;
         margin-bottom: 20px;
     }
     &.border-left {
-        border-left: 1px solid $color-border;
+        margin-left: 20px;
     }
 }

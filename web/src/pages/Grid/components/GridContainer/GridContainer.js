@@ -35,7 +35,7 @@ export default function GridContainer({devices, shelf}) {
 		return gridShelfs;
 	};
 	return (
-		<Container>
+		<Container borderLeft>
 			<GridComponent gridColumns="11">
 				<GridShelfBuilder devices={devices} start={1} end={11}/>
 				<GridShelfBuilder devices={devices} start={11} end={22}/>
