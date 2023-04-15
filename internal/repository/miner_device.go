@@ -1,9 +1,11 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 
 	app "github.com/FokUAl/miners-monitoring"
+	"github.com/FokUAl/miners-monitoring/pkg"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -20,7 +22,7 @@ func NewMinerPostgres(db *sqlx.DB) *MinerPostgres {
 func (p *MinerPostgres) GetDevicesInfo() ([]app.AddInfo, error) {
 	var devicesInfo []app.AddInfo
 
-	query := `SELECT miner_type, ip_address, shelf, _row, col, owner_ FROM miner_devices`
+	query := `SELECT miner_type, ip_address, mac_address, shelf, _row, col, owner_ FROM miner_devices`
 	rows, err := p.db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("GetDevicesInfo: %w", err)
@@ -29,9 +31,14 @@ func (p *MinerPostgres) GetDevicesInfo() ([]app.AddInfo, error) {
 	defer rows.Close()
 	for rows.Next() {
 		var info app.AddInfo
-		err = rows.Scan(&info.MinerType, &info.IP, &info.Shelf, &info.Row, &info.Column, &info.Owner)
+		mac_address := ""
+		err = rows.Scan(&info.MinerType, &info.Address, &mac_address, &info.Shelf, &info.Row, &info.Column, &info.Owner)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesInfo: %w", err)
+		}
+
+		if info.Address == " " {
+			info.Address = mac_address
 		}
 
 		devicesInfo = append(devicesInfo, info)
@@ -84,14 +91,11 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 }
 
 func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
-	query := `INSERT INTO miner_devices (shelf, _row, col, owner_, ip_address, miner_type) 
-	VALUES ($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO miner_devices (shelf, _row, col, owner_, ip_address, mac_address, miner_type) 
+	VALUES ($1, $2, $3, $4, $5, $6, $7)`
 
-	_, err := p.db.Exec(query, dev.Shelf, dev.Row, dev.Column, dev.Owner, dev.IPAddress, dev.MinerType)
-
-	if err != nil {
-		return err
-	}
+	_, err := p.db.Exec(query, dev.Shelf, dev.Row, dev.Column, dev.Owner, dev.IPAddress,
+		dev.MACAddress, dev.MinerType)
 
 	return err
 }
@@ -123,16 +127,21 @@ func (p *MinerPostgres) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, e
 	return device == app.MinerDevice{}, err
 }
 
-func (p *MinerPostgres) IsIPFree(ip_address string) (bool, error) {
+func (p *MinerPostgres) IsAddressFree(address string, isIP bool) (bool, error) {
 	var device app.MinerDevice
 
-	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
+	query := `SELECT miner_type, shelf, _row, col, owner_,
 		ip_address, mac_address FROM miner_devices 
 		WHERE ip_address = $1`
 
-	err := p.db.QueryRow(query, ip_address).Scan(&device.MinerType, &device.Shelf, &device.Row,
-		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
-		&device.Characteristics.MAC)
+	if !isIP {
+		query = `SELECT miner_type, shelf, _row, col, owner_, ip_address, 
+		mac_address FROM miner_devices 
+		WHERE mac_address = $1`
+	}
+
+	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
+		&device.Column, &device.Owner, &device.IPAddress, &device.Characteristics.MAC)
 
 	return device == app.MinerDevice{}, err
 }
@@ -211,11 +220,11 @@ func (p *MinerPostgres) GetDevicesByStatus(miner_status string) ([]app.MinerDevi
 
 func (p *MinerPostgres) GetDeviceByLocation(shelf int, column int, row int) (app.MinerDevice, error) {
 	var result app.MinerDevice
-	statement := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address
+	statement := `SELECT miner_type, shelf, _row, col, owner_, ip_address, mac_address
 		FROM miner_devices WHERE shelf = $1 and _row = $2 and col = $3`
 	err := p.db.QueryRow(statement, shelf, row, column).Scan(&result.MinerType, &result.Shelf, &result.Row,
-		&result.Column, &result.Owner, &result.MinerStatus, &result.Coin, &result.IPAddress, &result.Characteristics.MAC)
-	if err != nil {
+		&result.Column, &result.Owner, &result.IPAddress, &result.MACAddress)
+	if err != nil && err != sql.ErrNoRows {
 		return result, fmt.Errorf("get device by location: %s", err.Error())
 	}
 
@@ -251,8 +260,18 @@ func (p *MinerPostgres) UpdateDevice(newInfo app.AddInfo) error {
 	query := `UPDATE miner_devices SET owner_ = $1, shelf = $2, _row = $3, col = $4,
 		miner_type = $5 WHERE ip_address = $6`
 
-	_, err := p.db.Exec(query, newInfo.Owner, newInfo.Shelf, newInfo.Row,
-		newInfo.Column, newInfo.MinerType, newInfo.IP)
+	isIP, err := pkg.IsIP(newInfo.Address)
+	if err != nil {
+		return fmt.Errorf("UpdateDevice: %s", err.Error())
+	}
+
+	if !isIP {
+		query = `UPDATE miner_devices SET owner_ = $1, shelf = $2, _row = $3, col = $4,
+		miner_type = $5 WHERE mac_address = $6`
+	}
+
+	_, err = p.db.Exec(query, newInfo.Owner, newInfo.Shelf, newInfo.Row,
+		newInfo.Column, newInfo.MinerType, newInfo.Address)
 	return err
 }
 
