@@ -18,7 +18,7 @@ export default function DeviceInfo({ data }) {
 			Elapsed: data.Miner.Characteristics.Elapsed,
 			FanSpeedIn: data.Miner.Characteristics.FanSpeedIn,
 			FanSpeedOut: data.Miner.Characteristics.FanSpeedOut,
-			MAC: data.Miner.Characteristics.MAC,
+			MAC: data.Miner.MAC,
 			MHSav: data.Miner.Characteristics.MHSav,
 			PowerMode: data.Miner.Characteristics.PowerMode,
 			Temperature: data.Miner.Characteristics.Temperature,
