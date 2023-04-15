@@ -27,7 +27,6 @@ const Tooltip = ({children, content}) => {
                 <div className={classesGenerator()}>
                     {`Location:${content.Shelf}-${content.Row}-${content.Column} 
                     IP:${content.IPAddress} 
-                    MAC:${content.MAC}
                     Status:${content.MinerStatus}
                     Temperature:${content.Characteristics.Temperature}
                     MHSav:${content.Characteristics.MHSav}`}
