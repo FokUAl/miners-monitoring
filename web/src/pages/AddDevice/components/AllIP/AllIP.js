@@ -33,13 +33,13 @@ export default function AllIP({ allIP, setAllIP }) {
 		() => [
 			{
 				header: 'IP',
-				accessorKey: 'IP',
+				accessorKey: '1',
 				size: 1,
 				enableGrouping: false,
 			},
 			{
 				header: 'MAC',
-				accessorKey: 'MAC',
+				accessorKey: '0',
 				size: 1,
 				enableGrouping: false,
 			},
@@ -63,7 +63,6 @@ export default function AllIP({ allIP, setAllIP }) {
 							<div className="form--title">All IPs in network</div>
 						</div>
 						<Container>
-							<div className="grid-auto">
 								{allIP
 									? 
 									<MaterialReactTable 
@@ -71,7 +70,6 @@ export default function AllIP({ allIP, setAllIP }) {
 										data={allIP}
 									/>
 									: 'No Data'}
-							</div>
 						</Container>
 					</div>
 				</Container>

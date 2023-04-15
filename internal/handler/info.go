@@ -72,7 +72,7 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 				var device app.MinerDevice
 
 				device.MinerType = elem.MinerType
-				device.IPAddress = elem.IP
+				device.IPAddress = elem.Address
 				device.Shelf = elem.Shelf
 				device.Row = elem.Row
 				device.Column = elem.Column
@@ -80,7 +80,7 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 
 				// start goroutune and
 				// send result to channel
-				go pkg.ResponseToStruct(elem.IP, deviceResponse)
+				go pkg.ResponseToStruct(elem.Address, deviceResponse)
 
 				devices = append(devices, device)
 			}

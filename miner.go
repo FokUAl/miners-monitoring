@@ -10,5 +10,6 @@ type MinerDevice struct {
 	MinerStatus     string
 	Coin            string
 	IPAddress       string
+	MACAddress      string
 	Characteristics MinerData
 }
