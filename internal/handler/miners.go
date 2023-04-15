@@ -35,8 +35,9 @@ func (h *Handler) getHome(c *gin.Context) {
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
+		device.IPAddress = elem.Address
+
 		device.MinerType = elem.MinerType
-		device.IPAddress = elem.IP
 		device.Shelf = elem.Shelf
 		device.Row = elem.Row
 		device.Column = elem.Column
@@ -44,7 +45,7 @@ func (h *Handler) getHome(c *gin.Context) {
 
 		// start goroutune and
 		// send result to channel
-		go pkg.ResponseToStruct(elem.IP, deviceResponse)
+		go pkg.ResponseToStruct(device.IPAddress, deviceResponse)
 
 		devices = append(devices, device)
 	}
@@ -94,13 +95,19 @@ func (h *Handler) addMiner(c *gin.Context) {
 			return
 		}
 
-		isFreeIP, err := h.services.IsIPFree(info.Data[i].IP)
+		isIP, err := pkg.IsIP(info.Data[i].Address)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
+
+		isFreeAddress, err := h.services.IsAddressFree(info.Data[i].Address, isIP)
 		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
-		if !isFreeIP {
-			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this IP exists: %s", info.Data[i].IP)})
+		if !isFreeAddress {
+			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this address exists: %s", info.Data[i].Address)})
 			return
 		}
 
@@ -109,7 +116,30 @@ func (h *Handler) addMiner(c *gin.Context) {
 	for j := 0; j < len(info.Data); j++ {
 		var device app.MinerDevice
 
-		device.IPAddress = info.Data[j].IP
+		isIP, err := pkg.IsIP(info.Data[j].Address)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
+
+		addresses, err := h.services.PingDevices()
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
+			return
+		}
+
+		resultChan := make(chan string)
+		if isIP {
+			device.IPAddress = info.Data[j].Address
+			go pkg.DetermineMAC(addresses, info.Data[j].Address, resultChan)
+			device.MACAddress = <-resultChan
+		} else {
+			device.MACAddress = info.Data[j].Address
+			device.Characteristics.MAC = info.Data[j].Address
+			go pkg.DetermineIP(addresses, info.Data[j].Address, resultChan)
+			device.IPAddress = <-resultChan
+		}
+
 		device.Shelf = info.Data[j].Shelf
 		device.Row = info.Data[j].Row
 		device.Column = info.Data[j].Column
@@ -122,7 +152,6 @@ func (h *Handler) addMiner(c *gin.Context) {
 			return
 		}
 	}
-
 }
 
 // Heat map that explain location and temperature of device
@@ -132,7 +161,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 
 	devicesInfo, err := h.services.GetDevicesInfo()
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getHome: %s\n", err.Error()))
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("minersGrid: %s\n", err.Error()))
 		return
 	}
 
@@ -140,8 +169,15 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
+		address := elem.Address
+
+		// isIP, err := pkg.IsIP(address)
+		// if err != nil {
+		// 	newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("minersGrid: %s\n", err.Error()))
+		// 	return
+		// }
+
 		device.MinerType = elem.MinerType
-		device.IPAddress = elem.IP
 		device.Shelf = elem.Shelf
 		device.Row = elem.Row
 		device.Column = elem.Column
@@ -149,7 +185,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 
 		// start goroutune and
 		// send result to channel
-		go pkg.ResponseToStruct(elem.IP, deviceResponse)
+		go pkg.ResponseToStruct(address, deviceResponse)
 
 		devices = append(devices, device)
 	}
@@ -224,17 +260,20 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	})
 }
 
+// Uses when we change asic info(miner type, owner, location)
 func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 	var info app.AddInfo
 
+	// get new info from front
 	err := json.NewDecoder(c.Request.Body).Decode(&info)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 	}
 
+	// getting current device info
 	device, err := h.services.GetDeviceByLocation(info.Shelf, info.Column, info.Row)
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 	}
@@ -242,16 +281,32 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 	var infoHolder []app.AddInfo
 	infoHolder = append(infoHolder, info)
 
+	isIP, err := pkg.IsIP(info.Address)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
+		return
+	}
+
+	var address string
+	if isIP {
+		address = device.IPAddress
+	} else {
+		address = device.MACAddress
+	}
+
+	// checking if new location is free
 	isLocFree, err := h.services.IsLocationFree(info.Shelf, info.Row, info.Column)
 	if err != nil && err != sql.ErrNoRows {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
-	} else if !isLocFree && info.IP != device.IPAddress {
+		// check if we write same address
+	} else if !isLocFree && info.Address != address {
 		c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n",
 			info.Shelf, info.Column, info.Row)})
 		return
 	}
 
+	// update info in database
 	err = h.services.MappDevices(infoHolder)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
