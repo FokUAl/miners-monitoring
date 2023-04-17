@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -92,6 +93,7 @@ func (h *Handler) addMiner(c *gin.Context) {
 		if !isFreeLocation {
 			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n",
 				info.Data[i].Shelf, info.Data[i].Column, info.Data[i].Row)})
+			log.Printf("addMiner: Location isn't free: %d-%d-%d\n", info.Data[i].Shelf, info.Data[i].Column, info.Data[i].Row)
 			return
 		}
 
