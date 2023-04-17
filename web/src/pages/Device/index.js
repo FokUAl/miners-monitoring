@@ -20,9 +20,9 @@ export default function Device({isHidden, setIsHidden}) {
         )
         const interval = setInterval(() => {
           setSeconds(seconds => seconds + 1);
-        }, 1000);
+        }, 5000);
         return () => clearInterval(interval);
-    }, [])
+    }, [seconds])
     console.log(data)
     return (
 		<div className={isHidden? "nav-hidden" : "nav-full"}>
