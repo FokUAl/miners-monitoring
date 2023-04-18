@@ -69,6 +69,7 @@ export default function AddDeviceForm({ allIP }) {
 		for (let i = 0; i < data.length; i++) {
 			for (let j = i + 1; j < data.length; j++) {
 				if (data[i]['IP'] === data[j]['IP']) {
+					setIsLoading(false)
 					alert('All IPs must be unique');
 					return;
 				}
@@ -76,6 +77,7 @@ export default function AddDeviceForm({ allIP }) {
 					data[i]['shelf'] + data[i]['row'] + data[i]['column'] ===
 					data[j]['shelf'] + data[j]['row'] + data[j]['column']
 				) {
+					setIsLoading(false)
 					alert('All Locations must be unique');
 					return;
 				}
