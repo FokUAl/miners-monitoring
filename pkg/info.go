@@ -52,8 +52,8 @@ func GetAsicInfo(ip string, command string) (string, error) {
 // transforming data to MinerData struct
 func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	var result app.MinerData
-	result.IP = ip_address
-	response, err := GetAsicInfo(ip_address, "stats")
+
+	response, err := GetAsicInfo(ip_address, "summary")
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
 		downstream <- result
@@ -67,9 +67,31 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 		return
 	}
 
-	result, err = ParsingDataOld(response)
+	result, err = ParsingDataNew(response)
 	if err != nil {
 		log.Printf("ResponseToStruct: %s", err.Error())
+		response, err := GetAsicInfo(ip_address, "stats")
+		if err != nil {
+			log.Printf("ResponseToStruct: %s", err.Error())
+			downstream <- result
+			return
+		}
+
+		err = CheckResponse(response)
+		if err != nil {
+			log.Printf("ResponseToStruct: %s", err.Error())
+			downstream <- result
+			return
+		}
+
+		result, err = ParsingDataOld(response)
+		if err != nil {
+			log.Printf("ResponseToStruct: %s", err.Error())
+			result, err = ParsingDataMiddle(response)
+			if err != nil {
+				log.Printf("ResponseToStruct: %s", err.Error())
+			}
+		}
 	}
 	result.IP = ip_address
 	downstream <- result
@@ -149,6 +171,78 @@ func ParsingDataNew(data string) (app.MinerData, error) {
 	minerData.ChipTempMin, err = strconv.ParseFloat(data_map["Chip Temp Min"], 64)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse Chip Temp Min: %s", err.Error())
+	}
+
+	return minerData, nil
+}
+
+func ParsingDataMiddle(data string) (app.MinerData, error) {
+	var minerData app.MinerData
+
+	r, err := regexp.Compile(`([A-Za-z0-9]+\[[0-9. ]+\])`)
+	if err != nil {
+		return minerData, fmt.Errorf("can't compile regexp: %s", err.Error())
+	}
+
+	arr := r.FindAllString(data, -1)
+	data_map := make(map[string]string)
+
+	for _, val := range arr {
+		keyvalue := strings.Split(val, "[")
+		key := keyvalue[0]
+		value := strings.Trim(keyvalue[1], "]")
+		data_map[key] = value
+	}
+
+	if data_map["WORKMODE"] == "0" {
+		minerData.PowerMode = "Normal"
+	} else {
+		minerData.PowerMode = "High"
+	}
+
+	minerData.Elapsed, err = strconv.ParseInt(data_map["Elapsed"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse elapsed time: %s", err.Error())
+	}
+
+	minerData.Temperature, err = strconv.ParseFloat(data_map["TAvg"], 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse temperature: %s", err.Error())
+	}
+
+	chipTempsStr := strings.Split(data_map["MTavg"], " ")
+	temp_chip1, err := strconv.ParseFloat(chipTempsStr[0], 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse temp_chip_1: %s", err.Error())
+	}
+
+	temp_chip2, err := strconv.ParseFloat(chipTempsStr[1], 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse temp_chip_2: %s", err.Error())
+	}
+
+	temp_chip3, err := strconv.ParseFloat(chipTempsStr[2], 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse temp_chip_2: %s", err.Error())
+	}
+
+	minerData.ChipTempMax = Max3(temp_chip1, temp_chip2, temp_chip3)
+	minerData.ChipTempMin = Min3(temp_chip1, temp_chip2, temp_chip3)
+	minerData.ChipTempAvg = Avg3(temp_chip1, temp_chip2, temp_chip3)
+
+	minerData.FanSpeedIn, err = strconv.ParseInt(data_map["Fan1"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse FanSpeedIn: %s", err.Error())
+	}
+
+	minerData.FanSpeedOut, err = strconv.ParseInt(data_map["Fan4"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse FanSpeedOut: %s", err.Error())
+	}
+
+	minerData.MHSav, err = strconv.ParseFloat(data_map["GHSavg"], 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse GHSavg: %s", err.Error())
 	}
 
 	return minerData, nil
@@ -247,6 +341,38 @@ func Max(arr1 []string, arr2 []string, arr3 []string) (float64, error) {
 	}
 
 	return max, nil
+}
+
+func Max3(num1 float64, num2 float64, num3 float64) float64 {
+	if num1 >= num2 && num1 >= num3 {
+		return num1
+	} else if num2 >= num1 && num2 >= num3 {
+		return num2
+	} else {
+		return num3
+	}
+}
+
+func Avg3(num1 float64, num2 float64, num3 float64) float64 {
+	if num1 <= num2 && num1 >= num3 ||
+		num1 >= num2 && num1 <= num3 {
+		return num1
+	} else if num2 <= num1 && num2 >= num3 ||
+		num2 >= num1 && num2 <= num3 {
+		return num2
+	} else {
+		return num3
+	}
+}
+
+func Min3(num1 float64, num2 float64, num3 float64) float64 {
+	if num1 <= num2 && num1 <= num3 {
+		return num1
+	} else if num2 <= num1 && num2 <= num3 {
+		return num2
+	} else {
+		return num3
+	}
 }
 
 // finds max temp, min temp, average temp for chips.
