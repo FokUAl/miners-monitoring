@@ -23,7 +23,7 @@ export default function Home({ isHidden, setIsHidden }) {
 		<div className={isHidden ? 'nav-hidden' : 'nav-full'}>
 			<Navbar isHidden={isHidden} setIsHidden={setIsHidden} />
 			{devices ? (
-				<div className="grid-hor m-lt">
+				<div className="grid-hor">
 					<Dashboard devices={devices} />
 					<DevicesList devices={devices} setDevices={setDevices} />
 				</div>

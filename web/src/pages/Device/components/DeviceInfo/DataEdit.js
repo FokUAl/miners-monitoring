@@ -9,7 +9,7 @@ const DataEdit = ({text, value, width, setValue}) => {
                     <Input size='s' width={width} color='secondary' textAlign='right' value={value} setValue={setValue}/>
                 </div>
             </div>
-            <div className="wrapper" />
+            <div className="data-display-wrapper" />
         </>
     )
 }

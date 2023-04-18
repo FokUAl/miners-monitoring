@@ -5,9 +5,6 @@
     padding: 10px 20px; 
 
     background-color: $color-bg-primary;
-    float: left;
-    height: 100%;
-    width: 120%;
     position: sticky;
     top: 0;
     z-index: 9999;
@@ -24,8 +21,11 @@
                 display: flex;
                 border-radius: 5px;
                 width: 100%;
-                padding: 10px 20px;
-                align-items: center;
+                padding: 10px 10px;
+                .icon {
+                    width: 25px;
+                    height: auto;
+                }
             }
             a:visited {
                 color: white;
@@ -36,6 +36,11 @@
     .nav--user {
         padding: 10px 50px;
     }
+
+    .nav--logo-img {
+        width: 100%;
+        height: auto;
+    }
 }
 
 .nav-less {
@@ -43,7 +48,6 @@
     padding: 10px 10px; 
 
     background-color: $color-bg-primary;
-    float: left;
     position: sticky;
     top: 0;
     z-index: 9999;
@@ -69,16 +73,12 @@
             }
         }
     }
-
-    .nav--user {
-        padding: 10px 50px;
-    }
 }
 
 .nav- {
     &full {
         display: grid;
-        grid-template-columns: 13% 87%;
+        grid-template-columns: 15% 85%;
         transition: all .2s;
         height: 100vh;
     }

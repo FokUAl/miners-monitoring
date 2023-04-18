@@ -15,7 +15,7 @@ import jwt_decode from 'jwt-decode';
 function App() {
 	const location = useLocation();
 	const navigation = useNavigate();
-	const [isHidden, setIsHidden] = useState(false)
+	const [isHidden, setIsHidden] = useState(true)
 	useEffect(() => {
 		const token = AuthService.getCurrentUser();
 		if (token) {

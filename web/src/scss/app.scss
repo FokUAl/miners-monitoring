@@ -7,25 +7,21 @@
 .grid-10-90 {
     display: grid;
     grid-template-columns: 10% 90%;
-    column-gap: 20px;
 }
 
 .grid-90-10 {
     display: grid;
     grid-template-columns: 90% 10%;
-    column-gap: 20px;
 }
 
 .grid-15-85 {
     display: grid;
     grid-template-columns: 15% 85%;
-    column-gap: 20px;
 }
 
 .grid-85-15 {
     display: grid;
     grid-template-columns: 85% 15%;
-    column-gap: 20px;
 }
 
 .grid-50-50 {
@@ -37,19 +33,16 @@
 .grid-5-95 {
     display: grid;
     grid-template-columns: 5% 95%;
-    column-gap: 20px;
 }
 
 .grid-hor {
     display: grid;
     grid-template-columns: auto;
-    row-gap: 20px;
 }
 
 .grid-auto {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    row-gap: 10px;
 }
 
 .float-left {

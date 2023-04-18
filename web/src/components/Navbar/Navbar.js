@@ -36,23 +36,23 @@ export default function Navbar({ isHidden, setIsHidden }) {
 		<nav className={isHidden ? 'nav-less' : 'nav'}>
 			<div className="nav--logo">
 				<Link to="/">
-					{isHidden ? <LogoLess /> : <Logo />}
+					{isHidden ? <LogoLess /> : <Logo className='nav--logo-img' />}
 				</Link>
 			</div>
 			<ul className="nav--links">
 				<li>
 					<Link className="nav--link" to="/addDevice">
-						<BsPlusCircle color="white" size="25" />{!isHidden && <div className='m-lt'>Add new device</div>}
+						<BsPlusCircle color="white" size="25" className='icon'/>{!isHidden && <div className='m-lt'>Add new device</div>}
 					</Link>
 				</li>
 				<li>
 					<Link className="nav--link" to="/grid">
-						<BsGrid3X3 color="white" size="25" />{!isHidden && <div className='m-lt'>Devices grid</div>}
+						<BsGrid3X3 color="white" size="25" className='icon'/>{!isHidden && <div className='m-lt'>Devices grid</div>}
 					</Link>
 				</li>
 				<li>
 					<Link className="nav--link" to="/auth/signIn" onClick={handleLogOut}>
-						<BsDoorOpen color="white" size="25" />{!isHidden && <div className='m-lt'>Log out</div>}
+						<BsDoorOpen color="white" size="25" className='icon'/>{!isHidden && <div className='m-lt'>Log out</div>}
 					</Link>
 				</li>
 			</ul>
