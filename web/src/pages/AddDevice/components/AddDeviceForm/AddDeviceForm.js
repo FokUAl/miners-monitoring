@@ -7,6 +7,7 @@ import Container from '../../../../components/Container/Container';
 
 export default function AddDeviceForm({ allIP }) {
 	const [allOwners, setAllOwners] = useState('');
+	const [isLoading, setIsLoading] = useState(false)
 
 	const initialData = [
 		{
@@ -64,6 +65,7 @@ export default function AddDeviceForm({ allIP }) {
 
 	const handleAdd = async (e) => {
 		e.preventDefault();
+		setIsLoading(true)
 		for (let i = 0; i < data.length; i++) {
 			for (let j = i + 1; j < data.length; j++) {
 				if (data[i]['IP'] === data[j]['IP']) {
@@ -95,11 +97,13 @@ export default function AddDeviceForm({ allIP }) {
 			(response) => {
 				navigate('/');
 				window.location.reload();
+				setIsLoading(false)
 			},
 			(error) => {
 				if (error) {
 					console.log('Add device ', error);
 					alert(error.response.data.Message);
+					setIsLoading(false)
 				}
 			}
 		);
@@ -200,7 +204,7 @@ export default function AddDeviceForm({ allIP }) {
 						</div>
 					))}
 					<div className="form--btn-submit">
-						<Button type="submit" value="Add Devices" size="l" float="left" />
+						<Button type="submit" value='Add devices' loading={isLoading} disabled={isLoading} size="l" float="left" />
 					</div>
 				</form>
 			</div>
