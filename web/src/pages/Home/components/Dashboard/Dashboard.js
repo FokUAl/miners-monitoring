@@ -24,7 +24,7 @@ export default function Dashboard({ devices }) {
 						nameKey="name"
 						cx="50%"
 						cy="50%"
-						outerRadius={50}
+						outerRadius={90}
 						fill="#8884d8"
 						label
 					>
@@ -42,7 +42,7 @@ export default function Dashboard({ devices }) {
 					<DataDisplay
 						className
 						text={'Miners Status'}
-						data={`${onlineCount}/${devices.length}`}
+						data={`${onlineCount} / ${devices.length}`}
 					/>
 					<DataDisplay className text={'Average Temperature'} data={avgTemp} />
 				</div>
