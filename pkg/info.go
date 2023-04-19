@@ -441,26 +441,6 @@ func ParseFloatArr(arr []string) ([]float64, error) {
 	return result, nil
 }
 
-func DetermineIP(addresses [][]string, mac_address string, output chan string) {
-	for i := 0; i < len(addresses); i++ {
-		if addresses[i][0] == mac_address {
-			output <- addresses[i][1]
-			return
-		}
-	}
-	output <- ""
-}
-
-func DetermineMAC(addresses [][]string, ip_address string, output chan string) {
-	for i := 0; i < len(addresses); i++ {
-		if addresses[i][1] == ip_address {
-			output <- addresses[i][0]
-			return
-		}
-	}
-	output <- ""
-}
-
 func IsIP(address string) (bool, error) {
 	if address == " " {
 		return false, nil
