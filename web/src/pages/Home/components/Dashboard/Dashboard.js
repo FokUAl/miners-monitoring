@@ -1,8 +1,8 @@
 import React from 'react';
 import Container from '@components/Container/Container';
 import ReData from './ReData';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import DataDisplay from '@pages/Device/components/DeviceInfo/DataDisplay'
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import DataDisplay from '@pages/Device/components/DeviceInfo/DataDisplay';
 import './dashboard.scss';
 
 export default function Dashboard({ devices }) {
@@ -37,10 +37,14 @@ export default function Dashboard({ devices }) {
 					</Pie>
 					<Tooltip />
 				</PieChart>
-				<div className='m-rt m-tp'>
+				<div className="m-rt m-tp">
 					<DataDisplay className text={'Total Hashrate'} data={totalHashrate} />
-                    <DataDisplay className text={'Miners Status'} data={`${onlineCount}/${devices.length}`} />
-                    <DataDisplay className text={'Average Temperature'} data={avgTemp} />
+					<DataDisplay
+						className
+						text={'Miners Status'}
+						data={`${onlineCount}/${devices.length}`}
+					/>
+					<DataDisplay className text={'Average Temperature'} data={avgTemp} />
 				</div>
 			</div>
 		</Container>

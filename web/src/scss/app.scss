@@ -30,6 +30,11 @@
     grid-template-columns: 50% 50%;
 }
 
+.grid-80-20 {
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+
 .grid-5-95 {
     display: grid;
     grid-template-columns: 5% 95%;

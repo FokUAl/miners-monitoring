@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import ComponentService from '@services/component.service';
 import Container from '@components/Container/Container';
 import Button from '@components/Button/Button';
-import MaterialReactTable from 'material-react-table';
 import {
 	Paper,
 	Table,
@@ -73,26 +72,19 @@ export default function AllIP({ allIP, setAllIP }) {
 						</div>
 						<Container>
 							{allIP ? (
-								<TableContainer component={Paper}>
-									<Table sx={{ minWidth: 650 }} aria-label="caption table">
-										<caption>A basic table example with a caption</caption>
+								<TableContainer component={Paper} sx={{}}>
+									<Table aria-label="caption table">
 										<TableHead>
 											<TableRow>
-												<TableCell>Dessert (100g serving)</TableCell>
 												<TableCell align="right">IP</TableCell>
 												<TableCell align="right">MAC</TableCell>
 											</TableRow>
 										</TableHead>
 										<TableBody>
 											{allIP.map((row) => (
-												<TableRow key={row}>
-													<TableCell component="th" scope="row">
-														{row.name}
-													</TableCell>
-													<TableCell align="right">{row.calories}</TableCell>
-													<TableCell align="right">{row.fat}</TableCell>
-													<TableCell align="right">{row.carbs}</TableCell>
-													<TableCell align="right">{row.protein}</TableCell>
+												<TableRow key={row[0]}>
+													<TableCell align="right">{row[0]}</TableCell>
+													<TableCell align="right">{row[1]}</TableCell>
 												</TableRow>
 											))}
 										</TableBody>

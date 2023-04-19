@@ -1,9 +1,9 @@
-const ReData = ({ devices }) => {
-	const onlineCount = devices
-		? devices.filter((device) => device.MinerStatus === 'online').length
-		: 0;
-    const totalHashrate = devices ? devices.reduce((accum, device) => accum + device.Characteristics.MHSav) : '0'
-	const avgTemp = devices ? devices.reduce((accum, device) => accum + device.Characteristics.Temperature) / devices.length : '0'
+const ReData = (devices) => {
+	const initialValue = 0
+	const onlineCount =  devices.filter((device) => device.MinerStatus === 'online').length
+    const totalHashrate = devices.reduce((accum, device) => accum + device.Characteristics.MHSav, initialValue).toFixed() + ' MHS'
+	const avgTemp = devices.reduce((accum, device) => accum + device.Characteristics.Temperature, initialValue) / devices.length
+	console.log(onlineCount, totalHashrate, avgTemp)
 	return { onlineCount , totalHashrate, avgTemp};
 };
 

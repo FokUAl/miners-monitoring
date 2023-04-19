@@ -96,7 +96,7 @@ export default function DeviceInfo({ data }) {
 					/>
 					<DataDisplay
 						text={'Chips Temperature Average'}
-						data={data.ChipTempAvg && data.ChipTempAvg + '°'}
+						data={data.ChipTempAvg.toFixed() && data.ChipTempAvg.toFixed() + '°'}
 					/>
 					<DataDisplay
 						text={'Chips Temperature Max'}
