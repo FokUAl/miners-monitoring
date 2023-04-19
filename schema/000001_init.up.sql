@@ -49,3 +49,10 @@ CREATE TABLE comments
     creation_date TIMESTAMP NOT NULL,
     comment VARCHAR(255)
 );
+
+CREATE TABLE mac_ip
+(
+    id SERIAL PRIMARY KEY,
+    ip_address VARCHAR(255) NOT NULL,
+    mac_address VARCHAR(255) DEFAULT ' '
+);
