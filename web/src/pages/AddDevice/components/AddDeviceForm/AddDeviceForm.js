@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormService from '@services/form.service';
 import Button from '@components/Button/Button';
-import './addDeviceForm.scss';
 import Container from '@components/Container/Container';
+import './addDeviceForm.scss';
 
 export default function AddDeviceForm({ allIP }) {
 	const [allOwners, setAllOwners] = useState('');
+	const [allTypes, setAllTypes] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
 	const initialData = [
@@ -18,6 +19,7 @@ export default function AddDeviceForm({ allIP }) {
 			row: '',
 			owner: '',
 			allOwners: allOwners,
+			allTypes: allTypes,
 		},
 	];
 	const [data, setData] = useState(initialData);
@@ -31,14 +33,17 @@ export default function AddDeviceForm({ allIP }) {
 	};
 
 	useEffect(() => {
-		const newData = data.map((data) => ({ ...data, allOwners: allOwners }));
+		const newData = data.map((data) => ({ ...data, allOwners: allOwners, allTypes: allTypes }));
 		setData(newData);
-	}, [allOwners]);
+	}, [allOwners, allTypes]);
 
 	const handleOwners = (event) => {
 		setAllOwners(event.target.value);
-		console.log(allOwners, data);
 	};
+
+	const handleTypes = (event) => {
+		setAllTypes(event.target.value)
+	}
 
 	const addFormField = () => {
 		setData([
@@ -51,6 +56,7 @@ export default function AddDeviceForm({ allIP }) {
 				row: '',
 				owner: '',
 				allOwners: allOwners,
+				allTypes: allTypes,
 			},
 		]);
 	};
@@ -94,6 +100,12 @@ export default function AddDeviceForm({ allIP }) {
 			}
 		}
 
+		if (allTypes) {
+			for (let i = 0; i < data.length; i++) {
+				data[i]['minerType'] = allTypes;
+			}
+		}
+
 		console.log(data);
 		FormService.addDevice(data).then(
 			(response) => {
@@ -113,7 +125,7 @@ export default function AddDeviceForm({ allIP }) {
 
 	return (
 		<Container>
-			<div className="centrilized-cont">
+			<div>
 				<form onSubmit={handleAdd}>
 					<div className="form--title">Add new Device</div>
 					<div className="form--btns">
@@ -131,6 +143,21 @@ export default function AddDeviceForm({ allIP }) {
 							size="m"
 							float="left"
 						/>
+					</div>
+					<div className="form--inputs">
+						<div></div>
+						<input
+							type="text"
+							value={allTypes}
+							name="allTypes"
+							onChange={(e) => {
+								handleTypes(e);
+							}}
+						/>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
 						<input
 							type="text"
 							value={allOwners}
@@ -138,7 +165,6 @@ export default function AddDeviceForm({ allIP }) {
 							onChange={(e) => {
 								handleOwners(e);
 							}}
-							className="form--input-allOwners"
 						/>
 					</div>
 					<div className="form--labels">
@@ -156,7 +182,8 @@ export default function AddDeviceForm({ allIP }) {
 							<input
 								type="text"
 								name="minerType"
-								value={data.minerType}
+								value={data.allTypes ? data.allTypes : data.minerType}
+								disabled={data.allTypes}
 								onChange={(e) => handleChange(index, e)}
 								required
 							/>

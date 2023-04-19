@@ -101,7 +101,6 @@
 
 .centrilized-cont {
     display: flex;
-    justify-content: center;
     margin: 0 auto;
 }
 
@@ -113,6 +112,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.column-gap-10 {
+    column-gap: 10px;
 }
 // .MuiTableContainer-root {
 //     background-color: $color-bg-primary;
