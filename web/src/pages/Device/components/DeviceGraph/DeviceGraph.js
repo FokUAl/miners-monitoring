@@ -88,21 +88,21 @@ export default function DeviceGraph({ charHistory }) {
 				handleActive={handleActive}
 			/>
 			{active === 0 && (
-				<Container>
+				<Container paddingLeft paddingRight>
 					<div className="graph--container">
 						<ResponsiveContainer>{renderLineChartTemp}</ResponsiveContainer>
 					</div>
 				</Container>
 			)}
 			{active === 1 && (
-				<Container>
+				<Container paddingLeft paddingRight>
 					<div className="graph--container">
 						<ResponsiveContainer>{renderLineChartHash}</ResponsiveContainer>
 					</div>
 				</Container>
 			)}
 			{active === 2 && (
-				<Container>
+				<Container paddingLeft paddingRight>
 					<div className="graph--container">
 						<ResponsiveContainer>{renderLineChartFans}</ResponsiveContainer>
 					</div>

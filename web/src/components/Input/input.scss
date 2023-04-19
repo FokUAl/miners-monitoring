@@ -3,11 +3,12 @@
 .input--wrapper {
     display: flex;
     flex-direction: column;
-    &.input {
+    .input {
         border: none;
         border-radius: 5px;
         font-size: 16px;
-        color: $color-text;
+        font-family: "Ubuntu", sans-serif;
+        font-weight: 400;
         &:focus {
             outline: none;
             background-color: $color-secondary;
@@ -48,9 +49,11 @@
         &.color- {
             &primary {
                 background-color: $color-input-bg-primary;
+                color: $color-primary;
             }
             &secondary {
                 background-color: $color-input-bg-secondary;
+                color: $color-text;
             }
         }
     }

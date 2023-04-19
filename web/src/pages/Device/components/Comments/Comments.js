@@ -40,7 +40,7 @@ export default function Comments({ data }) {
 
 	return (
 		<div style={{ marginTop: '20px' }}>
-			<Container>
+			<Container paddingRight>
 				<div
 					className="grid-50-50"
 					style={{ columnGap: '20px', paddingInline: '20px' }}
@@ -77,6 +77,7 @@ export default function Comments({ data }) {
 								value={comment}
 								setValue={setComment}
 								width="fluid"
+								size="m"
 								placeholder="Type your comment here"
 							/>
 							<Button value="add comment" type="submit" />

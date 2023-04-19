@@ -79,7 +79,7 @@ export default function DeviceInfo({ data }) {
 	};
 
 	return (
-		<Container>
+		<Container paddingRight>
 			<div
 				className="grid-50-50"
 				style={{ columnGap: '20px', paddingInline: '20px' }}
@@ -88,11 +88,7 @@ export default function DeviceInfo({ data }) {
 					<div className="device-info--label-1 float-left">
 						Main Characteristics
 					</div>
-					<DataDisplay
-						text={'Time of work'}
-						type="time"
-						data={data.Elapsed}
-					/>
+					<DataDisplay text={'Time of work'} type="time" data={data.Elapsed} />
 					<div className="device-info--label-2 float-left">Temperature</div>
 					<DataDisplay
 						text={'Current Temperature'}
@@ -125,7 +121,7 @@ export default function DeviceInfo({ data }) {
 						text={'Mega Hashrate per second Average'}
 						data={data.MHSav}
 					/>
-					<Container borderTop borderRight borderBottom borderLeft>
+					<Container borderTop borderBottom>
 						{isEdit ? (
 							<>
 								<div className="device-info--label-1 float-left">
@@ -162,12 +158,14 @@ export default function DeviceInfo({ data }) {
 										width="l"
 										setValue={setColumn}
 									/>
-									<Button
-										value="Cancel"
-										size="m"
-										onClick={() => setIsEdit(false)}
-									/>
-									<Button value="OK" size="m" type="submit" />
+									<div className="device--edit-btns">
+										<Button
+											value="Cancel"
+											size="m"
+											onClick={() => setIsEdit(false)}
+										/>
+										<Button value="Send" size="m" type="submit" />
+									</div>
 								</form>
 							</>
 						) : (

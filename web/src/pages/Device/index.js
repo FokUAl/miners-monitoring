@@ -27,7 +27,7 @@ export default function Device({isHidden, setIsHidden}) {
     return (
 		<div className={isHidden? "nav-hidden" : "nav-full"}>
             <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
-            <div style={{marginLeft: '20px'}}>
+            <div>
                 {data.Miner && <DeviceInfo data={data} />}
                 {data.CharacteristicsHistory && <DeviceGraph charHistory={data.CharacteristicsHistory}/>}
                 <Comments data={data} />

@@ -4,7 +4,7 @@ import './dashboard.scss'
 
 export default function Dashboard({ devices }) {
     return (
-        <Container>
+        <Container paddingLeft borderBottom>
             <div className="dash--title">Dashboard</div>
             <div className="dash--parametrs">
                 <div>{devices.length}/1000</div>
