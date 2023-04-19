@@ -131,7 +131,12 @@ func ParsingDataNew(data string) (app.MinerData, error) {
 		data_map[key] = value
 	}
 
-	minerData.MAC = data_map["MAC"]
+	var ok bool
+	minerData.MAC, ok = data_map["MAC"]
+	if !ok {
+		return app.MinerData{}, fmt.Errorf("can't parse temperature MAC")
+	}
+
 	minerData.PowerMode = data_map["Power Mode"]
 	minerData.Temperature, err = strconv.ParseFloat(data_map["Temperature"], 64)
 	if err != nil {
@@ -194,7 +199,12 @@ func ParsingDataMiddle(data string) (app.MinerData, error) {
 		data_map[key] = value
 	}
 
-	if data_map["WORKMODE"] == "0" {
+	workmode, ok := data_map["WORKMODE"]
+	if !ok {
+		return app.MinerData{}, fmt.Errorf("can't parse workmode")
+	}
+
+	if workmode == "0" {
 		minerData.PowerMode = "Normal"
 	} else {
 		minerData.PowerMode = "High"
@@ -270,13 +280,24 @@ func ParsingDataOld(data string) (app.MinerData, error) {
 
 	minerData.PowerMode = "Normal"
 
-	temp_pcb1 := strings.Split(data_map["temp_pcb1"], "-")
+	_, ok := data_map["temp_pcb1"]
+	if !ok {
+		return app.MinerData{}, fmt.Errorf("can't parse temp_pcb1")
+	}
+
+	temp_pcb := strings.Split(data_map["temp_pcb1"], "-")
 	temp_pcb2 := strings.Split(data_map["temp_pcb2"], "-")
 	temp_pcb3 := strings.Split(data_map["temp_pcb3"], "-")
-	minerData.Temperature, err = Max(temp_pcb1, temp_pcb2, temp_pcb3)
+
+	temp_pcb = append(temp_pcb, temp_pcb2...)
+	temp_pcb = append(temp_pcb, temp_pcb3...)
+
+	temp_pcbNum, err := ParseFloatArr(temp_pcb)
 	if err != nil {
-		return app.MinerData{}, fmt.Errorf("can't parse temp of boards: %s", err.Error())
+		return app.MinerData{}, fmt.Errorf("can't parse temp of chips: %s", err.Error())
 	}
+
+	minerData.Temperature = Max(temp_pcbNum)
 
 	temp_chip1 := strings.Split(data_map["temp_chip1"], "-")
 	temp_chip2 := strings.Split(data_map["temp_chip2"], "-")
@@ -323,24 +344,28 @@ func CheckResponse(response string) error {
 	return nil
 }
 
-// finds the maximum number in arrays.
-func Max(arr1 []string, arr2 []string, arr3 []string) (float64, error) {
+// finds the maximum number in array.
+func Max(arr []float64) float64 {
 	max := 0.0
-	arr1 = append(arr1, arr2...)
-	arr1 = append(arr1, arr3...)
-
-	nums, err := ParseFloatArr(arr1)
-	if err != nil {
-		return 0.0, fmt.Errorf("Max: %s", err.Error())
-	}
-
-	for _, elem := range nums {
+	for _, elem := range arr {
 		if elem > max {
 			max = elem
 		}
 	}
 
-	return max, nil
+	return max
+}
+
+// finds the minimum number in arrays.
+func Min(arr []float64) float64 {
+	min := 10000.0
+	for _, elem := range arr {
+		if elem < min {
+			min = elem
+		}
+	}
+
+	return min
 }
 
 func Max3(num1 float64, num2 float64, num3 float64) float64 {
@@ -386,16 +411,10 @@ func ChipTempStats(arr1 []string, arr2 []string, arr3 []string) ([]float64, erro
 		return nil, fmt.Errorf("ChipTempStats: %s", err.Error())
 	}
 
-	max := 0.0
-	min := 100.0
+	max := Max(nums)
+	min := Min(nums)
 	sum := 0.0
 	for _, elem := range nums {
-		if elem < min {
-			min = elem
-		}
-		if elem > max {
-			max = elem
-		}
 		sum += elem
 	}
 
