@@ -250,10 +250,12 @@ func ParsingDataMiddle(data string) (app.MinerData, error) {
 		return app.MinerData{}, fmt.Errorf("can't parse FanSpeedOut: %s", err.Error())
 	}
 
-	minerData.MHSav, err = strconv.ParseFloat(data_map["GHSavg"], 64)
+	GHSavg, err := strconv.ParseFloat(data_map["GHSavg"], 64)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse GHSavg: %s", err.Error())
 	}
+
+	minerData.MHSav = GHSavg * 1000
 
 	return minerData, nil
 }
@@ -311,10 +313,11 @@ func ParsingDataOld(data string) (app.MinerData, error) {
 	minerData.ChipTempMin = chip_temp_stats[1]
 	minerData.ChipTempAvg = chip_temp_stats[2]
 
-	minerData.MHSav, err = strconv.ParseFloat(data_map["GHS av"], 64)
+	GHSav, err := strconv.ParseFloat(data_map["GHS av"], 64)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse GHS av: %s", err.Error())
 	}
+	minerData.MHSav = GHSav * 1000
 
 	minerData.FanSpeedIn, err = strconv.ParseInt(data_map["fan1"], 10, 64)
 	if err != nil {
