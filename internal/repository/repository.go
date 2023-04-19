@@ -36,6 +36,9 @@ type User interface {
 type Info interface {
 	SaveMinerData(data app.MinerData, ip_address string) error
 	GetCharacteristicsHistory(device_ip string) ([]app.MinerData, error)
+	DetermineIP(mac_address string) string
+	DetermineMAC(ip_address string) string
+	SaveAvailableAddresses(list [][]string) error
 }
 
 type Comment interface {

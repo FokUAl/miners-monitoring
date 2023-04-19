@@ -87,3 +87,15 @@ func (s *InfoService) Transform(devices []app.MinerDevice) (map[string][]app.Min
 func (s *InfoService) GetCharacteristicsHistory(device_ip string) ([]app.MinerData, error) {
 	return s.repo.GetCharacteristicsHistory(device_ip)
 }
+
+func (s *InfoService) DetermineIP(mac_address string) string {
+	return s.repo.DetermineIP(mac_address)
+}
+
+func (s *InfoService) DetermineMAC(ip_address string) string {
+	return s.repo.DetermineMAC(ip_address)
+}
+
+func (s *InfoService) SaveAvailableAddresses(list [][]string) error {
+	return s.repo.SaveAvailableAddresses(list)
+}

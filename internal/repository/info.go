@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -55,4 +56,49 @@ func (p *InfoPostgres) GetCharacteristicsHistory(device_ip string) ([]app.MinerD
 	}
 
 	return result, nil
+}
+
+func (p *InfoPostgres) DetermineIP(mac_address string) string {
+	var result string
+	statement := `SELECT ip_address from mac_ip WHERE mac_address = $1`
+
+	err := p.db.QueryRow(statement, mac_address).Scan(&result)
+	if err == sql.ErrNoRows {
+		return ""
+	}
+
+	return result
+}
+
+func (p *InfoPostgres) DetermineMAC(ip_address string) string {
+	var result string
+	statement := `SELECT mac_address from mac_ip WHERE ip_address = $1`
+
+	err := p.db.QueryRow(statement, ip_address).Scan(&result)
+	if err == sql.ErrNoRows {
+		return ""
+	}
+
+	return result
+}
+
+func (p *InfoPostgres) SaveAvailableAddresses(list [][]string) error {
+	query := `DELETE FROM mac_ip`
+
+	_, err := p.db.Exec(query)
+	if err != nil {
+		return err
+	}
+
+	statement := `INSERT INTO mac_ip (ip_address, mac_address)
+		VALUES ($1, $2)`
+
+	for _, elem := range list {
+		_, err := p.db.Exec(statement, elem[1], elem[0])
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
