@@ -8,7 +8,7 @@ export default function AddDevice({isHidden, setIsHidden}) {
     return (
 		<div className={isHidden? "nav-hidden" : "nav-full"}>
             <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
-            <div className="grid-80-20">
+            <div className="grid-70-30">
                 <AddDeviceForm allIP={allIP} />
                 <AllIP setAllIP={setAllIP} allIP={allIP} />
             </div>

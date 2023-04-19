@@ -35,6 +35,11 @@
     grid-template-columns: 80% 20%;
 }
 
+.grid-70-30 {
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
 .grid-5-95 {
     display: grid;
     grid-template-columns: 5% 95%;
@@ -100,6 +105,15 @@
     margin: 0 auto;
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 // .MuiTableContainer-root {
 //     background-color: $color-bg-primary;
 // }
