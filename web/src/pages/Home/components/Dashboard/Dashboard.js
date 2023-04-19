@@ -44,7 +44,7 @@ export default function Dashboard({ devices }) {
 						text={'Miners Status'}
 						data={`${onlineCount} / ${devices.length}`}
 					/>
-					<DataDisplay className text={'Average Temperature'} data={avgTemp} />
+					<DataDisplay className text={'Average Temperature'} data={`${avgTemp}°`} />
 				</div>
 			</div>
 		</Container>
