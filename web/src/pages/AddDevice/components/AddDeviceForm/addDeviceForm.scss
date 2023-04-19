@@ -6,17 +6,15 @@
 
 .form--labels {
     display: grid;
-    grid-template-columns: 20px 200px 200px 100px 100px 100px 200px;
+    grid-template-columns: 5% 20% 20% 5% 5% 5% 20%;
     column-gap: 20px;
-    width: 100%;
 }
 
 .form--inputs {
     display: grid;
-    grid-template-columns: 20px 200px 200px 100px 100px 100px 200px;
+    grid-template-columns: 5% 20% 20% 5% 5% 5% 20%;
     column-gap: 20px;
     align-items: center;
-    width: 100%;
     margin-block: 10px;
     input {
         border: none;

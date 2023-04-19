@@ -11,6 +11,7 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
+import { ReactComponent as Spinner } from '@assets/images/spinner.svg';
 import './allIP.scss';
 
 export default function AllIP({ allIP, setAllIP }) {
@@ -59,14 +60,12 @@ export default function AllIP({ allIP, setAllIP }) {
 		<div>
 			{loading ? (
 				<Container>
-					<div className="loader-container">
-						<div className="spinner"></div>
-					</div>
+					<Spinner className="page-spinner"/>
 				</Container>
 			) : (
 				<Container>
 					<div>
-						<div className="grid-15-85">
+						<div className="grid-15-85 m-lt">
 							<Button value="Update IPs" onClick={HandleLoading} size="l" />
 							<div className="form--title">All IPs in network</div>
 						</div>

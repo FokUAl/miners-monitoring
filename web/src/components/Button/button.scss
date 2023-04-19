@@ -66,3 +66,12 @@
         transform: rotate(360deg);
     }
 }
+
+.page-spinner {
+    animation-name: spin;
+    animation-duration: 500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    width: 15%;
+    height: 15%;
+}
