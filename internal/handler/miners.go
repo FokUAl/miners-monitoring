@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/pkg"
@@ -84,7 +85,7 @@ func (h *Handler) addMiner(c *gin.Context) {
 	}
 
 	for i := 0; i < len(info.Data); i++ {
-
+		info.Data[i].Address = strings.ToLower(info.Data[i].Address)
 		isFreeLocation, err := h.services.IsLocationFree(info.Data[i].Shelf, info.Data[i].Row, info.Data[i].Column)
 		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
