@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FormService from '../../../../services/form.service';
-import Button from '../../../../components/Button/Button';
+import FormService from '@services/form.service';
+import Button from '@components/Button/Button';
 import './addDeviceForm.scss';
-import Container from '../../../../components/Container/Container';
+import Container from '@components/Container/Container';
 
 export default function AddDeviceForm({ allIP }) {
 	const [allOwners, setAllOwners] = useState('');
