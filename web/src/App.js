@@ -5,22 +5,43 @@ import AddDevice from '@pages/AddDevice';
 import Grid from '@pages/Grid';
 import SignIn from '@pages/Auth/SignIn';
 import SignUp from '@pages/Auth/SignUp';
+import Unauthorized from '@pages/Unauthorized';
 import AuthService from '@services/auth.service';
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './routes/PrivateRoute';
+import OperatorRoute from './routes/OperatorRoute';
+import AdminRoute from './routes/AdminRoute';
 import Device from '@pages/Device';
 import '@scss/app.scss';
 import PageService from '@services/page.service';
 import jwt_decode from 'jwt-decode';
 
 function App() {
+	const [username, setUsername] = useState();
+	const [role, setRole] = useState();
+	const [isHidden, setIsHidden] = useState(true);
 	const location = useLocation();
 	const navigation = useNavigate();
-	const [isHidden, setIsHidden] = useState(true)
+
+	console.log('role', role, typeof(role), role==='admin')
+
+	useEffect(() => {
+		PageService.userInfo().then(
+			(response) => {
+				setUsername(response.data.username);
+				setRole(response.data.role);
+				console.log('navbar ok ');
+			},
+			(error) => {
+				console.log('navbar error', error);
+			}
+		);
+	}, []);
+
 	useEffect(() => {
 		const token = AuthService.getCurrentUser();
 		if (token) {
 			const decodedToken = jwt_decode(token);
-      const currentTime = new Date()
+			const currentTime = new Date();
 			if (decodedToken.exp * 1000 < currentTime.getTime()) {
 				console.log('Token is expired');
 				AuthService.logout();
@@ -37,13 +58,27 @@ function App() {
 		<div className="App">
 			<Routes>
 				<Route path="/auth/signIn" element={<SignIn />} />
-				<Route path="/auth/signUp" element={<SignUp />} />
+				<Route
+					path="/auth/signUp"
+					element={
+						<PrivateRoute>
+							<AdminRoute role={role}>
+								<SignUp />
+							</AdminRoute>
+						</PrivateRoute>
+					}
+				/>
 
 				<Route
 					path="/"
 					element={
-						<PrivateRoute>
-							<Home isHidden={isHidden} setIsHidden={setIsHidden}/>
+						<PrivateRoute role={role}>
+							<Home
+								isHidden={isHidden}
+								setIsHidden={setIsHidden}
+								username={username}
+								role={role}
+							/>
 						</PrivateRoute>
 					}
 				/>
@@ -51,7 +86,14 @@ function App() {
 					path="/addDevice"
 					element={
 						<PrivateRoute>
-							<AddDevice isHidden={isHidden} setIsHidden={setIsHidden}/>
+							<OperatorRoute role={role}>
+								<AddDevice
+									isHidden={isHidden}
+									setIsHidden={setIsHidden}
+									username={username}
+									role={role}
+								/>
+							</OperatorRoute>
 						</PrivateRoute>
 					}
 				/>
@@ -59,7 +101,14 @@ function App() {
 					path="/grid"
 					element={
 						<PrivateRoute>
-							<Grid isHidden={isHidden} setIsHidden={setIsHidden}/>
+							<OperatorRoute role={role}>
+								<Grid
+									isHidden={isHidden}
+									setIsHidden={setIsHidden}
+									username={username}
+									role={role}
+								/>
+							</OperatorRoute>
 						</PrivateRoute>
 					}
 				/>
@@ -67,10 +116,18 @@ function App() {
 					path="/device"
 					element={
 						<PrivateRoute>
-							<Device isHidden={isHidden} setIsHidden={setIsHidden}/>
+							<OperatorRoute role={role}>
+								<Device
+									isHidden={isHidden}
+									setIsHidden={setIsHidden}
+									username={username}
+									role={role}
+								/>
+							</OperatorRoute>
 						</PrivateRoute>
 					}
 				/>
+				<Route path="/unauthorized" element={<Unauthorized />} />
 			</Routes>
 		</div>
 	);

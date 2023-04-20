@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AuthService from '../../services/auth.service'
-import Button from '../../components/Button/Button'
+import AuthService from '@services/auth.service'
+import Button from '@components/Button/Button'
+import Input from '@components/Input/Input'
 import './signIn.scss'
 
 export default function SignIn() {
@@ -24,14 +25,26 @@ export default function SignIn() {
     }
 
     return (
-        <div className="container sign-in">
+        <div className="auth">
             <form onSubmit={handleLogin}>
-                <div className="form--label sign-in--label">Sign in to your account</div>
-                <div className="form--inputs sign-in--form">
-                    <label>Nickname</label>
-                    <input name="nickname" type="text" value={nickname} onChange={(e) => setNickname(e.target.value)}/>
-                    <label>Password</label>
-                    <input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <div className="form--label auth--label">Sign in to your account</div>
+                <div className="form--inputs auth--form">
+					<label>Nickname</label>
+					<Input
+						name="nickname"
+						type="text"
+						size="m"
+						value={nickname}
+						setValue={setNickname}
+					/>
+					<label>Password</label>
+					<Input
+						name="password"
+						type="password"
+						size="m"
+						value={password}
+						setValue={setPassword}
+					/>
                     <Button type="submit" value="Sign in" className="btn--less"/>
                 </div>
             </form>

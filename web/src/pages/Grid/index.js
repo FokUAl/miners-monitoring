@@ -3,7 +3,7 @@ import GridContainer from './components/GridContainer/GridContainer'
 import Navbar from '../../components/Navbar/Navbar'
 import PageService from '../../services/page.service';
 
-export default function Grid({isHidden, setIsHidden}) {
+export default function Grid({isHidden, setIsHidden, role, username}) {
 	const [devices, setDevices] = useState([]);
 	useEffect(() => {
 		PageService.getHome().then(
@@ -17,7 +17,7 @@ export default function Grid({isHidden, setIsHidden}) {
 		);
 	}, []);
     return (
-		<div className={isHidden? "nav-hidden" : "nav-full"}>
+		<div className={isHidden? "nav-hidden" : "nav-full"} role={role} username={username}>
             <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
             <GridContainer devices={devices}/>
         </div>

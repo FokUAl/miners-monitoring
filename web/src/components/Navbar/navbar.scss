@@ -2,6 +2,7 @@
 
 .nav {
     display: block;
+    height: 100vh;
     padding: 10px 20px; 
 
     background-color: $color-bg-primary;
@@ -45,6 +46,7 @@
 
 .nav-less {
     display: block;
+    height: 100vh;
     padding: 10px 10px; 
 
     background-color: $color-bg-primary;
@@ -79,14 +81,14 @@
     &full {
         display: grid;
         grid-template-columns: 15% 85%;
+        align-items: start;
         transition: all .2s;
-        height: 100vh;
     }
 
     &hidden {
         display: grid;
         grid-template-columns: 5% 95%;
+        align-items: start;
         transition: all .2s;
-        height: 100vh;
     }
 }
