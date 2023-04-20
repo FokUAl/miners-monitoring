@@ -6,7 +6,7 @@ import DataDisplay from '@pages/Device/components/DeviceInfo/DataDisplay';
 import './dashboard.scss';
 
 export default function Dashboard({ devices }) {
-	const { onlineCount, totalHashrate, avgTemp } = ReData(devices);
+	const { onlineCount, totalHashrate, avgTemp, maxTemp } = ReData(devices);
 	const chartData = [
 		{ name: 'Online', value: onlineCount },
 		{ name: 'Offline', value: devices.length - onlineCount },
@@ -45,6 +45,7 @@ export default function Dashboard({ devices }) {
 						data={`${onlineCount} / ${devices.length}`}
 					/>
 					<DataDisplay className text={'Average Temperature'} data={`${avgTemp}°`} />
+					<DataDisplay className text={'Maximum Temperature'} data={`${maxTemp}°`} />
 				</div>
 			</div>
 		</Container>

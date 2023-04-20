@@ -18,7 +18,9 @@ const ReData = (devices) => {
 				initialValue
 			) / onlineCount
 	).toFixed();
-	return { onlineCount, totalHashrate, avgTemp };
+	let maxTemp = 0
+	devices.forEach(device => device.Characteristics.Temperature > maxTemp ? maxTemp = device.Characteristics.Temperature : '')
+	return { onlineCount, totalHashrate, avgTemp, maxTemp };
 };
 
 export default ReData;
