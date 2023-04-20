@@ -50,12 +50,20 @@ type Comment interface {
 	EditComment(creation_date time.Time, newContent string) error
 }
 
+type Chat interface {
+	SaveMessage(message app.Message) error
+	//ReadUserMessages(sender string) ([]app.Message, error)
+	//ReadOperatorMessages(recipient string) ([]app.Message, error)
+	//GetSenders() ([]string, error)
+}
+
 type Service struct {
 	Authorization
 	Miner
 	User
 	Info
 	Comment
+	Chat
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -65,5 +73,6 @@ func NewService(repos *repository.Repository) *Service {
 		Miner:         NewMinerService(repos.Miner),
 		Info:          NewInfoService(repos.Info),
 		Comment:       NewCommentService(repos.Comment),
+		Chat:          NewChatService(repos.Chat),
 	}
 }
