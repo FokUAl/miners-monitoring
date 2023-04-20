@@ -20,3 +20,7 @@ func (s *ChatService) SaveMessage(message app.Message) error {
 func (s *ChatService) GetSenders() ([]string, error) {
 	return s.repo.GetSenders()
 }
+
+func (s *ChatService) ReadUserMessages(sender string) ([]app.Message, error) {
+	return s.repo.ReadUserMessages(sender)
+}
