@@ -51,3 +51,29 @@ func (p *ChatPostgres) GetSenders() ([]string, error) {
 
 	return result, nil
 }
+
+func (p *ChatPostgres) ReadUserMessages(sender string) ([]app.Message, error) {
+	query := `SELECT creation_date, content, sender, recipient 
+	WHERE sender = $1 OR recipient = $2`
+
+	rows, err := p.db.Query(query, sender, sender)
+	if err != nil {
+		return nil, fmt.Errorf("ReadUserMessages: %w", err)
+	}
+
+	defer rows.Close()
+
+	var result []app.Message
+	for rows.Next() {
+		var message app.Message
+		err = rows.Scan(&message.Time, &message.Content,
+			&message.Sender, &message.Recipient)
+		if err != nil {
+			return nil, fmt.Errorf("ReadUserMessages: %w", err)
+		}
+
+		result = append(result, message)
+	}
+
+	return result, nil
+}
