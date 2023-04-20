@@ -11,14 +11,23 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
+import Input from '@components/Input/Input'
 import { ReactComponent as Spinner } from '@assets/images/spinner.svg';
 import './allIP.scss';
 
 export default function AllIP({ allIP, setAllIP }) {
+	const [data, setData] = useState(allIP);
+	const [searched, setSearched] = useState('');
 	const [loading, setLoading] = useState(true);
 
+	const requestSearch = (searchedVal) => {
+		const filteredRows = data.filter((row) => {
+			return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+		});
+		setData(filteredRows);
+	};
+
 	const UpdateIPs = () => {
-		console.log(1);
 		ComponentService.getAllIP().then(
 			(response) => {
 				setAllIP(response.data.List);
@@ -32,45 +41,38 @@ export default function AllIP({ allIP, setAllIP }) {
 		);
 	};
 
+	const cancelSearch = () => {
+		setSearched('');
+		requestSearch(searched);
+	};
+
 	const HandleLoading = () => {
 		setLoading(true);
 		UpdateIPs();
 	};
 
 	!allIP && UpdateIPs();
-	const columns = useMemo(
-		() => [
-			{
-				header: 'IP',
-				accessorKey: '1',
-				size: 1,
-				enableGrouping: false,
-			},
-			{
-				header: 'MAC',
-				accessorKey: '0',
-				size: 1,
-				enableGrouping: false,
-			},
-		],
-		[]
-	);
 
 	return (
 		<div>
 			{loading ? (
 				<Container>
-					<Spinner className="page-spinner"/>
+					<Spinner className="page-spinner" />
 				</Container>
 			) : (
 				<Container>
-					<div>
-						<div className="grid-15-85 m-lt">
-							<Button value="Update IPs" onClick={HandleLoading} size="l" />
-							<div className="form--title">All IPs in network</div>
-						</div>
-						<Container>
-							{allIP ? (
+					<div className="grid-15-85 m-lt">
+						<Button value="Update IPs" onClick={HandleLoading} size="l" />
+						<div className="form--title">All IPs in network</div>
+					</div>
+					<Container>
+						{allIP ? (
+							<Paper>
+								<Input
+									value={searched}
+									onChange={(searchVal) => requestSearch(searchVal)}
+									onCancelSearch={() => cancelSearch()}
+								/>
 								<TableContainer component={Paper} sx={{}}>
 									<Table aria-label="caption table">
 										<TableHead>
@@ -89,11 +91,11 @@ export default function AllIP({ allIP, setAllIP }) {
 										</TableBody>
 									</Table>
 								</TableContainer>
-							) : (
-								'No Data'
-							)}
-						</Container>
-					</div>
+							</Paper>
+						) : (
+							'No Data'
+						)}
+					</Container>
 				</Container>
 			)}
 		</div>
