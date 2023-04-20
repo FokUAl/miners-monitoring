@@ -50,6 +50,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.POST("/comment-device", h.CommentDevice)
 		home.POST("/delete-comment", h.DeleteComment)
 		home.POST("/edit-comment", h.EditComment)
+
+		home.GET("/read-message", h.ReadMessages)
+		home.POST("/send-message", h.SendMessage)
 	}
 
 	return router
