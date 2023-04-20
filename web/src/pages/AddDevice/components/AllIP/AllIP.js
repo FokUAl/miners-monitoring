@@ -110,14 +110,14 @@ export default function AllIP({ allIP, setAllIP }) {
 												{onSearch
 													? onSearch.map((row) => (
 															<TableRow key={row[0]}>
-																<TableCell align="right">{row[0]}</TableCell>
-																<TableCell align="left">{row[1]}</TableCell>
+																<TableCell align="right">{row[1]}</TableCell>
+																<TableCell align="left">{row[0]}</TableCell>
 															</TableRow>
 													  ))
 													: allIP.map((row) => (
 															<TableRow key={row[0]}>
-																<TableCell align="right">{row[0]}</TableCell>
-																<TableCell align="left">{row[1]}</TableCell>
+																<TableCell align="right">{row[1]}</TableCell>
+																<TableCell align="left">{row[0]}</TableCell>
 															</TableRow>
 													  ))}
 											</TableBody>
