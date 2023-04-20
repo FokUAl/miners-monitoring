@@ -35,6 +35,8 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 		devicesAdresses = append(devicesAdresses, value)
 	}
 
+	h.services.SaveAvailableAddresses(devicesAdresses)
+
 	c.JSON(http.StatusOK, struct {
 		List [][]string
 	}{

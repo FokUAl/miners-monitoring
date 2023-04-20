@@ -125,22 +125,12 @@ func (h *Handler) addMiner(c *gin.Context) {
 			return
 		}
 
-		addresses, err := h.services.PingDevices()
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-			return
-		}
-
-		resultChan := make(chan string)
 		if isIP {
 			device.IPAddress = info.Data[j].Address
-			go pkg.DetermineMAC(addresses, info.Data[j].Address, resultChan)
-			device.MACAddress = <-resultChan
+			device.MACAddress = h.services.DetermineMAC(device.IPAddress)
 		} else {
 			device.MACAddress = info.Data[j].Address
-			device.Characteristics.MAC = info.Data[j].Address
-			go pkg.DetermineIP(addresses, info.Data[j].Address, resultChan)
-			device.IPAddress = <-resultChan
+			device.IPAddress = h.services.DetermineIP(device.MACAddress)
 		}
 
 		device.Shelf = info.Data[j].Shelf

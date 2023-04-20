@@ -17,7 +17,7 @@ CREATE TABLE miner_devices
     owner_ VARCHAR(255) NOT NULL DEFAULT ' ',
     miner_status VARCHAR(255) NOT NULL DEFAULT ' ',
     coin VARCHAR(255) NOT NULL DEFAULT ' ',
-    ip_address VARCHAR(255) DEFAULT ' ' UNIQUE,
+    ip_address VARCHAR(255) UNIQUE,
     mac_address VARCHAR(255) DEFAULT ' '
 );
 
@@ -48,4 +48,11 @@ CREATE TABLE comments
     username VARCHAR(255) NOT NULL,
     creation_date TIMESTAMP NOT NULL,
     comment VARCHAR(255)
+);
+
+CREATE TABLE mac_ip
+(
+    id SERIAL PRIMARY KEY,
+    ip_address VARCHAR(255) NOT NULL,
+    mac_address VARCHAR(255) DEFAULT ' '
 );
