@@ -54,7 +54,7 @@ type Chat interface {
 	SaveMessage(message app.Message) error
 	//ReadUserMessages(sender string) ([]app.Message, error)
 	//ReadOperatorMessages(recipient string) ([]app.Message, error)
-	//GetSenders() ([]string, error)
+	GetSenders() ([]string, error)
 }
 
 type Service struct {
