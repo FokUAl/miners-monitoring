@@ -56,3 +56,11 @@ CREATE TABLE mac_ip
     ip_address VARCHAR(255) NOT NULL,
     mac_address VARCHAR(255) DEFAULT ' '
 );
+
+CREATE TABLE chat_history
+(
+    creation_date TIMESTAMP NOT NULL,
+    content VARCHAR(2047) NOT NULL,
+    sender VARCHAR(255) NOT NULL,
+    recipient VARCHAR(255) NOT NULL,
+);
