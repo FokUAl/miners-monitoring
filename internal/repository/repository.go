@@ -48,12 +48,17 @@ type Comment interface {
 	EditComment(creation_date time.Time, newContent string) error
 }
 
+type Chat interface {
+	SaveMessage(message app.Message) error
+}
+
 type Repository struct {
 	Authorization
 	User
 	Miner
 	Info
 	Comment
+	Chat
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -63,5 +68,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Miner:         NewMinerPostgres(db),
 		Info:          NewInfoPostgres(db),
 		Comment:       NewCommentPostgres(db),
+		Chat:          NewChatPostgres(db),
 	}
 }
