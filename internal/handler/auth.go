@@ -13,6 +13,7 @@ type SignUpInfo struct {
 	Nickname string `json:"nickname"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
+	Role     string `json:"role"`
 }
 
 func (h *Handler) signUp(c *gin.Context) {
@@ -28,6 +29,7 @@ func (h *Handler) signUp(c *gin.Context) {
 	input.Username = info.Nickname
 	input.Password = info.Password
 	input.Email = info.Email
+	input.Role = info.Role
 
 	userId, err := h.services.Authorization.CreateUser(input)
 	if err != nil {
