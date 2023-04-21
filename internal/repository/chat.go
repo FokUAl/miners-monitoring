@@ -18,20 +18,20 @@ func NewChatPostgres(db *sqlx.DB) *ChatPostgres {
 }
 
 func (p *ChatPostgres) SaveMessage(message app.Message) error {
-	statement := `INSERT INTO chat_history (creation_date, content, sender, recipient) 
-	VALUES ($1, $2, $3, $4)`
+	statement := `INSERT INTO chat_history (creation_date, content, sender, sender_role, 
+		recipient) VALUES ($1, $2, $3, $4, $5)`
 
 	_, err := p.db.Exec(statement, message.Time, message.Content,
-		message.Sender, message.Recipient)
+		message.Sender, message.SenderRole, message.Recipient)
 
 	return err
 }
 
 // return a list of users that send messages to operators
 func (p *ChatPostgres) GetSenders() ([]string, error) {
-	statement := `SELECT sender FROM chat_history`
+	statement := `SELECT sender FROM chat_history WHERE sender_role = $1`
 
-	rows, err := p.db.Query(statement)
+	rows, err := p.db.Query(statement, "User")
 	if err != nil {
 		return nil, fmt.Errorf("GetSenders: %w", err)
 	}
@@ -53,10 +53,10 @@ func (p *ChatPostgres) GetSenders() ([]string, error) {
 }
 
 func (p *ChatPostgres) ReadUserMessages(sender string) ([]app.Message, error) {
-	query := `SELECT creation_date, content, sender, recipient 
-	WHERE sender = $1 OR recipient = $2`
+	query := `SELECT creation_date, content, sender, recipient, is_read
+	WHERE sender = $1`
 
-	rows, err := p.db.Query(query, sender, sender)
+	rows, err := p.db.Query(query, sender)
 	if err != nil {
 		return nil, fmt.Errorf("ReadUserMessages: %w", err)
 	}
@@ -67,7 +67,7 @@ func (p *ChatPostgres) ReadUserMessages(sender string) ([]app.Message, error) {
 	for rows.Next() {
 		var message app.Message
 		err = rows.Scan(&message.Time, &message.Content,
-			&message.Sender, &message.Recipient)
+			&message.Sender, &message.Recipient, &message.IsRead)
 		if err != nil {
 			return nil, fmt.Errorf("ReadUserMessages: %w", err)
 		}
