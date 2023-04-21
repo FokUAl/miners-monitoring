@@ -7,4 +7,5 @@ type Message struct {
 	Content   string
 	Recipient string
 	Time      time.Time
+	IsRead    bool
 }

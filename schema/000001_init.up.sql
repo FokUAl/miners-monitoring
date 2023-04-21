@@ -63,4 +63,5 @@ CREATE TABLE chat_history
     content VARCHAR(2047) NOT NULL,
     sender VARCHAR(255) NOT NULL,
     recipient VARCHAR(255) NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE;
 );
