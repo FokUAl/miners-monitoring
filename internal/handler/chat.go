@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -34,6 +35,7 @@ func (h *Handler) SendMessage(c *gin.Context) {
 
 	message.Time = time.Now()
 	message.Sender = user.Username
+	message.SenderRole = user.Role
 
 	err = h.services.SaveMessage(message)
 	if err != nil {
@@ -43,8 +45,13 @@ func (h *Handler) SendMessage(c *gin.Context) {
 }
 
 func (h *Handler) ReadMessages(c *gin.Context) {
-	query_params := c.Request.URL.Query()
-	username := query_params["user"][0]
+	var username string
+
+	err := json.NewDecoder(c.Request.Body).Decode(&username)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
 	messages, err := h.services.ReadUserMessages(username)
 	if err != nil {
@@ -56,5 +63,48 @@ func (h *Handler) ReadMessages(c *gin.Context) {
 		Messages []app.Message
 	}{
 		Messages: messages,
+	})
+}
+
+func (h *Handler) GetSenders(c *gin.Context) {
+	senders, err := h.services.GetSenders()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("GetSenders: %s", err.Error()))
+		return
+	}
+
+	type SenderStat struct {
+		Name   string
+		IsRead bool
+	}
+	var listOfSenders []SenderStat
+	for _, sender := range senders {
+		var temp SenderStat
+		temp.Name = sender
+
+		messages, err := h.services.ReadUserMessages(sender)
+		if err != nil {
+			newErrorResponse(c, http.StatusInternalServerError,
+				fmt.Sprintf("GetSenders: %s", err.Error()))
+		}
+
+		var isReadSender bool = true
+		for _, msg := range messages {
+			if !msg.IsRead {
+				isReadSender = false
+				break
+			}
+		}
+
+		temp.IsRead = isReadSender
+
+		listOfSenders = append(listOfSenders, temp)
+	}
+
+	c.JSON(http.StatusOK, struct {
+		List []SenderStat
+	}{
+		List: listOfSenders,
 	})
 }
