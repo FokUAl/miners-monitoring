@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 	"time"
 
 	app "github.com/FokUAl/miners-monitoring"
@@ -10,14 +11,29 @@ import (
 )
 
 func (h *Handler) SendMessage(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.Trim(token, "\"")
+	id, err := h.services.Authorization.ParseToken(token)
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+
+	user, err := h.services.GetUserByID(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+
 	var message app.Message
-	err := json.NewDecoder(c.Request.Body).Decode(&message)
+	err = json.NewDecoder(c.Request.Body).Decode(&message)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	message.Time = time.Now()
+	message.Sender = user.Username
 
 	err = h.services.SaveMessage(message)
 	if err != nil {
