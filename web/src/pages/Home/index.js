@@ -5,7 +5,7 @@ import DevicesList from './components/DevicesList/DevicesList';
 import Empty from './components/Empty/Empty';
 import PageService from '@services/page.service';
 
-export default function Home({ isHidden, setIsHidden }) {
+export default function Home({ isHidden, setIsHidden, role, username }) {
 	const [devices, setDevices] = useState();
 	useEffect(() => {
 		PageService.getHome().then(
@@ -21,11 +21,18 @@ export default function Home({ isHidden, setIsHidden }) {
 
 	return (
 		<div className={isHidden ? 'nav-hidden' : 'nav-full'}>
-			<Navbar isHidden={isHidden} setIsHidden={setIsHidden} />
+			<Navbar
+				isHidden={isHidden}
+				setIsHidden={setIsHidden}
+				role={role}
+				username={username}
+			/>
 			{devices ? (
 				<div className="grid-hor">
 					<Dashboard devices={devices} />
-					<DevicesList devices={devices} setDevices={setDevices} />
+					{(role === 'Admin' || role === 'Operator') && (
+						<DevicesList devices={devices} setDevices={setDevices} />
+					)}
 				</div>
 			) : (
 				<div className="grid-hor">

@@ -6,7 +6,7 @@ import DeviceInfo from './components/DeviceInfo/DeviceInfo'
 import Comments from './components/Comments/Comments'
 import DeviceGraph from './components/DeviceGraph/DeviceGraph'
 
-export default function Device({isHidden, setIsHidden}) {
+export default function Device({isHidden, setIsHidden, role, username}) {
     const [data, setData] = useState({})
     const [seconds, setSeconds] = useState(0);
     const { search } = useLocation()
@@ -26,7 +26,7 @@ export default function Device({isHidden, setIsHidden}) {
     console.log(data)
     return (
 		<div className={isHidden? "nav-hidden" : "nav-full"}>
-            <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
+            <Navbar isHidden={isHidden} setIsHidden={setIsHidden} role={role} username={username}/>
             <div>
                 {data.Miner && <DeviceInfo data={data} />}
                 {data.CharacteristicsHistory && <DeviceGraph charHistory={data.CharacteristicsHistory}/>}

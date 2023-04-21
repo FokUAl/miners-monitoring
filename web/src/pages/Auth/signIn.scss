@@ -1,17 +1,21 @@
 @import '../../scss/variables.scss';
 
-.sign-in {
-    width: 300px;
-    height: 280px;
+.auth {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    left: 50%; 
+    transform: translateX(-50%);
     margin: 50px auto;
-
+    padding: 20px;
+    background-color: $color-bg-primary;
 }
 
-.sign-in--label {
+.auth--label {
     margin-bottom: 20px;
 }
 
-.sign-in--form {
+.auth--form {
     display: block;
     padding-inline: 20px;
     input {

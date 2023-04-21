@@ -2,11 +2,12 @@ import axios from 'axios'
 
 const API_URL = "http://localhost:8008/auth/"
 
-const signUp = async(nickname, email, password) => {
+const signUp = async(email, nickname, password, role) => {
   return axios.post(API_URL + 'sign-up', {
-    nickname,
     email,
-    password
+    nickname,
+    password,
+    role
   })
 }
 
