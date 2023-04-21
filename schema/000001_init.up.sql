@@ -60,8 +60,9 @@ CREATE TABLE mac_ip
 CREATE TABLE chat_history
 (
     creation_date TIMESTAMP NOT NULL,
-    content VARCHAR(2047) NOT NULL,
+    content VARCHAR(255) NOT NULL,
     sender VARCHAR(255) NOT NULL,
-    recipient VARCHAR(255) NOT NULL,
+    sender_role VARCHAR(255) NOT NULL,
+    recipient VARCHAR(255),
     is_read BOOLEAN DEFAULT FALSE;
 );
