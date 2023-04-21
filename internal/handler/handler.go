@@ -53,6 +53,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 		home.GET("/read-message", h.ReadMessages)
 		home.POST("/send-message", h.SendMessage)
+
+		home.GET("/get-all-users", h.GetAllUsers)
 	}
 
 	return router

@@ -22,3 +22,7 @@ func (s *UserService) GetUserByID(id int) (app.User, error) {
 func (s *UserService) GetRole(username string) (string, error) {
 	return s.repo.GetUserRole(username)
 }
+
+func (s *UserService) ListOfUsers() ([]string, error) {
+	return s.repo.ListOfUsers()
+}

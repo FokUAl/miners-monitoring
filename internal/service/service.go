@@ -31,6 +31,7 @@ type Miner interface {
 type User interface {
 	GetUserByID(id int) (app.User, error)
 	GetRole(username string) (string, error)
+	ListOfUsers() ([]string, error)
 }
 
 type Info interface {

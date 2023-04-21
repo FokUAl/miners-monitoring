@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/jmoiron/sqlx"
 )
@@ -29,4 +31,28 @@ func (p *UserPostgres) GetUserRole(username string) (string, error) {
 	err := p.db.QueryRow(query, username).Scan(&result)
 
 	return result, err
+}
+
+func (p *UserPostgres) ListOfUsers() ([]string, error) {
+	var result []string
+	query := `SELECT username FROM users WHERE role_ = $1`
+
+	rows, err := p.db.Query(query, "User")
+	if err != nil {
+		return nil, fmt.Errorf("ListOfUsers: %w", err)
+	}
+
+	for rows.Next() {
+		var username string
+
+		err = rows.Scan(&username)
+		if err != nil {
+			return nil, fmt.Errorf("ListOfUsers: %w", err)
+		}
+
+		result = append(result, username)
+	}
+
+	return result, nil
+
 }
