@@ -21,7 +21,7 @@ func (h *Handler) SendMessage(c *gin.Context) {
 
 	user, err := h.services.GetUserByID(id)
 	if err != nil {
-		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
