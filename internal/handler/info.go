@@ -22,7 +22,7 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 		return
 	}
 
-	var devicesAdresses [][]string
+	var devicesAddresses [][]string
 
 	for _, value := range allAddresses {
 		response, _ := pkg.GetAsicInfo(value[1], "summary")
@@ -32,15 +32,15 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 			log.Printf("check response %s: %s", value, err.Error())
 			continue
 		}
-		devicesAdresses = append(devicesAdresses, value)
+		devicesAddresses = append(devicesAddresses, value)
 	}
 
-	h.services.SaveAvailableAddresses(devicesAdresses)
+	h.services.SaveAvailableAddresses(devicesAddresses)
 
 	c.JSON(http.StatusOK, struct {
 		List [][]string
 	}{
-		List: devicesAdresses,
+		List: devicesAddresses,
 	})
 
 }
