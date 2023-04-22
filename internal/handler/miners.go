@@ -53,7 +53,6 @@ func (h *Handler) getHome(c *gin.Context) {
 
 		device.IPAddress = elem.Address
 
-		log.Printf("user: %s, owner: %s", user.Username, elem.Owner)
 		if user.Role == "User" &&
 			elem.Owner != user.Username {
 			continue
