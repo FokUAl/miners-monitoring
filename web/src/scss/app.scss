@@ -45,6 +45,11 @@
     grid-template-columns: 5% 95%;
 }
 
+.grid-20-80 {
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+
 .grid-hor {
     display: grid;
     grid-template-columns: auto;

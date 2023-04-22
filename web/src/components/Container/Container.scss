@@ -2,7 +2,7 @@
 
 .container {
     background-color: $color-bg-secondary;
-    padding-block: 20px;
+    padding-block: 10px;
     &.border-top {
         margin-top: 20px;
     }
@@ -26,5 +26,11 @@
     }
     &.padding-left {
         padding-left: 20px;
+    }
+    &.vertical-height {
+        height: 100vh;
+    }
+    &.overflow-y {
+        overflow-y: scroll;
     }
 }

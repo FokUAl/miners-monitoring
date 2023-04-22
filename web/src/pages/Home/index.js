@@ -32,9 +32,7 @@ export default function Home({ isHidden, setIsHidden, role, username }) {
 				{devices ? (
 					<div className="grid-hor">
 						<Dashboard devices={devices} />
-						{(role === 'Admin' || role === 'Operator') && (
-							<DevicesList devices={devices} setDevices={setDevices} />
-						)}
+						<DevicesList devices={devices} setDevices={setDevices} />
 					</div>
 				) : (
 					<div className="grid-hor">

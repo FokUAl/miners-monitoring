@@ -5,6 +5,7 @@ import AddDevice from '@pages/AddDevice';
 import Grid from '@pages/Grid';
 import SignIn from '@pages/Auth/SignIn';
 import SignUp from '@pages/Auth/SignUp';
+import Chat from '@pages/Chat';
 import Unauthorized from '@pages/Unauthorized';
 import AuthService from '@services/auth.service';
 import PrivateRoute from './routes/PrivateRoute';
@@ -19,6 +20,7 @@ function App() {
 	const [username, setUsername] = useState();
 	const [role, setRole] = useState();
 	const [isHidden, setIsHidden] = useState(true);
+	const [notifications, setNotifications] = useState()
 	const location = useLocation();
 	const navigation = useNavigate();
 
@@ -35,6 +37,15 @@ function App() {
 				console.log('navbar error', error);
 			}
 		);
+		PageService.getNotifications().then(
+			(response) => {
+				setNotifications(response.data.SenderStat)
+				console.log('notifications ok', notifications)
+			},
+			(error) => {
+				console.log('notifications', error)
+			}
+		)
 	}, []);
 
 	useEffect(() => {
@@ -127,6 +138,22 @@ function App() {
 									setIsHidden={setIsHidden}
 									username={username}
 									role={role}
+								/>
+							</OperatorRoute>
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path="/chat"
+					element={
+						<PrivateRoute>
+							<OperatorRoute role={role}>
+								<Chat
+									isHidden={isHidden}
+									setIsHidden={setIsHidden}
+									username={username}
+									role={role}
+									notifications={notifications}
 								/>
 							</OperatorRoute>
 						</PrivateRoute>

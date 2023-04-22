@@ -1,7 +1,7 @@
 import React from 'react'
 import './Container.scss'
 
-export default function Container({ children, borderTop, borderRight, borderBottom, borderLeft, paddingTop, paddingRight, paddingBottom, paddingLeft }) {
+export default function Container({ children, borderTop, borderRight, borderBottom, borderLeft, paddingTop, paddingRight, paddingBottom, paddingLeft, verticalHeight, overflowY }) {
     const generateClasses = () => {
         const classes = ['container']
         if (borderTop) classes.push('border-top')
@@ -12,6 +12,8 @@ export default function Container({ children, borderTop, borderRight, borderBott
         if (paddingRight) classes.push('padding-right')
         if (paddingBottom) classes.push('padding-bottom')
         if (paddingLeft) classes.push('padding-left')
+        if (verticalHeight) classes.push('vertical-height')
+        if (overflowY) classes.push('overflow-y')
         return classes.join(' ')
     }
     return (

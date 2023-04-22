@@ -13,6 +13,7 @@ import {
 	BsGrid3X3,
 	BsBoxArrowRight,
 	BsBoxArrowInRight,
+	BsChatLeftText
 } from 'react-icons/bs';
 
 export default function Navbar({ isHidden, setIsHidden, username, role }) {
@@ -53,6 +54,14 @@ export default function Navbar({ isHidden, setIsHidden, username, role }) {
 						<Link className="nav--link" to="/auth/signUp">
 							<BsBoxArrowInRight color="white" size="25" className="icon" />
 							{!isHidden && <div className="m-lt">Register new user</div>}
+						</Link>
+					</li>
+				)}
+				{(role === 'Operator' || role === 'Admin') && (
+					<li>
+						<Link className="nav--link" to="/chat">
+							<BsChatLeftText color="white" size="25" className="icon" />
+							{!isHidden && <div className="m-lt">Chat</div>}
 						</Link>
 					</li>
 				)}

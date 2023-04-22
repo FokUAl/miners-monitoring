@@ -19,11 +19,16 @@ const getAllUsers = () => {
     return axios.get(API_URL + 'get-all-users', {headers: authHeader()})
 }
 
+const getNotifications = () => {
+    return axios.get(API_URL + 'get-senders', {headers: authHeader()})
+}
+
 const PageService = {
     getHome,
     getDevice,
     userInfo,
-    getAllUsers
+    getAllUsers,
+    getNotifications
 }
 
 export default PageService
