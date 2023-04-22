@@ -25,6 +25,20 @@ type MappingInfo struct {
 }
 
 func (h *Handler) getHome(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.Trim(token, "\"")
+	id, err := h.services.Authorization.ParseToken(token)
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+
+	user, err := h.services.GetUserByID(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	var devices []app.MinerDevice
 
 	devicesInfo, err := h.services.GetDevicesInfo()
@@ -38,6 +52,11 @@ func (h *Handler) getHome(c *gin.Context) {
 		var device app.MinerDevice
 
 		device.IPAddress = elem.Address
+
+		if user.Role == "User" &&
+			elem.Owner != user.Username {
+			continue
+		}
 
 		device.MinerType = elem.MinerType
 		device.Shelf = elem.Shelf
