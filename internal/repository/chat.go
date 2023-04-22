@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	app "github.com/FokUAl/miners-monitoring"
+	"github.com/FokUAl/miners-monitoring/pkg"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -46,7 +47,9 @@ func (p *ChatPostgres) GetSenders() ([]string, error) {
 			return nil, fmt.Errorf("GetSenders: %w", err)
 		}
 
-		result = append(result, sender)
+		if !pkg.IsContain(sender, result) {
+			result = append(result, sender)
+		}
 	}
 
 	return result, nil
