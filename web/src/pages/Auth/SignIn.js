@@ -25,7 +25,7 @@ export default function SignIn() {
     }
 
     return (
-        <div className="auth">
+        <div className="auth-in">
             <form onSubmit={handleLogin}>
                 <div className="form--label auth--label">Sign in to your account</div>
                 <div className="form--inputs auth--form">

@@ -17,8 +17,8 @@ export default function Grid({isHidden, setIsHidden, role, username}) {
 		);
 	}, []);
     return (
-		<div className={isHidden? "nav-hidden" : "nav-full"} role={role} username={username}>
-            <Navbar isHidden={isHidden} setIsHidden={setIsHidden}/>
+		<div className={isHidden? "nav-hidden" : "nav-full"}>
+            <Navbar isHidden={isHidden} setIsHidden={setIsHidden} role={role} username={username}/>
             <GridContainer devices={devices}/>
         </div>
     )

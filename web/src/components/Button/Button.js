@@ -13,9 +13,10 @@ export default function Button({
 	loading,
 	disabled,
 	className,
+	color
 }) {
 	const generatorClass = () => {
-		const classes = ['btn', `size-${size}`, `float-${float}`];
+		const classes = ['btn', `size-${size}`, `float-${float}`, `color-${color}`];
 		if (className) classes.push(className);
 		if (fluid) classes.push('fluid');
 		return classes.join(' ');
@@ -36,4 +37,5 @@ Button.defaultProps = {
 	type: 'button',
 	size: 's',
 	float: 'center',
+	color: 'primary'
 };

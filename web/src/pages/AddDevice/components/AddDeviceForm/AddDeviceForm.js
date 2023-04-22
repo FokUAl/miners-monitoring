@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import FormService from '@services/form.service';
 import Button from '@components/Button/Button';
 import Container from '@components/Container/Container';
+import Input from '@components/Input/Input';
 import './addDeviceForm.scss';
 
-export default function AddDeviceForm({ allIP }) {
+export default function AddDeviceForm({ allIP, allUsers }) {
 	const [allOwners, setAllOwners] = useState('');
-	const [allTypes, setAllTypes] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
+	const [allTypes, setAllTypes] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	const initialData = [
 		{
@@ -33,17 +34,21 @@ export default function AddDeviceForm({ allIP }) {
 	};
 
 	useEffect(() => {
-		const newData = data.map((data) => ({ ...data, allOwners: allOwners, allTypes: allTypes }));
+		const newData = data.map((data) => ({
+			...data,
+			allOwners: allOwners,
+			allTypes: allTypes,
+		}));
 		setData(newData);
-	}, [allOwners, allTypes]);
+	}, [allOwners, allTypes, allUsers]);
 
 	const handleOwners = (event) => {
 		setAllOwners(event.target.value);
 	};
 
 	const handleTypes = (event) => {
-		setAllTypes(event.target.value)
-	}
+		setAllTypes(event.target.value);
+	};
 
 	const addFormField = () => {
 		setData([
@@ -69,13 +74,19 @@ export default function AddDeviceForm({ allIP }) {
 		}
 	};
 
+	const generateAllUsers = allUsers
+		? allUsers.map((user) => {
+				return <option value={user}>{user}</option>;
+		  })
+		: undefined;
+
 	const handleAdd = async (e) => {
 		e.preventDefault();
-		setIsLoading(true)
+		setIsLoading(true);
 		for (let i = 0; i < data.length; i++) {
 			for (let j = i + 1; j < data.length; j++) {
 				if (data[i]['IP'] === data[j]['IP']) {
-					setIsLoading(false)
+					setIsLoading(false);
 					alert('All IPs must be unique');
 					return;
 				}
@@ -83,15 +94,11 @@ export default function AddDeviceForm({ allIP }) {
 					data[i]['shelf'] + data[i]['row'] + data[i]['column'] ===
 					data[j]['shelf'] + data[j]['row'] + data[j]['column']
 				) {
-					setIsLoading(false)
+					setIsLoading(false);
 					alert('All Locations must be unique');
 					return;
 				}
 			}
-			// if (!allIP.includes(data[i]['IP'])) {
-			// 	alert('There is no such IP');
-			// 	return;
-			// }
 		}
 
 		if (allOwners) {
@@ -111,13 +118,13 @@ export default function AddDeviceForm({ allIP }) {
 			(response) => {
 				navigate('/');
 				window.location.reload();
-				setIsLoading(false)
+				setIsLoading(false);
 			},
 			(error) => {
 				if (error) {
 					console.log('Add device ', error);
 					alert(error.response.data.Message);
-					setIsLoading(false)
+					setIsLoading(false);
 				}
 			}
 		);
@@ -158,14 +165,22 @@ export default function AddDeviceForm({ allIP }) {
 						<div></div>
 						<div></div>
 						<div></div>
-						<input
+						{/* <input
 							type="text"
 							value={allOwners}
 							name="allOwners"
 							onChange={(e) => {
 								handleOwners(e);
 							}}
-						/>
+						/> */}
+						<select
+							name="allOwners"
+							value={data.allOwners}
+							className="input--select size-l width-fluid color-primary"
+							onChange={(e) => handleOwners(e)}
+						>
+							{generateAllUsers}
+						</select>
 					</div>
 					<div className="form--labels">
 						<label></label>
@@ -222,18 +237,34 @@ export default function AddDeviceForm({ allIP }) {
 								max="10"
 								required
 							/>
-							<input
+							{/* <input
 								type="text"
 								name="owner"
 								value={data.allOwners ? data.allOwners : data.owner}
 								disabled={data.allOwners}
 								onChange={(e) => handleChange(index, e)}
 								required
-							/>
+							/> */}
+							<select
+								name="owner"
+								value={data.allOwners ? data.allOwners : data.owner}
+								disabled={data.allOwners}
+								className="input--select size-l width-fluid color-primary"
+								onChange={(e) => handleChange(index, e)}
+							>
+								{generateAllUsers}
+							</select>
 						</div>
 					))}
 					<div className="form--btn-submit">
-						<Button type="submit" value='Add devices' loading={isLoading} disabled={isLoading} size="l" float="left" />
+						<Button
+							type="submit"
+							value="Add devices"
+							loading={isLoading}
+							disabled={isLoading}
+							size="l"
+							float="left"
+						/>
 					</div>
 				</form>
 			</div>

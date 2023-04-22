@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 
 const PrivateRoute = ({ children, role }) => {
-    if (role === 'admin') {
+    if (role === 'Admin') {
         return children
     }
 

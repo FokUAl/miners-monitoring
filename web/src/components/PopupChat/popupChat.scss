@@ -1,0 +1,33 @@
+@import '@scss/variables';
+
+.popup-chat {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+
+
+    .popup-chat--window {
+        display: grid;
+        grid-template-rows: 10% 80% 10%;
+        width: 300px;
+        height: 400px;
+        padding: 10px;
+        background-color: $color-bg-primary;
+        
+        .popup-chat--messages {
+            background-color: $color-bg-secondary;
+            overflow-y: scroll;
+        }
+
+        label {
+            margin-bottom: 10px;
+            text-align: center;
+            display: flex;
+            margin: 0 auto;
+        }
+
+        input {
+            margin-block: 10px;
+        }
+    }
+}

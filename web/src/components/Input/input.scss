@@ -114,3 +114,58 @@
     }
 }
 
+
+.input--select {
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 400;
+    &:focus {
+        outline: none;
+        background-color: $color-secondary;
+    }
+    &.size- {
+        &s {
+            padding: 0px;
+        }
+        &m {
+            padding: 10px;
+        }
+        &l {
+            padding: 15px;
+        }
+    }
+    &.width- {
+        &s {
+            width: 50px;
+        }
+        &m {
+            width: 100px
+        }
+        &l {
+            width: 150px;
+        }
+        &fluid {
+            width: 100%;
+        }
+    }
+    &.text-align- {
+        &left {
+            text-align: left;
+        }
+        &right {
+            text-align: right;
+        }
+    }
+    &.color- {
+        &primary {
+            background-color: $color-input-bg-primary;
+            color: $color-primary;
+        }
+        &secondary {
+            background-color: $color-input-bg-secondary;
+            color: $color-text;
+        }
+    }
+}

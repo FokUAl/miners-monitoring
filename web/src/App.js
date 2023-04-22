@@ -22,7 +22,7 @@ function App() {
 	const location = useLocation();
 	const navigation = useNavigate();
 
-	console.log('role', role, typeof(role), role==='admin')
+	console.log('role', role, typeof role, role === 'admin');
 
 	useEffect(() => {
 		PageService.userInfo().then(
@@ -63,7 +63,12 @@ function App() {
 					element={
 						<PrivateRoute>
 							<AdminRoute role={role}>
-								<SignUp />
+								<SignUp
+									isHidden={isHidden}
+									setIsHidden={setIsHidden}
+									username={username}
+									actionRole={role}
+								/>
 							</AdminRoute>
 						</PrivateRoute>
 					}

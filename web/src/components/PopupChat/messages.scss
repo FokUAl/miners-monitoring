@@ -1,0 +1,15 @@
+@import '@scss/variables';
+
+.messages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    .messages--current-user {
+        float: right;
+    }
+
+    .messages--recipient-user {
+        float: left;
+    }
+}

@@ -15,10 +15,15 @@ const userInfo = () => {
     return axios.get(API_URL + 'user-info', {timeout: 2000, headers: authHeader()})
 }
 
+const getAllUsers = () => {
+    return axios.get(API_URL + 'get-all-users', {headers: authHeader()})
+}
+
 const PageService = {
     getHome,
     getDevice,
-    userInfo
+    userInfo,
+    getAllUsers
 }
 
 export default PageService

@@ -5,9 +5,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    background-color: $color-secondary;
     margin-inline: 10px;
-    color: $color-text;
     border: none;
     cursor: pointer;
     text-align: center;
@@ -46,6 +44,17 @@
         &center {
             display: flex;
             margin: 0 auto;
+        }
+    }
+
+    &.color- {
+        &primary {
+            color: $color-text;
+            background-color: $color-secondary;
+        }
+        &secondary {
+            color: $color-text;
+            background-color: $color-primary;
         }
     }
 }

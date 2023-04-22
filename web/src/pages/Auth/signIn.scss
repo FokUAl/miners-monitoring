@@ -1,11 +1,20 @@
 @import '../../scss/variables.scss';
 
-.auth {
+.auth-in {
     display: inline-block;
     position: relative;
     text-align: center;
     left: 50%; 
     transform: translateX(-50%);
+    margin: 50px auto;
+    padding: 20px;
+    background-color: $color-bg-primary;
+}
+
+.auth-up {
+    display: inline-block;
+    position: relative;
+    text-align: center;
     margin: 50px auto;
     padding: 20px;
     background-color: $color-bg-primary;
