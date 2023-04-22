@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	"log"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/gin-gonic/gin"
@@ -28,11 +27,10 @@ func (h *Handler) SendMessage(c *gin.Context) {
 	}
 
 	var message app.Message
-	type Container struct{
+	type Container struct {
 		Content string `json:"message"`
 	}
 	var tempCont Container
-	log.Println(c.Request.Body)
 	err = json.NewDecoder(c.Request.Body).Decode(&tempCont)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
