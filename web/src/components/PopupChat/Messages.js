@@ -1,23 +1,24 @@
 import './messages.scss'
 
 const Messages = ({ messages, username }) => {
+	console.log('Messages', messages)
 	return (
 		<div className="messages">
-			{messages &&
+			{
 				messages.map((message, index) =>
-					message.MinerType === username ? (
+					message.Sender === username ? (
 						<div
 							className="messages--current-user"
-							key={message.MinerType + index}
+							key={index}
 						>
-							{message.MinerType}
+							{message.Content}
 						</div>
 					) : (
 						<div
 							className="messages--recipient-user"
-							key={message.MinerType + index}
+							key={index}
 						>
-							{message.MinerType}
+							{message.Content}
 						</div>
 					)
 				)}
