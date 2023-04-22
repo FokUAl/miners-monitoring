@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"log"
 
 	app "github.com/FokUAl/miners-monitoring"
 	"github.com/gin-gonic/gin"
@@ -27,12 +28,18 @@ func (h *Handler) SendMessage(c *gin.Context) {
 	}
 
 	var message app.Message
-	err = json.NewDecoder(c.Request.Body).Decode(&message)
+	type Container struct{
+		Content string `json:"message"`
+	}
+	var tempCont Container
+	log.Println(c.Request.Body)
+	err = json.NewDecoder(c.Request.Body).Decode(&tempCont)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
+	message.Content = tempCont.Content
 	message.Time = time.Now()
 	message.Sender = user.Username
 	message.SenderRole = user.Role
@@ -45,15 +52,21 @@ func (h *Handler) SendMessage(c *gin.Context) {
 }
 
 func (h *Handler) ReadMessages(c *gin.Context) {
-	var username string
+	token := c.GetHeader("Authorization")
+	token = strings.Trim(token, "\"")
+	id, err := h.services.Authorization.ParseToken(token)
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
 
-	err := json.NewDecoder(c.Request.Body).Decode(&username)
+	user, err := h.services.GetUserByID(id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	messages, err := h.services.ReadUserMessages(username)
+	messages, err := h.services.ReadUserMessages(user.Username)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
