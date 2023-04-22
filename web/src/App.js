@@ -21,6 +21,7 @@ function App() {
 	const [role, setRole] = useState();
 	const [isHidden, setIsHidden] = useState(true);
 	const [notifications, setNotifications] = useState()
+	const [seconds, setSeconds] = useState()
 	const location = useLocation();
 	const navigation = useNavigate();
 
@@ -37,6 +38,9 @@ function App() {
 				console.log('navbar error', error);
 			}
 		);
+	}, []);
+
+	useEffect(() => {
 		PageService.getNotifications().then(
 			(response) => {
 				setNotifications(response.data.SenderStat)
@@ -46,7 +50,11 @@ function App() {
 				console.log('notifications', error)
 			}
 		)
-	}, []);
+        const interval = setInterval(() => {
+          setSeconds(seconds => seconds + 1);
+        }, 5000);
+        return () => clearInterval(interval);
+	}, [seconds])
 
 	useEffect(() => {
 		const token = AuthService.getCurrentUser();
