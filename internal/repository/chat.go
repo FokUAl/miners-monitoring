@@ -54,7 +54,7 @@ func (p *ChatPostgres) GetSenders() ([]string, error) {
 
 func (p *ChatPostgres) ReadUserMessages(sender string) ([]app.Message, error) {
 	query := `SELECT creation_date, content, sender, recipient, is_read
-	WHERE sender = $1`
+	FROM chat_history WHERE sender = $1`
 
 	rows, err := p.db.Query(query, sender)
 	if err != nil {
