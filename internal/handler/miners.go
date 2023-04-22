@@ -25,6 +25,20 @@ type MappingInfo struct {
 }
 
 func (h *Handler) getHome(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	token = strings.Trim(token, "\"")
+	id, err := h.services.Authorization.ParseToken(token)
+	if err != nil {
+		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
+	}
+
+	user, err := h.services.GetUserByID(id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	var devices []app.MinerDevice
 
 	devicesInfo, err := h.services.GetDevicesInfo()
@@ -38,6 +52,12 @@ func (h *Handler) getHome(c *gin.Context) {
 		var device app.MinerDevice
 
 		device.IPAddress = elem.Address
+
+		log.Printf("user: %s, owner: %s", user.Username, elem.Owner)
+		if user.Role == "User" &&
+			elem.Owner != user.Username {
+			continue
+		}
 
 		device.MinerType = elem.MinerType
 		device.Shelf = elem.Shelf
@@ -53,7 +73,7 @@ func (h *Handler) getHome(c *gin.Context) {
 	}
 
 	// reading data from channel
-	for i := 0; i < len(devicesInfo); i++ {
+	for i := 0; i < len(devices); i++ {
 		responseData := <-deviceResponse
 		pkg.UpdataDeviceInfo(&devices, responseData)
 	}
