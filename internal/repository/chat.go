@@ -57,9 +57,9 @@ func (p *ChatPostgres) GetSenders() ([]string, error) {
 
 func (p *ChatPostgres) ReadUserMessages(sender string) ([]app.Message, error) {
 	query := `SELECT creation_date, content, sender, recipient, is_read
-	FROM chat_history WHERE sender = $1`
+	FROM chat_history WHERE sender = $1 OR recipient = $2`
 
-	rows, err := p.db.Query(query, sender)
+	rows, err := p.db.Query(query, sender, sender)
 	if err != nil {
 		return nil, fmt.Errorf("ReadUserMessages: %w", err)
 	}
@@ -79,4 +79,43 @@ func (p *ChatPostgres) ReadUserMessages(sender string) ([]app.Message, error) {
 	}
 
 	return result, nil
+}
+
+func (p *ChatPostgres) UpdateMessageStatus(sender, recipient string) error {
+	query := `UPDATE chat_history SET recipient = $1, is_read = TRUE 
+		WHERE sender = $2 AND sender_role = 'User'`
+
+	_, err := p.db.Exec(query, recipient, sender)
+
+	return err
+}
+
+func (p *ChatPostgres) ReadMessages(sender, recipient string) ([]app.Message, error) {
+	err := p.UpdateMessageStatus(sender, recipient)
+	if err != nil {
+		return nil, fmt.Errorf("UpdateMessageStatus: %w", err)
+	}
+
+	query := `SELECT creation_date, content, sender, recipient, is_read
+	FROM chat_history WHERE sender = $1 OR recipient = $2`
+
+	rows, err := p.db.Query(query, sender, recipient)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []app.Message
+	for rows.Next() {
+		var message app.Message
+		err = rows.Scan(&message.Time, &message.Content,
+			&message.Sender, &message.Recipient, &message.IsRead)
+		if err != nil {
+			return nil, fmt.Errorf("ReadMessages: %w", err)
+		}
+
+		result = append(result, message)
+	}
+
+	return result, nil
+
 }
