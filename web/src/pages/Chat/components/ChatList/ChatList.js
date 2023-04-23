@@ -2,23 +2,18 @@ import { useState } from 'react';
 import Container from '@components/Container/Container';
 import './chatList.scss';
 
-const ChatList = ({ notifications, setDialog }) => {
+const ChatList = ({ notifications, setDialog, sender }) => {
 	console.log('chatlist', notifications);
-	const [isActiveDialog, setIsActiveDialog] = useState();
 
-	const handleActive = ({ index }) => {
-		setIsActiveDialog(index);
-	};
 	return (
 		<Container overflowY verticalHeight borderRight>
 			{notifications &&
 				notifications.map((notification, index) => (
 					<div
-                        className={`chat-list--dialog${index === isActiveDialog ? 'active': ''}`}
+                        className={`chat-list--dialog${notification.Name === sender ? ' active': ''}`}
 						key={index}
 						onClick={() => {
 							setDialog(notification.Name);
-							handleActive(index);
 						}}
 					>
 						<div className="chat-list--dialog-name">{notification.Name}</div>
