@@ -12,7 +12,7 @@ const getAllIP = async () => {
 
 const getAllMessages = async () => {
 	return axios.get(
-		API_URL + 'read-message',
+		API_URL + 'read-user-messages',
 		{ headers: authHeader() }
 	);
 };

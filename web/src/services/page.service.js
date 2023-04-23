@@ -23,12 +23,17 @@ const getNotifications = () => {
     return axios.get(API_URL + 'get-senders', {headers: authHeader()})
 }
 
+const postDialog = (dialog, username) => {
+    return axios.post(API_URL + 'read-messages-from', {dialog, username},{headers: authHeader()})
+}
+
 const PageService = {
     getHome,
     getDevice,
     userInfo,
     getAllUsers,
-    getNotifications
+    getNotifications,
+    postDialog
 }
 
 export default PageService
