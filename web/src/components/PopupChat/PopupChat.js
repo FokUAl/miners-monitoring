@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Button from '@components/Button/Button';
 import Input from '@components/Input/Input';
 import Messages from './Messages';
 import ComponentService from '@services/component.service';
+import { BsSend } from 'react-icons/bs';
 import './popupChat.scss';
 import PageService from '../../services/page.service';
 
@@ -10,6 +11,7 @@ const PopupChat = ({ username }) => {
 	const [isChatHidden, setIsChatHidden] = useState(true);
 	const [messages, setMessages] = useState();
 	const [message, setMessage] = useState();
+	const chatRef = useRef();
 
 	const handleHidden = () => {
 		setIsChatHidden(!isChatHidden);
@@ -25,10 +27,10 @@ const PopupChat = ({ username }) => {
 				console.log('popup chat', error);
 			}
 		);
-	}, []);
+	}, [messages]);
 
-	const handleSend = async(e) => {
-        e.preventDefault()
+	const handleSend = async (e) => {
+		e.preventDefault();
 		ComponentService.sendMessage(message).then(
 			(response) => {
 				console.log('popup chat send ok');
@@ -39,6 +41,7 @@ const PopupChat = ({ username }) => {
 		);
 		setMessage('');
 	};
+	// chatRef.current.scrollTop = chatRef.current.scrollHeight;
 
 	return (
 		<div className="popup-chat">
@@ -47,15 +50,21 @@ const PopupChat = ({ username }) => {
 			) : (
 				<div className="popup-chat--window">
 					<label>Chat</label>
-					<div className="popup-chat--messages">
+					<div ref={chatRef} className="popup-chat--messages">
 						<Messages messages={messages} username={username} />
 					</div>
-					<div className="grid-85-15">
-						<form onSubmit={handleSend}>
-							<Input size="s" value={message} setValue={setMessage} />
-							<Button value="send" size="s" type="submit" />
-						</form>
-					</div>
+					<form onSubmit={handleSend} className="popup-chat--form">
+						<input
+							className="popup-chat--input"
+							type="text"
+							value={message}
+							required
+							onChange={(e) => setMessage(e.target.value)}
+						/>
+						<button className="popup-chat--submit" type="submit">
+							<BsSend color="black" size="15"/>
+						</button>
+					</form>
 				</div>
 			)}
 			<Button
@@ -63,7 +72,7 @@ const PopupChat = ({ username }) => {
 				color="secondary"
 				size="m"
 				float="right"
-				fluid
+				className="popup-chat--btn"
 				onClick={handleHidden}
 			/>
 		</div>

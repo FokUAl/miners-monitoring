@@ -29,5 +29,34 @@
         input {
             margin-block: 10px;
         }
+
+        .popup-chat--form {
+            display: grid;
+            grid-template-columns: 80% 20%;
+            width: 100%;
+            background-color: $color-dp-primary;
+            .popup-chat--input {
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                padding-left: 5px;
+                background-color: $color-dp-primary;
+            }
+        
+            .popup-chat--submit {
+                border: none;
+                padding: 0;
+                background-color: $color-dp-primary;
+                cursor: pointer;
+                &:active {
+                    background-color: $color-bg-hover;
+                }
+            }
+        }
     }
+}
+
+.popup-chat--btn {
+    width: 300px;
+    border-radius: 0;
 }

@@ -1,15 +1,27 @@
 @import '@scss/variables';
 
 .messages {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    
-    .messages--current-user {
-        float: right;
-    }
 
-    .messages--recipient-user {
-        float: left;
+    .messages--container {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+
+        .messages-- {
+            &current-user {
+                align-self: flex-end;
+                padding: 10px 20px;
+                margin-block: 10px;
+                background-color: $color-bg-hover;
+                border-radius: 5px;
+            }
+            &recipient-user {
+                align-self: flex-start;
+                padding: 10px 20px;
+                margin-block: 10px;
+                background-color: black;
+                border-radius: 5px;
+            }
+        }
     }
 }
