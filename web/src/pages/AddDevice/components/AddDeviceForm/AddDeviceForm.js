@@ -176,7 +176,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 							value={allOwners}
 							onChange={(e) => setAllOwners(e.target.value)}
 						>
-							<option value=""></option>
+							<option value="" disabled></option>
 							{generateAllUsers}
 						</select>
 					</div>
@@ -250,7 +250,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 								className="input--select size-l width-fluid color-primary"
 								onChange={(e) => handleChange(index, e)}
 							>
-								<option value=""></option>
+								<option value="" disabled></option>
 								{generateAllUsers}
 							</select>
 						</div>
