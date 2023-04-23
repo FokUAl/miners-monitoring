@@ -55,6 +55,11 @@
     grid-template-columns: auto;
 }
 
+.grid-hor-90-10 {
+    display: grid;
+    grid-template-rows: 90% 10%;
+}
+
 .grid-auto {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
