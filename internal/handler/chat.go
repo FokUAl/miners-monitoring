@@ -49,7 +49,7 @@ func (h *Handler) SendMessage(c *gin.Context) {
 	}
 }
 
-func (h *Handler) ReadMessages(c *gin.Context) {
+func (h *Handler) ReadUserMessages(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	token = strings.Trim(token, "\"")
 	id, err := h.services.Authorization.ParseToken(token)
@@ -117,5 +117,31 @@ func (h *Handler) GetSenders(c *gin.Context) {
 		List []SenderStat
 	}{
 		List: listOfSenders,
+	})
+}
+
+func (h *Handler) ReadMessages(c *gin.Context) {
+	type Container struct {
+		Source      string `json:"dialog"`
+		Destination string `json:"username"`
+	}
+
+	var tempCont Container
+	err := json.NewDecoder(c.Request.Body).Decode(&tempCont)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	messages, err := h.services.ReadMessages(tempCont.Source, tempCont.Destination)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, struct {
+		Messages []app.Message
+	}{
+		Messages: messages,
 	})
 }
