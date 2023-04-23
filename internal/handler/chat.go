@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -126,6 +127,7 @@ func (h *Handler) ReadMessages(c *gin.Context) {
 		Destination string `json:"username"`
 	}
 
+	log.Println("Access")
 	var tempCont Container
 	err := json.NewDecoder(c.Request.Body).Decode(&tempCont)
 	if err != nil {
