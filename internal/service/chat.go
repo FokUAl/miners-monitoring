@@ -24,3 +24,7 @@ func (s *ChatService) GetSenders() ([]string, error) {
 func (s *ChatService) ReadUserMessages(sender string) ([]app.Message, error) {
 	return s.repo.ReadUserMessages(sender)
 }
+
+func (s *ChatService) ReadMessages(sender, recipient string) ([]app.Message, error) {
+	return s.repo.ReadMessages(sender, recipient)
+}

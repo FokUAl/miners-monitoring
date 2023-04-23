@@ -54,7 +54,7 @@ type Comment interface {
 type Chat interface {
 	SaveMessage(message app.Message) error
 	ReadUserMessages(sender string) ([]app.Message, error)
-	//ReadOperatorMessages(recipient string) ([]app.Message, error)
+	ReadMessages(sender, recipient string) ([]app.Message, error)
 	GetSenders() ([]string, error)
 }
 
