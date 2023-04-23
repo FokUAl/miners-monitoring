@@ -1,8 +1,24 @@
+import { useState, useEffect } from 'react'
 import Navbar from '@components/Navbar/Navbar';
 import ChatList from './components/ChatList/ChatList';
 import ChatArea from './components/ChatArea/ChatArea';
+import PageService from '@services/page.service'
 
-const Chat = ({ isHidden, setIsHidden, username, role, notifications }) => {
+const Chat = ({ isHidden, setIsHidden, username, role }) => {
+    const [notifications, setNotifications] = useState()
+
+	useEffect(() => {
+		PageService.getNotifications().then(
+			(response) => {
+				setNotifications(response.data.SenderStat)
+				console.log('notifications ok', notifications)
+			},
+			(error) => {
+				console.log('notifications', error)
+			}
+		)
+	}, [])
+
 	return (
 		<div className={isHidden ? 'nav-hidden' : 'nav-full'}>
 			<Navbar

@@ -20,8 +20,6 @@ function App() {
 	const [username, setUsername] = useState();
 	const [role, setRole] = useState();
 	const [isHidden, setIsHidden] = useState(true);
-	const [notifications, setNotifications] = useState()
-	const [seconds, setSeconds] = useState()
 	const location = useLocation();
 	const navigation = useNavigate();
 
@@ -39,22 +37,6 @@ function App() {
 			}
 		);
 	}, []);
-
-	useEffect(() => {
-		PageService.getNotifications().then(
-			(response) => {
-				setNotifications(response.data.SenderStat)
-				console.log('notifications ok', notifications)
-			},
-			(error) => {
-				console.log('notifications', error)
-			}
-		)
-        const interval = setInterval(() => {
-          setSeconds(seconds => seconds + 1);
-        }, 5000);
-        return () => clearInterval(interval);
-	}, [seconds])
 
 	useEffect(() => {
 		const token = AuthService.getCurrentUser();
@@ -161,7 +143,6 @@ function App() {
 									setIsHidden={setIsHidden}
 									username={username}
 									role={role}
-									notifications={notifications}
 								/>
 							</OperatorRoute>
 						</PrivateRoute>

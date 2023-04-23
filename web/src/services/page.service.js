@@ -3,7 +3,7 @@ import authHeader from './auth.header'
 
 const API_URL = 'http://localhost:8008/'
 
-const getHome = () => {
+const getHome = async () => {
     return axios.get(API_URL + 'home', {timeout: 3000, headers: authHeader()})
 }
 

@@ -40,11 +40,9 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 			allTypes: allTypes,
 		}));
 		setData(newData);
-	}, [allOwners, allTypes, allUsers]);
+	}, [allOwners, allTypes]);
 
-	const handleOwners = (event) => {
-		setAllOwners(event.target.value);
-	};
+	console.log(allOwners)
 
 	const handleTypes = (event) => {
 		setAllTypes(event.target.value);
@@ -175,10 +173,11 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 						/> */}
 						<select
 							name="allOwners"
-							value={data.allOwners}
 							className="input--select size-l width-fluid color-primary"
-							onChange={(e) => handleOwners(e)}
+							value={allOwners}
+							onChange={(e) => setAllOwners(e.target.value)}
 						>
+							<option value=""></option>
 							{generateAllUsers}
 						</select>
 					</div>
