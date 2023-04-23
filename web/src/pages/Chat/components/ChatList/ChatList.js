@@ -11,6 +11,7 @@ const ChatList = ({ notifications, setDialog }) => {
 	};
 	const generatorClasses = ({ index }) => {
 		const classes = ['chat-list--dialog'];
+        console.log('generator', index, isActiveDialog)
 		if (isActiveDialog === index) classes.push('active');
 		return classes.join(' ');
 	};
@@ -19,7 +20,7 @@ const ChatList = ({ notifications, setDialog }) => {
 			{notifications &&
 				notifications.map((notification, index) => (
 					<div
-						className={generatorClasses(index)}
+						className={() => generatorClasses(index)}
 						key={index}
 						onClick={() => {
 							setDialog(notification.Name);

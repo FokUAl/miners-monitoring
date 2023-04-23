@@ -7,7 +7,7 @@ import PageService from '@services/page.service'
 const Chat = ({ isHidden, setIsHidden, username, role }) => {
 	const [dialog, setDialog] = useState()
     const [notifications, setNotifications] = useState()
-	const [chat, setChat] = useState()
+	const [messages, setMessages] = useState()
 
 	useEffect(() => {
 		PageService.getNotifications().then(
@@ -24,8 +24,8 @@ const Chat = ({ isHidden, setIsHidden, username, role }) => {
 	useEffect(() => {
 		PageService.postDialog(dialog, username).then(
 			(response) => {
-				setChat(response.data)
-				console.log('get dialog', chat)
+				setMessages(response.data.Messages)
+				console.log('get dialog', messages)
 			},
 			(error) => {
 				console.log('get dialog', error)
@@ -43,7 +43,7 @@ const Chat = ({ isHidden, setIsHidden, username, role }) => {
 			/>
 			<div className="grid-20-80">
 				<ChatList notifications={notifications} setDialog={setDialog}/>
-				<ChatArea chat={chat} username={username}/>
+				<ChatArea messages={messages} username={username}/>
 			</div>
 		</div>
 	);
