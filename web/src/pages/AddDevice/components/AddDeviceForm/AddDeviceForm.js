@@ -10,7 +10,6 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 	const [allOwners, setAllOwners] = useState('');
 	const [allTypes, setAllTypes] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-
 	const initialData = [
 		{
 			minerType: '',
@@ -42,7 +41,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 		setData(newData);
 	}, [allOwners, allTypes]);
 
-	console.log(allOwners)
+	console.log(allOwners);
 
 	const handleTypes = (event) => {
 		setAllTypes(event.target.value);
@@ -251,6 +250,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 								className="input--select size-l width-fluid color-primary"
 								onChange={(e) => handleChange(index, e)}
 							>
+								<option value=""></option>
 								{generateAllUsers}
 							</select>
 						</div>
