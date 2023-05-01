@@ -28,7 +28,8 @@ func (h *Handler) SendMessage(c *gin.Context) {
 
 	var message app.Message
 	type Container struct {
-		Content string `json:"message"`
+		Content   string `json:"message"`
+		Recipient string `json:"receiver"`
 	}
 	var tempCont Container
 	err = json.NewDecoder(c.Request.Body).Decode(&tempCont)
@@ -41,6 +42,10 @@ func (h *Handler) SendMessage(c *gin.Context) {
 	message.Time = time.Now()
 	message.Sender = user.Username
 	message.SenderRole = user.Role
+	if user.Role == "Operator" ||
+		user.Role == "Admin" {
+		message.Recipient = tempCont.Recipient
+	}
 
 	err = h.services.SaveMessage(message)
 	if err != nil {
