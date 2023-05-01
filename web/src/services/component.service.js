@@ -17,10 +17,10 @@ const getAllMessages = async () => {
 	);
 };
 
-const sendMessage = async (message) => {
+const sendMessage = async (message, receiver) => {
 	return axios.post(
 		API_URL + 'send-message',
-		{ message },
+		{ message, receiver },
 		{ headers: authHeader() }
 	);
 };

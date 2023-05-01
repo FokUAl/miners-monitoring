@@ -5,17 +5,18 @@ import ComponentService from '@services/component.service';
 import { BsSend } from 'react-icons/bs';
 import './chatArea.scss'
 
-const ChatArea = ({ messages, username }) => {
+const ChatArea = ({ messages, username, dialog }) => {
 	const [message, setMessage] = useState();
+	const receiver = dialog
 
 	const handleSend = async (e) => {
 		e.preventDefault();
-		ComponentService.sendMessage(message).then(
+		ComponentService.sendMessage(message, receiver).then(
 			(response) => {
-				console.log('popup chat send ok');
+				console.log('chat send ok', message, receiver);
 			},
 			(error) => {
-				console.log('popup chat send', error);
+				console.log('chat send', error);
 			}
 		);
 		setMessage('');

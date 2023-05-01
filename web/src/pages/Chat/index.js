@@ -49,7 +49,7 @@ const Chat = ({ isHidden, setIsHidden, username, role }) => {
 					setDialog={setDialog}
 					sender={messages ? messages.Sender : undefined}
 				/>
-				<ChatArea messages={messages} username={username} />
+				<ChatArea messages={messages} username={username} dialog={dialog} />
 			</div>
 		</div>
 	);
