@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import Button from '@components/Button/Button';
 import Input from '@components/Input/Input';
 import Messages from './Messages';
@@ -27,7 +27,8 @@ const PopupChat = ({ username }) => {
 				console.log('popup chat', error);
 			}
 		);
-	}, [messages]);
+	}, []);
+
 
 	const handleSend = async (e) => {
 		e.preventDefault();
@@ -62,7 +63,7 @@ const PopupChat = ({ username }) => {
 							onChange={(e) => setMessage(e.target.value)}
 						/>
 						<button className="popup-chat--submit" type="submit">
-							<BsSend color="black" size="15"/>
+							<BsSend color="black" size="15" />
 						</button>
 					</form>
 				</div>
