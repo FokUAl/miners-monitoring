@@ -15,8 +15,6 @@ CREATE TABLE miner_devices
     _row INTEGER DEFAULT 0,
     col INTEGER DEFAULT 0,
     owner_ VARCHAR(255) NOT NULL DEFAULT ' ',
-    miner_status VARCHAR(255) NOT NULL DEFAULT ' ',
-    coin VARCHAR(255) NOT NULL DEFAULT ' ',
     ip_address VARCHAR(255) UNIQUE,
     mac_address VARCHAR(255) DEFAULT ' '
 );
