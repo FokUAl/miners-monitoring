@@ -53,7 +53,8 @@ export default function DeviceInfo({ data }) {
 			row,
 			column,
 			owner,
-			data.IPAddress
+			data.IPAddress,
+			data.MAC
 		).then(
 			(response) => {
 				navigate(`/device?shelf=${shelf}&row=${row}&column=${column}`);
