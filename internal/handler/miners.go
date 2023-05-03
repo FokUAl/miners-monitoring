@@ -51,7 +51,7 @@ func (h *Handler) getHome(c *gin.Context) {
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
-		device.IPAddress = elem.Address
+		device.IPAddress = elem.IP
 
 		if user.Role == "User" &&
 			elem.Owner != user.Username {
@@ -104,7 +104,7 @@ func (h *Handler) addMiner(c *gin.Context) {
 	}
 
 	for i := 0; i < len(info.Data); i++ {
-		info.Data[i].Address = strings.ToLower(info.Data[i].Address)
+		info.Data[i].MAC = strings.ToLower(info.Data[i].MAC)
 		isFreeLocation, err := h.services.IsLocationFree(info.Data[i].Shelf, info.Data[i].Row, info.Data[i].Column)
 		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
@@ -117,19 +117,13 @@ func (h *Handler) addMiner(c *gin.Context) {
 			return
 		}
 
-		isIP, err := pkg.IsIP(info.Data[i].Address)
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-			return
-		}
-
-		isFreeAddress, err := h.services.IsAddressFree(info.Data[i].Address, isIP)
+		isFreeAddress, err := h.services.IsAddressFree(info.Data[i].IP, info.Data[i].MAC)
 		if err != nil && err != sql.ErrNoRows {
 			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
 			return
 		}
 		if !isFreeAddress {
-			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this address exists: %s", info.Data[i].Address)})
+			c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Device with this address exists: %s", info.Data[i].IP)})
 			return
 		}
 
@@ -138,17 +132,11 @@ func (h *Handler) addMiner(c *gin.Context) {
 	for j := 0; j < len(info.Data); j++ {
 		var device app.MinerDevice
 
-		isIP, err := pkg.IsIP(info.Data[j].Address)
-		if err != nil {
-			newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("addMiner: %s", err.Error()))
-			return
-		}
-
-		if isIP {
-			device.IPAddress = info.Data[j].Address
+		if info.Data[j].MAC == "" {
+			device.IPAddress = info.Data[j].IP
 			device.MACAddress = h.services.DetermineMAC(device.IPAddress)
 		} else {
-			device.MACAddress = info.Data[j].Address
+			device.MACAddress = info.Data[j].MAC
 			device.IPAddress = h.services.DetermineIP(device.MACAddress)
 		}
 
@@ -181,7 +169,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
 
-		address := elem.Address
+		address := elem.IP
 
 		// isIP, err := pkg.IsIP(address)
 		// if err != nil {
@@ -293,14 +281,8 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 	var infoHolder []app.AddInfo
 	infoHolder = append(infoHolder, info)
 
-	isIP, err := pkg.IsIP(info.Address)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
-		return
-	}
-
 	var address string
-	if isIP {
+	if info.MAC == "" {
 		address = device.IPAddress
 	} else {
 		address = device.MACAddress
@@ -312,7 +294,7 @@ func (h *Handler) UpdateAsicInfo(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("UpdateAsicInfo: %s", err.Error()))
 		return
 		// check if we write same address
-	} else if !isLocFree && info.Address != address {
+	} else if !isLocFree && info.IP != address {
 		c.JSON(http.StatusBadRequest, Notification{Message: fmt.Sprintf("Location isn't free: %d-%d-%d\n",
 			info.Shelf, info.Column, info.Row)})
 		return
