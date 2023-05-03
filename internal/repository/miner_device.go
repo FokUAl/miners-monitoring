@@ -121,21 +121,23 @@ func (p *MinerPostgres) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, e
 	return device == app.MinerDevice{}, err
 }
 
-func (p *MinerPostgres) IsAddressFree(address string, isIP bool) (bool, error) {
+func (p *MinerPostgres) IsAddressFree(ip, mac string) (bool, error) {
 	var device app.MinerDevice
 
 	query := `SELECT miner_type, shelf, _row, col, owner_,
 		ip_address, mac_address FROM miner_devices 
 		WHERE ip_address = $1`
 
-	if !isIP {
+	address := ip
+	if ip == "" {
 		query = `SELECT miner_type, shelf, _row, col, owner_, ip_address, 
 		mac_address FROM miner_devices 
 		WHERE mac_address = $1`
+		address = mac
 	}
 
 	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
-		&device.Column, &device.Owner, &device.IPAddress, &device.Characteristics.MAC)
+		&device.Column, &device.Owner, &device.IPAddress, &device.MACAddress)
 
 	return device == app.MinerDevice{}, err
 }
@@ -255,7 +257,7 @@ func (p *MinerPostgres) UpdateDevice(newInfo app.AddInfo) error {
 		miner_type = $5 WHERE ip_address = $6`
 
 	address := newInfo.IP
-	if newInfo.IP == " " {
+	if newInfo.IP == "" {
 		query = `UPDATE miner_devices SET owner_ = $1, shelf = $2, _row = $3, col = $4,
 		miner_type = $5 WHERE mac_address = $6`
 		address = newInfo.MAC
