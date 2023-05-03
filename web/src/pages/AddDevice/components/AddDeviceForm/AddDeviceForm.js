@@ -10,10 +10,12 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 	const [allOwners, setAllOwners] = useState('');
 	const [allTypes, setAllTypes] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [addressType, setAddressType] = useState('IP');
 	const initialData = [
 		{
 			minerType: '',
 			IP: '',
+			MAC: '',
 			shelf: '',
 			column: '',
 			row: '',
@@ -48,19 +50,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 	};
 
 	const addFormField = () => {
-		setData([
-			...data,
-			{
-				minerType: '',
-				IP: '',
-				shelf: '',
-				column: '',
-				row: '',
-				owner: '',
-				allOwners: allOwners,
-				allTypes: allTypes,
-			},
-		]);
+		setData([...data, initialData]);
 	};
 
 	const removeFormField = () => {
@@ -96,6 +86,13 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 					return;
 				}
 			}
+		}
+
+		if (addressType === 'MAC') {
+			data.forEach((device) => {
+				device['MAC'] = device['IP'];
+				device['IP'] = '';
+			});
 		}
 
 		if (allOwners) {
@@ -183,7 +180,21 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 					<div className="form--labels">
 						<label></label>
 						<label>Miner Type</label>
-						<label>IP/MAC</label>
+						<div onChange={(event) => setAddressType(event.target.value)}>
+							<input
+								type="radio"
+								value="IP"
+								name="IP"
+								checked={addressType === 'IP'}
+							/>
+							<label>IP/MAC</label>
+							<input
+								type="radio"
+								value="MAC"
+								name="MAC"
+								checked={addressType === 'MAC'}
+							/>
+						</div>
 						<label>Shelf</label>
 						<label>Row</label>
 						<label>Column</label>
@@ -205,7 +216,13 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 								name="IP"
 								value={data.IP}
 								onChange={(e) => handleChange(index, e)}
-								pattern="^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})|^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"
+								pattern={
+									addressType === 'IP'
+										? '^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$'
+										: addressType === 'MAC'
+										? '^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$'
+										: ''
+								}
 								required
 							/>
 							<input
