@@ -33,7 +33,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	home := router.Group("/", h.userIdentity)
 	{
 		home.GET("/home", h.getHome)
-		home.POST("/home", h.getHome)
 
 		home.POST("/add", h.addMiner)
 
@@ -44,6 +43,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.GET("/find-asic-ip", h.FindDeviceIP)
 
 		home.GET("/user-info", h.GetUserInfo)
+		home.GET("/get-all-users", h.GetAllUsers)
 
 		home.POST("/update-asic-info", h.UpdateAsicInfo)
 		home.POST("/delete-device", h.DeleteDevice)
@@ -56,7 +56,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.POST("/send-message", h.SendMessage)
 
 		home.GET("/get-senders", h.GetSenders)
-		home.GET("/get-all-users", h.GetAllUsers)
 	}
 
 	return router
