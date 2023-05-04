@@ -26,7 +26,7 @@ export default function GridContainer({ devices, shelf }) {
 						deviceChar={currentDevice ? currentDevice : null}
 						key={'' + i + j + shelf}
 						type={type}
-					></GridCell>
+					/>
 				);
 			}
 		}
