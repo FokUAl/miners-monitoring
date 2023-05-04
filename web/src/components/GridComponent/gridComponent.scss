@@ -65,6 +65,18 @@
         &offline {
             background-color: $color-offline;
         }
+        &normal {
+            background-color: $color-notify;
+        }
+        &heat {
+            background-color: $color-error;
+        }
+        &cold {
+            background-color: $color-cold;
+        }
+        &notfound {
+            background-color: $color-offline;;
+        }
     }
     min-width: 10px;
     min-height: 20px;

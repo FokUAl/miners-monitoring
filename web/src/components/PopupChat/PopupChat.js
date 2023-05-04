@@ -12,6 +12,7 @@ const PopupChat = ({ username }) => {
 	const [messages, setMessages] = useState();
 	const [message, setMessage] = useState();
 	const chatRef = useRef();
+	const messagesResponseRef = useRef()
 
 	const handleHidden = () => {
 		setIsChatHidden(!isChatHidden);
@@ -20,7 +21,8 @@ const PopupChat = ({ username }) => {
 	useEffect(() => {
 		ComponentService.getAllMessages().then(
 			(response) => {
-				setMessages(response.data.Messages);
+				// setMessages(response.data.Messages);
+				messagesResponseRef.current = response.data.Messsages;
 				console.log('popup chat ok', messages);
 			},
 			(error) => {
@@ -28,6 +30,10 @@ const PopupChat = ({ username }) => {
 			}
 		);
 	}, []);
+
+	const msgs = useMemo(() => {
+
+	}, [messagesResponseRef])
 
 
 	const handleSend = async (e) => {
