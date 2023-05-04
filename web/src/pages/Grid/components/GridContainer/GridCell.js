@@ -8,9 +8,9 @@ export default function GridCell({ children, deviceChar, type }) {
 		if (deviceChar && type === 'onlineMap') {
 			classes.push('status-' + deviceChar.MinerStatus);
 		} else if (deviceChar && type === 'heatMap') {
-			if (deviceChar.Characteristics.ChipTempMax > 64) classes.push('status-normal')
+			if (deviceChar.Characteristics.ChipTempMax > 59) classes.push('status-normal')
 			if (deviceChar.Characteristics.ChipTempMax > 90) classes.push('status-heat')
-			if (deviceChar.Characteristics.ChipTempMax < 65) classes.push('status-cold')
+			if (deviceChar.Characteristics.ChipTempMax < 60) classes.push('status-cold')
 			if (deviceChar.Characteristics.ChipTempMax === 0) classes.push('status-notfound')
 		} else {
 			classes.push('status-undefined');
