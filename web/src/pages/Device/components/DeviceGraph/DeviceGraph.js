@@ -30,13 +30,7 @@ export default function DeviceGraph({ charHistory }) {
 		};
 		dataMinutes.push(stats);
 	}
-
-	const RATIO_THRESHOLD = 70;
-	var min_ratio = Math.min(...charHistory.map((item) => item.temperature));
-	var max_ratio = Math.max(...charHistory.map((item) => item.temperature));
-	min_ratio = 0;
-	var threshold = min_ratio + ((max_ratio - min_ratio) * RATIO_THRESHOLD) / 100;
-
+	
 	const renderLineChartTemp = (
 		<LineChart width={1400} height={400} data={dataMinutes} margin={{}}>
 			<Line type="monotone" dataKey="temperature" stroke="#eb4034" />
