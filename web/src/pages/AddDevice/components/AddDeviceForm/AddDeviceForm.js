@@ -264,7 +264,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 								name="owner"
 								value={data.allOwners ? data.allOwners : data.owner}
 								disabled={data.allOwners}
-								className={`input--select size-l width-fluid color-primary ${data.allOwners ? 'disabled' : ''}`}
+								className={`input--select size-m width-fluid color-primary ${data.allOwners ? 'disabled' : ''}`}
 								onChange={(e) => handleChange(index, e)}
 							>
 								<option value="" disabled></option>
