@@ -16,8 +16,11 @@ export default function GridCell({ children, deviceChar, type }) {
 	const number = deviceChar ? deviceChar.Characteristics.ChipTempMax / 100 : 0;
 
 	const getColor = (value) => {
-		var hue = ((1 - value) * 270).toString(10);
-		return ['hsl(', hue, ',100%,50%)'].join('');
+		if (value !== 0 ) {
+			var hue = ((1 - value) * 270).toString(10);
+			return ['hsl(', hue, ',100%,50%)'].join('');
+		}
+		return `hsl(0, 0%, 11%)`
 	};
 
 	const style = {
