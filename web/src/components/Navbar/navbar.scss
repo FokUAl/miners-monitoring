@@ -53,6 +53,11 @@
     position: sticky;
     top: 0;
     z-index: 99;
+
+    .nav--logo {
+        display: flex;
+        justify-content: center;
+    }
     .nav--links {
         list-style-type: none;
         margin: 0;
