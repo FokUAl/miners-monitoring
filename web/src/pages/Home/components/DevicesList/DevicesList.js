@@ -36,27 +36,30 @@ export default function DevicesList({ devices, setDevices }) {
 				enableRowVirtualization
 				manualPagination
 				enableBottomToolbar={false}
+				enableColumnActions={false}
 				initialState={{
 					density: 'compact',
 					expanded: true,
-					grouping: ['Owner'],
+					grouping: ['Owner', 'MinerType'],
 					pagination: { pageIndex: 0, PageSize: 100 },
 					sorting: [{ id: 'Owner', desc: false }],
 				}}
-				// muiTableHeadCellProps={{
-				// 	sx: {
-				// 		backgroundColor: '#888787',
-				// 		color: 'white',
-				// 		fontSize: '12px',
-				// 	},
-				// }}
-				// muiTableBodyCellProps={{
-				// 	sx: {
-				// 		backgroundColor: '#888787',
-				// 		color: 'white',
-				// 		fontSize: '12px',
-				// 	}
-				// }}
+				muiTableHeadCellProps={{
+					sx: {
+						// backgroundColor: '#888787',
+						// color: 'white',
+						fontSize: '12px',
+						padding: '2px 2px 2px 2px'
+					},
+				}}
+				muiTableBodyCellProps={{
+					sx: {
+						// backgroundColor: '#888787',
+						// color: 'white',
+						fontSize: '12px',
+						padding: '2px 2px 2px 2px'
+					}
+				}}
 				// muiTablePaperProps={{
 				// 	sx: {
 				// 		backgroundColor: '#888787',
