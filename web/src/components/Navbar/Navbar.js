@@ -29,7 +29,7 @@ export default function Navbar({ isHidden, setIsHidden, username, role }) {
 		<nav className={isHidden ? 'nav-less' : 'nav'}>
 			<div className="nav--logo">
 				<Link to="/">
-					{isHidden ? <LogoLess /> : <Logo className="nav--logo-img" />}
+					{isHidden ? <LogoLess className="nav--logo-img"/> : <Logo className="nav--logo-img" />}
 				</Link>
 			</div>
 			<ul className="nav--links">
