@@ -43,14 +43,22 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 		setData(newData);
 	}, [allOwners, allTypes]);
 
-	console.log(allOwners);
-
 	const handleTypes = (event) => {
 		setAllTypes(event.target.value);
 	};
 
 	const addFormField = () => {
-		setData([...data, initialData]);
+		setData([...data, {
+			minerType: allTypes || '',
+			IP: '',
+			MAC: '',
+			shelf: '',
+			column: '',
+			row: '',
+			owner: allOwners || '',
+			allOwners: allOwners,
+			allTypes: allTypes,
+		}]);
 	};
 
 	const removeFormField = () => {
@@ -173,7 +181,7 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 							value={allOwners}
 							onChange={(e) => setAllOwners(e.target.value)}
 						>
-							<option value="" disabled></option>
+							<option value=""></option>
 							{generateAllUsers}
 						</select>
 					</div>
@@ -252,19 +260,11 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 								max="10"
 								required
 							/>
-							{/* <input
-								type="text"
-								name="owner"
-								value={data.allOwners ? data.allOwners : data.owner}
-								disabled={data.allOwners}
-								onChange={(e) => handleChange(index, e)}
-								required
-							/> */}
 							<select
 								name="owner"
 								value={data.allOwners ? data.allOwners : data.owner}
 								disabled={data.allOwners}
-								className="input--select size-m width-fluid color-primary"
+								className={`input--select size-l width-fluid color-primary ${data.allOwners ? 'disabled' : ''}`}
 								onChange={(e) => handleChange(index, e)}
 							>
 								<option value="" disabled></option>
