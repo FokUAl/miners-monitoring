@@ -8,7 +8,6 @@ type MinerDevice struct {
 	Column          int
 	Owner           string
 	MinerStatus     string
-	Coin            string
 	IPAddress       string
 	MACAddress      string
 	Characteristics MinerData

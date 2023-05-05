@@ -44,7 +44,7 @@ func (p *MinerPostgres) GetDevicesInfo() ([]app.AddInfo, error) {
 func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 	var devices []app.MinerDevice
 
-	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, 
+	query := `SELECT miner_type, shelf, _row, col, owner_,
 		ip_address, mac_address FROM miner_devices`
 	rows, err := p.db.Query(query)
 	if err != nil {
@@ -57,7 +57,7 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 		var device app.MinerDevice
 
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
+			&device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetAllDevices: %w", err)
 		}
@@ -97,11 +97,11 @@ func (p *MinerPostgres) AddNew(dev app.MinerDevice) error {
 func (p *MinerPostgres) GetDevice(address string) (app.MinerDevice, error) {
 	var device app.MinerDevice
 
-	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
+	query := `SELECT miner_type, shelf, _row, col, owner_,
 		ip_address, mac_address, _pool FROM miner_devices WHERE ip_address = $1`
 
 	err := p.db.QueryRow(query, address).Scan(&device.MinerType, &device.Shelf, &device.Row,
-		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
+		&device.Column, &device.Owner, &device.IPAddress,
 		&device.Characteristics.MAC)
 
 	return device, err
@@ -110,12 +110,12 @@ func (p *MinerPostgres) GetDevice(address string) (app.MinerDevice, error) {
 func (p *MinerPostgres) IsLocationFree(shelfNum, rowNum, columnNum int) (bool, error) {
 	var device app.MinerDevice
 
-	query := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin,
+	query := `SELECT miner_type, shelf, _row, col, owner_,
 		ip_address, mac_address FROM miner_devices 
 		WHERE shelf = $1 AND _row = $2 AND col = $3`
 
 	err := p.db.QueryRow(query, shelfNum, rowNum, columnNum).Scan(&device.MinerType, &device.Shelf, &device.Row,
-		&device.Column, &device.Owner, &device.MinerStatus, &device.Coin, &device.IPAddress,
+		&device.Column, &device.Owner, &device.IPAddress,
 		&device.Characteristics.MAC)
 
 	return device == app.MinerDevice{}, err
@@ -145,7 +145,7 @@ func (p *MinerPostgres) IsAddressFree(ip, mac string) (bool, error) {
 func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, error) {
 	var result []app.MinerDevice
 
-	statement := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address
+	statement := `SELECT miner_type, shelf, _row, col, owner_, ip_address, mac_address
 		FROM miner_devices WHERE miner_type = $1`
 	rows, err := p.db.Query(statement, miner_type)
 	if err != nil {
@@ -155,7 +155,7 @@ func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, 
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
+			&device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByType: %w", err)
 		}
@@ -169,7 +169,7 @@ func (p *MinerPostgres) GetDevicesByType(miner_type string) ([]app.MinerDevice, 
 func (p *MinerPostgres) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, error) {
 	var result []app.MinerDevice
 
-	statement := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address
+	statement := `SELECT miner_type, shelf, _row, col, owner_, ip_address, mac_address
 		FROM miner_devices WHERE coin = $1`
 	rows, err := p.db.Query(statement, coin_type)
 	if err != nil {
@@ -179,7 +179,7 @@ func (p *MinerPostgres) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, e
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
+			&device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByCoin: %w", err)
 		}
@@ -193,7 +193,7 @@ func (p *MinerPostgres) GetDevicesByCoin(coin_type string) ([]app.MinerDevice, e
 func (p *MinerPostgres) GetDevicesByStatus(miner_status string) ([]app.MinerDevice, error) {
 	var result []app.MinerDevice
 
-	statement := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address
+	statement := `SELECT miner_type, shelf, _row, col, owner_, ip_address, mac_address
 		FROM miner_devices WHERE miner_status = $1`
 	rows, err := p.db.Query(statement, miner_status)
 	if err != nil {
@@ -203,7 +203,7 @@ func (p *MinerPostgres) GetDevicesByStatus(miner_status string) ([]app.MinerDevi
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
+			&device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByStatus: %w", err)
 		}
@@ -230,7 +230,7 @@ func (p *MinerPostgres) GetDeviceByLocation(shelf int, column int, row int) (app
 func (p *MinerPostgres) GetDevicesByUser(username string) ([]app.MinerDevice, error) {
 	var result []app.MinerDevice
 
-	statement := `SELECT miner_type, shelf, _row, col, owner_, miner_status, coin, ip_address, mac_address
+	statement := `SELECT miner_type, shelf, _row, col, owner_, ip_address, mac_address
 		FROM miner_devices WHERE owner_ = $1`
 
 	rows, err := p.db.Query(statement, username)
@@ -241,7 +241,7 @@ func (p *MinerPostgres) GetDevicesByUser(username string) ([]app.MinerDevice, er
 	for rows.Next() {
 		var device app.MinerDevice
 		err = rows.Scan(&device.MinerType, &device.Shelf, &device.Row, &device.Column, &device.Owner,
-			&device.MinerStatus, &device.Coin, &device.IPAddress, &device.Characteristics.MAC)
+			&device.IPAddress, &device.Characteristics.MAC)
 		if err != nil {
 			return nil, fmt.Errorf("GetDevicesByUser: %w", err)
 		}
