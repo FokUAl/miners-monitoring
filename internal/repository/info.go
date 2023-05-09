@@ -22,7 +22,7 @@ func NewInfoPostgres(db *sqlx.DB) *InfoPostgres {
 func (p *InfoPostgres) SaveMinerData(data app.MinerData, ip_address string) error {
 	query := `INSERT INTO miner_characteristics (elapsed, mhs_av, temperature, fan_speed1, 
 		fan_speed2, fan_speed3, fan_speed4, power_mode, chip_temp_min, chip_temp_max, chip_temp_avg, 
-		creation_date, ip_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+		creation_date, ip_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`
 
 	_, err := p.db.Exec(query, data.Elapsed, data.MHSav, data.Temperature, data.FanSpeed1,
 		data.FanSpeed2, data.FanSpeed3, data.FanSpeed4, data.PowerMode, data.ChipTempMin, data.ChipTempMax,
