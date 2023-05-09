@@ -93,6 +93,6 @@ def get_stats(ip):
 
 
 if __name__ == '__main__':
-    S7 = CgminerAPI(host='192.168.0.103')
+    S7 = CgminerAPI(host='192.168.0.100')
     print(S7.command("stats"))
     

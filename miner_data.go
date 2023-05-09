@@ -7,8 +7,10 @@ type MinerData struct {
 	Elapsed     int64
 	MHSav       float64
 	Temperature float64
-	FanSpeedIn  int64
-	FanSpeedOut int64
+	FanSpeed1   int64
+	FanSpeed2   int64
+	FanSpeed3   int64
+	FanSpeed4   int64
 	PowerMode   string
 	MAC         string
 	ChipTempMin float64

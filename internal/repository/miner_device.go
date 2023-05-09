@@ -62,13 +62,15 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 			return nil, fmt.Errorf("GetAllDevices: %w", err)
 		}
 
-		query = `SELECT elapsed, mhs_av, temperature, fan_speed_in, 
-			fan_speed_out, power_mode, chip_temp_min, chip_temp_max, chip_temp_avg
+		query = `SELECT elapsed, mhs_av, temperature, fan_speed1, 
+			fan_speed2, fan_speed3, fan_speed4, power_mode, chip_temp_min, 
+			chip_temp_max, chip_temp_avg
 			FROM miner_characteristics WHERE ip_address = $1`
 
 		err = p.db.QueryRow(query, device.IPAddress).Scan(&device.Characteristics.Elapsed,
 			&device.Characteristics.MHSav, &device.Characteristics.Temperature,
-			&device.Characteristics.FanSpeedIn, &device.Characteristics.FanSpeedOut,
+			&device.Characteristics.FanSpeed1, &device.Characteristics.FanSpeed2,
+			&device.Characteristics.FanSpeed3, &device.Characteristics.FanSpeed4,
 			&device.Characteristics.PowerMode, &device.Characteristics.ChipTempMin,
 			&device.Characteristics.ChipTempMax, &device.Characteristics.ChipTempAvg)
 

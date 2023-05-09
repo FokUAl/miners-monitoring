@@ -148,12 +148,12 @@ func ParsingDataNew(data string) (app.MinerData, error) {
 		return app.MinerData{}, fmt.Errorf("can't parse MHS av: %s", err.Error())
 	}
 
-	minerData.FanSpeedIn, err = strconv.ParseInt(data_map["Fan Speed In"], 10, 64)
+	minerData.FanSpeed1, err = strconv.ParseInt(data_map["Fan Speed In"], 10, 64)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse MHS av: %s", err.Error())
 	}
 
-	minerData.FanSpeedOut, err = strconv.ParseInt(data_map["Fan Speed Out"], 10, 64)
+	minerData.FanSpeed2, err = strconv.ParseInt(data_map["Fan Speed Out"], 10, 64)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed Out: %s", err.Error())
 	}
@@ -240,14 +240,24 @@ func ParsingDataMiddle(data string) (app.MinerData, error) {
 	minerData.ChipTempMin = Min3(temp_chip1, temp_chip2, temp_chip3)
 	minerData.ChipTempAvg = Avg3(temp_chip1, temp_chip2, temp_chip3)
 
-	minerData.FanSpeedIn, err = strconv.ParseInt(data_map["Fan1"], 10, 64)
+	minerData.FanSpeed1, err = strconv.ParseInt(data_map["Fan1"], 10, 64)
 	if err != nil {
-		return app.MinerData{}, fmt.Errorf("can't parse FanSpeedIn: %s", err.Error())
+		return app.MinerData{}, fmt.Errorf("can't parse FanSpeed1: %s", err.Error())
 	}
 
-	minerData.FanSpeedOut, err = strconv.ParseInt(data_map["Fan4"], 10, 64)
+	minerData.FanSpeed2, err = strconv.ParseInt(data_map["Fan2"], 10, 64)
 	if err != nil {
-		return app.MinerData{}, fmt.Errorf("can't parse FanSpeedOut: %s", err.Error())
+		return app.MinerData{}, fmt.Errorf("can't parse FanSpeed2: %s", err.Error())
+	}
+
+	minerData.FanSpeed3, err = strconv.ParseInt(data_map["Fan3"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse FanSpeed3: %s", err.Error())
+	}
+
+	minerData.FanSpeed4, err = strconv.ParseInt(data_map["Fan4"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse FanSpeed4: %s", err.Error())
 	}
 
 	GHSavg, err := strconv.ParseFloat(data_map["GHSavg"], 64)
@@ -319,14 +329,23 @@ func ParsingDataOld(data string) (app.MinerData, error) {
 	}
 	minerData.MHSav = GHSav * 1000
 
-	minerData.FanSpeedIn, err = strconv.ParseInt(data_map["fan1"], 10, 64)
+	minerData.FanSpeed1, err = strconv.ParseInt(data_map["fan1"], 10, 64)
 	if err != nil {
-		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed In: %s", err.Error())
+		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed 1: %s", err.Error())
 	}
 
-	minerData.FanSpeedOut, err = strconv.ParseInt(data_map["fan3"], 10, 64)
+	minerData.FanSpeed2, err = strconv.ParseInt(data_map["fan2"], 10, 64)
 	if err != nil {
-		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed Out: %s", err.Error())
+		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed 2: %s", err.Error())
+	}
+	minerData.FanSpeed3, err = strconv.ParseInt(data_map["fan3"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed 3: %s", err.Error())
+	}
+
+	minerData.FanSpeed4, err = strconv.ParseInt(data_map["fan4"], 10, 64)
+	if err != nil {
+		return app.MinerData{}, fmt.Errorf("can't parse Fan Speed 4: %s", err.Error())
 	}
 
 	minerData.Elapsed, err = strconv.ParseInt(data_map["Elapsed"], 10, 64)
