@@ -25,8 +25,10 @@ export default function DeviceGraph({ charHistory }) {
 			time: hoursAndMinutes,
 			temperature: charHistory[i].ChipTempMax,
 			hash: charHistory[i].MHSav,
-			fanIn: charHistory[i].FanSpeedIn,
-			fanOut: charHistory[i].FanSpeedOut,
+			fan1: charHistory[i].FanSpeed1,
+			fan2: charHistory[i].FanSpeed2,
+			fan3: charHistory[i].FanSpeed3,
+			fan4: charHistory[i].FanSpeed4,
 		};
 		dataMinutes.push(stats);
 	}
@@ -49,8 +51,10 @@ export default function DeviceGraph({ charHistory }) {
 
 	const renderLineChartFans = (
 		<LineChart width={1400} height={400} data={dataMinutes} margin={{}}>
-			<Line type="monotone" dataKey="fanIn" stroke="#eb4034" />
-			<Line type="monotone" dataKey="fanOut" stroke="#5EF24C" />
+			<Line type="monotone" dataKey="fan1" stroke="#eb4034" />
+			<Line type="monotone" dataKey="fan2" stroke="#5EF24C" />
+			<Line type="monotone" dataKey="fan3" stroke="#001aff" />
+			<Line type="monotone" dataKey="fan4" stroke="#ff00c3" />
 			<XAxis dataKey="time" />
 			<Tooltip />
 		</LineChart>

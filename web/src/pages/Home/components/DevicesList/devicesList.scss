@@ -15,6 +15,27 @@ table, th, td {
     padding: 5px 15px;
 }
 
-.table {
-    background-color: black;
+.table--link {
+    color: white;
+    text-decoration: underline;
 }
+
+.MuiButton-root {
+    color: white; //he
+}
+
+.Mui-TableHeadCell-Content-Labels {
+    color: white; //he
+}
+
+.Mui-ToolbarDropZone {
+    color: white; //he
+}
+
+.MuiTableRow-hover {
+    color: black;
+}
+
+// .t {
+//     color: #f83b3b
+// }

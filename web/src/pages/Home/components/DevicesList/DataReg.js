@@ -55,10 +55,10 @@ function DataReg(devices) {
 								display: 'inline',
 								color:
 									cell.getValue()[0] >= 70 && cell.getValue()[0] <= 80
-										? 'green'
+										? '#76a15e' //green
 										: cell.getValue()[0] < 70
-										? 'blue'
-										: 'red',
+										? '#3f8ae0' //blue
+										: '#f83b3b', //red
 							}}
 						>
 							{cell.getValue()[0]}
@@ -69,10 +69,10 @@ function DataReg(devices) {
 								display: 'inline',
 								color:
 									cell.getValue()[1] >= 70 && cell.getValue()[1] <= 80
-										? 'green'
+										? '#76a15e' //green
 										: cell.getValue()[1] < 70
-										? 'blue'
-										: 'red',
+										? '#3f8ae0' //blue
+										: '#f83b3b', //red
 							}}
 						>
 							{cell.getValue()[1]}
@@ -109,7 +109,7 @@ function DataReg(devices) {
 							<Box
 								sx={{
 									display: 'inline',
-									color: cell.getValue() === 'online' ? 'green' : 'red',
+									color: cell.getValue() === 'online' ? '#76a15e' : '#f83b3b', //green & red
 								}}
 							>
 								{cell.getValue()}
@@ -123,6 +123,13 @@ function DataReg(devices) {
 				accessorKey: 'IPAddress',
 				size: 1,
 				enableGrouping: false,
+				Cell: ({ cell }) => {
+					return (
+						<Link className="table--link" to={cell.getValue()}>
+							{cell.getValue()}
+						</Link>
+					)
+				}
 			},
 			{
 				header: 'Link',
