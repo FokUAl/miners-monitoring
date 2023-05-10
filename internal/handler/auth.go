@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	app "github.com/FokUAl/miners-monitoring"
+	"github.com/gorilla/websocket"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +15,14 @@ type SignUpInfo struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	Role     string `json:"role"`
+}
+
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
 func (h *Handler) signUp(c *gin.Context) {
@@ -69,6 +78,18 @@ func (h *Handler) signIn(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
+
+	// conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	// if err != nil {
+	// 	newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	// 	return
+	// }
+	// clientId := h.Hub.
+	// client := app.Client{
+	// 	id:   clientId,
+	// 	conn: conn,
+	// }
+	// h.Hub.RegisterNewClient()
 
 	c.JSON(http.StatusOK, struct {
 		Username string
