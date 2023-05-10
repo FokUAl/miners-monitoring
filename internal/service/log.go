@@ -34,12 +34,14 @@ func (s *InfoService) GetKernelLog(ip string) string {
 	client := &http.Client{}
 	response, err := client.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("GetKernelLog: %s", err.Error())
+		return ""
 	}
 
 	content, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("GetKernelLog: %s", err.Error())
+		return ""
 	}
 
 	return string(content)

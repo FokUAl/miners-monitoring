@@ -106,7 +106,7 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 
 func (h *Handler) GetKernelLog(c *gin.Context) {
 	type Container struct {
-		Content string
+		Content string `json:"IP"`
 	}
 	var tempCont Container
 	err := json.NewDecoder(c.Request.Body).Decode(&tempCont)
@@ -116,10 +116,13 @@ func (h *Handler) GetKernelLog(c *gin.Context) {
 	}
 
 	log := h.services.GetKernelLog(tempCont.Content)
-
-	c.JSON(http.StatusOK, struct {
-		KernelLog string
-	}{
-		KernelLog: log,
-	})
+	if log == "" {
+		c.JSON(http.StatusInternalServerError, nil)
+	} else {
+		c.JSON(http.StatusOK, struct {
+			KernelLog string
+		}{
+			KernelLog: log,
+		})
+	}
 }
