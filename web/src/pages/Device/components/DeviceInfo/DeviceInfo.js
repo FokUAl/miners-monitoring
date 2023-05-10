@@ -16,8 +16,10 @@ export default function DeviceInfo({ data }) {
 			ChipTempMax: data.Miner.Characteristics.ChipTempMax,
 			ChipTempMin: data.Miner.Characteristics.ChipTempMin,
 			Elapsed: data.Miner.Characteristics.Elapsed,
-			FanSpeedIn: data.Miner.Characteristics.FanSpeedIn,
-			FanSpeedOut: data.Miner.Characteristics.FanSpeedOut,
+			FanSpeed1: data.Miner.Characteristics.FanSpeed1,
+			FanSpeed2: data.Miner.Characteristics.FanSpeed2,
+			FanSpeed3: data.Miner.Characteristics.FanSpeed3,
+			FanSpeed4: data.Miner.Characteristics.FanSpeed4,
 			MAC: data.Miner.MACAddress,
 			MHSav: data.Miner.Characteristics.MHSav,
 			PowerMode: data.Miner.Characteristics.PowerMode,
@@ -108,8 +110,10 @@ export default function DeviceInfo({ data }) {
 						data={data.ChipTempMin && data.ChipTempMin + '°'}
 					/>
 					<div className="device-info--label-2 float-left">Fans Speed</div>
-					<DataDisplay text={'Fan Speed In'} data={data.FanSpeedIn} />
-					<DataDisplay text={'Fan Speed Out'} data={data.FanSpeedOut} />
+					<DataDisplay text={'Fan Speed 1'} data={data.FanSpeed1} />
+					<DataDisplay text={'Fan Speed 2'} data={data.FanSpeed2} />
+					<DataDisplay text={'Fan Speed 3'} data={data.FanSpeed3} />
+					<DataDisplay text={'Fan Speed 4'} data={data.FanSpeed4} />
 				</div>
 				<div>
 					<div className="device-info--label-1 float-left">

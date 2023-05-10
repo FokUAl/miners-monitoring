@@ -62,7 +62,6 @@ export default function DeviceGraph({ charHistory }) {
 
 	const handleActive = (id) => {
 		setActive(id);
-		console.log(id);
 	};
 
 	return (

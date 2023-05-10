@@ -5,11 +5,18 @@ import Navbar from '@components/Navbar/Navbar';
 import DeviceInfo from './components/DeviceInfo/DeviceInfo';
 import Comments from './components/Comments/Comments';
 import DeviceGraph from './components/DeviceGraph/DeviceGraph';
+import Tabs from '@components/Tabs/Tabs'
+import DataLog from './components/DeviceInfo/DataLog'
 
 export default function Device({ isHidden, setIsHidden, role, username }) {
 	const [data, setData] = useState({});
 	const [seconds, setSeconds] = useState(0);
+	const [active, setActive] = useState(0)
 	const { search } = useLocation();
+
+	const handleActive = (id) => {
+		setActive(id);
+	};
 
 	useEffect(() => {
 		PageService.getDevice(search).then(
@@ -34,7 +41,22 @@ export default function Device({ isHidden, setIsHidden, role, username }) {
 				username={username}
 			/>
 			<div>
-				{data.Miner && <DeviceInfo data={data} />}
+				<Tabs
+					tabs={[
+						{
+							id: 0,
+							label: 'Characteristics',
+						},
+						{
+							id: 1,
+							label: 'Logs',
+						},
+					]}
+					active={active}
+					handleActive={handleActive}
+				/>
+				{data.Miner && active === 0 && <DeviceInfo data={data} />}
+				{active === 1 && <DataLog />}
 				{data.CharacteristicsHistory && (
 					<DeviceGraph charHistory={data.CharacteristicsHistory} />
 				)}

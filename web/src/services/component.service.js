@@ -25,10 +25,22 @@ const sendMessage = async (message, receiver) => {
 	);
 };
 
+const postLog = async (IP) => {
+	return axios.post(
+		API_URL + 'get-kernel-log',
+		{ IP },
+		{ headers: authHeader()}
+	)
+    .then((response) => {
+        return response.data
+    })
+}
+
 const ComponentService = {
 	getAllIP,
 	getAllMessages,
 	sendMessage,
+	postLog
 };
 
 export default ComponentService;
