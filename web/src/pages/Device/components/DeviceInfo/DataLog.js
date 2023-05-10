@@ -5,13 +5,6 @@ import Container from '@components/Container/Container'
 const DataLog = ({ IP }) => {
     const [log, setLog] = useState()
     useEffect(() => {
-		// PageService.getDevice(search).then(
-		// 	(response) => {
-		// 		setData(response.data);
-		// 		console.log('device ok', data);
-		// 	},
-		// 	(error) => console.log('device error', error)
-		// );
         ComponentService.postLog(IP).then(
             (response) => {
                 setLog(response)
