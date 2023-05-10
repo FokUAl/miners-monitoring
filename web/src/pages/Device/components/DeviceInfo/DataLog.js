@@ -17,7 +17,7 @@ const DataLog = ({ IP }) => {
     }, [])
 
     return (
-        <Container>
+        <Container overflowY>
             {log}
         </Container>
     )

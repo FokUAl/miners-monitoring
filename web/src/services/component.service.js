@@ -32,7 +32,7 @@ const postLog = async (IP) => {
 		{ headers: authHeader()}
 	)
     .then((response) => {
-        return response.data
+        return response.data.KernelLog
     })
 }
 
