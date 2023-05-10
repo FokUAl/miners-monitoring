@@ -1,12 +1,14 @@
 package handler
 
 import (
+	app "github.com/FokUAl/miners-monitoring"
 	"github.com/FokUAl/miners-monitoring/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
 type Handler struct {
 	services *service.Service
+	Hub      *app.Hub
 }
 
 type Notification struct {
@@ -56,6 +58,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		home.POST("/send-message", h.SendMessage)
 
 		home.GET("/get-senders", h.GetSenders)
+
+		home.POST("/get-kernel-log", h.GetKernelLog)
 	}
 
 	return router

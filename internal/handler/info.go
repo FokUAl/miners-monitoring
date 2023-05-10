@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -101,4 +102,24 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 			time.Sleep(59 * time.Second)
 		}
 	}
+}
+
+func (h *Handler) GetKernelLog(c *gin.Context) {
+	type Container struct {
+		Content string
+	}
+	var tempCont Container
+	err := json.NewDecoder(c.Request.Body).Decode(&tempCont)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	log := h.services.GetKernelLog(tempCont.Content)
+
+	c.JSON(http.StatusOK, struct {
+		KernelLog string
+	}{
+		KernelLog: log,
+	})
 }
