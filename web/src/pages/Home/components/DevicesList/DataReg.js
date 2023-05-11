@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Button from '@components/Button/Button';
 
-function DataReg(devices) {
+function DataReg(devices, allUsers) {
 	const data = devices.map((el) => {
 		return {
 			...el,
@@ -12,15 +12,14 @@ function DataReg(devices) {
 			ChipTempMax: el.Characteristics.ChipTempMax,
 			ChipTempMin: el.Characteristics.ChipTempMin,
 			Elapsed: el.Characteristics.Elapsed,
-			FanSpeed1: el.Characteristics.FanSpeed1,
-			FanSpeed2: el.Characteristics.FanSpeed2,
-			FanSpeed3: el.Characteristics.FanSpeed3,
-			FanSpeed4: el.Characteristics.FanSpeed4,
+			FanSpeeds: `${el.Characteristics.FanSpeed1}-${el.Characteristics.FanSpeed2}-${el.Characteristics.FanSpeed3}-${el.Characteristics.FanSpeed4}`,
 			MAC: el.Characteristics.MAC,
 			THSav: el.Characteristics.THSav,
 			PowerMode: el.Characteristics.PowerMode,
 			Temperature: el.Characteristics.Temperature,
-			Location: `${el.Shelf}-${el.Row}-${el.Column}`,
+			Shelf: el.Shelf,
+			Level: el.Row,
+			Miner: el.Column,
 			Characteristics: null,
 		};
 	});
@@ -31,6 +30,8 @@ function DataReg(devices) {
 				header: 'Owner',
 				accessorKey: 'Owner',
 				size: 1,
+				filterVariant: 'select',
+				filterSelectOptions: allUsers && allUsers,
 			},
 			{
 				header: 'Miner Model',
@@ -38,10 +39,28 @@ function DataReg(devices) {
 				size: 1,
 			},
 			{
-				header: 'Location',
-				accessorKey: 'Location',
+				header: 'Shelf',
+				accessorKey: 'Shelf',
 				size: 1,
 				enableGrouping: false,
+				filterVarian: 'range',
+				filterFn: 'betweenInclusive',
+			},
+			{
+				header: 'Level',
+				accessorKey: 'Level',
+				size: 1,
+				enableGrouping: false,
+				filterVarian: 'range',
+				filterFn: 'betweenInclusive',
+			},
+			{
+				header: 'Miner',
+				accessorKey: 'Miner',
+				size: 1,
+				enableGrouping: false,
+				filterVarian: 'range',
+				filterFn: 'betweenInclusive',
 			},
 			{
 				header: 'Temperature',
@@ -91,34 +110,18 @@ function DataReg(devices) {
 				AggregatedCell: ({ cell }) => <div>Total THS: {cell.getValue()}</div>,
 			},
 			{
-				header: 'Fan Speed 1',
-				accessorKey: 'FanSpeed1',
+				header: 'Fan Speeds',
+				accessorKey: 'FanSpeeds',
 				size: 1,
 				enableGrouping: false,
-			},
-			{
-				header: 'Fan Speed 2',
-				accessorKey: 'FanSpeed2',
-				size: 1,
-				enableGrouping: false,
-			},
-			{
-				header: 'Fan Speed 3',
-				accessorKey: 'FanSpeed3',
-				size: 1,
-				enableGrouping: false,
-			},
-			{
-				header: 'Fan Speed 4',
-				accessorKey: 'FanSpeed4',
-				size: 1,
-				enableGrouping: false,
+				enableColumnFilter: false,
 			},
 			{
 				header: 'Status',
 				accessorKey: 'MinerStatus',
 				size: 1,
 				enableGrouping: false,
+				enableColumnFilter: false,
 				aggregationFn: ['unique', 'count'],
 				AggregatedCell: ({ cell, column, row }) => {
 					return (
@@ -161,11 +164,13 @@ function DataReg(devices) {
 						</a>
 					);
 				},
+				enableColumnFilter: false,
 			},
 			{
 				header: 'Link',
 				accessorKey: 'Link',
 				size: 1,
+				enableColumnFilter: false,
 				enableGrouping: false,
 				Cell: ({ cell }) => {
 					return (

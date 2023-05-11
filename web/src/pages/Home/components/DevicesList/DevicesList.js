@@ -9,8 +9,8 @@ import PageService from '@services/page.service';
 import DataReg from './DataReg';
 import TableTheme from './TableTheme';
 
-export default function DevicesList({ devices, setDevices, delay, setDelay }) {
-	const { columns, data } = DataReg(devices);
+export default function DevicesList({ devices, setDevices, delay, setDelay, allUsers }) {
+	const { columns, data } = DataReg(devices, allUsers);
 
 	const tableTheme = TableTheme;
 
