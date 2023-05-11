@@ -125,9 +125,9 @@ function DataReg(devices) {
 				enableGrouping: false,
 				Cell: ({ cell }) => {
 					return (
-						<Link className="table--link" to={cell.getValue()}>
+						<a className="table--link" href={`${cell.getValue()}`} target="_blank" rel="noreferrer">
 							{cell.getValue()}
-						</Link>
+						</a>
 					)
 				}
 			},
