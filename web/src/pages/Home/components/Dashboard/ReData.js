@@ -9,7 +9,7 @@ const ReData = (devices) => {
 				(accum, device) => accum + device.Characteristics.MHSav,
 				initialValue
 			)
-			.toFixed() + ' MHS';
+			.toFixed() + ' TH/s';
 	const avgTemperature = (
 		devices
 			.filter((device) => device.MinerStatus === 'online')

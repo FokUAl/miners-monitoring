@@ -29,7 +29,7 @@ const Tooltip = ({children, content}) => {
                     IP:${content.IPAddress} 
                     Status:${content.MinerStatus}
                     Temperature:${content.Characteristics.Temperature}
-                    MHSav:${content.Characteristics.MHSav}`}
+                    TH/s:${content.Characteristics.MHSav}`}
                 </div>
             )}
         </div>
