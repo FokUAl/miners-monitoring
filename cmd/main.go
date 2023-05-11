@@ -47,8 +47,10 @@ func main() {
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
+	handlers.Hub = app.NewHub()
 
 	srv := new(app.Server)
+
 	go func() {
 		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 			log.Fatalf("error run http server %s", err.Error())
