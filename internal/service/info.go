@@ -99,3 +99,7 @@ func (s *InfoService) DetermineMAC(ip_address string) string {
 func (s *InfoService) SaveAvailableAddresses(list [][]string) error {
 	return s.repo.SaveAvailableAddresses(list)
 }
+
+func (s *InfoService) IsIPMapped(ip string) (bool, error) {
+	return s.repo.IsIPMapped(ip)
+}

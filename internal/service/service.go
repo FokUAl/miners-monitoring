@@ -43,6 +43,7 @@ type Info interface {
 	DetermineMAC(ip_address string) string
 	SaveAvailableAddresses(list [][]string) error
 	GetKernelLog(ip string) string
+	IsIPMapped(ip string) (bool, error)
 }
 
 type Comment interface {

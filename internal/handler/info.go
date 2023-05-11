@@ -33,7 +33,15 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 			log.Printf("check response %s: %s", value, err.Error())
 			continue
 		}
-		devicesAddresses = append(devicesAddresses, value)
+		isMapped, err := h.services.IsIPMapped(value[1])
+		if err != nil {
+			log.Printf("check response %s: %s", value, err.Error())
+			continue
+		}
+
+		if !isMapped {
+			devicesAddresses = append(devicesAddresses, value)
+		}
 	}
 
 	h.services.SaveAvailableAddresses(devicesAddresses)

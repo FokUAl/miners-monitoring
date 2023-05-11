@@ -1,7 +1,7 @@
 package service
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
@@ -38,7 +38,7 @@ func (s *InfoService) GetKernelLog(ip string) string {
 		return ""
 	}
 
-	content, err := ioutil.ReadAll(response.Body)
+	content, err := io.ReadAll(response.Body)
 	if err != nil {
 		log.Printf("GetKernelLog: %s", err.Error())
 		return ""

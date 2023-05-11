@@ -40,6 +40,7 @@ type Info interface {
 	DetermineIP(mac_address string) string
 	DetermineMAC(ip_address string) string
 	SaveAvailableAddresses(list [][]string) error
+	IsIPMapped(ip string) (bool, error)
 }
 
 type Comment interface {
