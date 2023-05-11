@@ -27,7 +27,7 @@ func (s *InfoService) PingDevices() ([][]string, error) {
 	var result [][]string
 
 	// Pinging in specific range for update ARP cache
-	cmd := exec.Command("fping", "-g", "-a", "--retry=1", "192.168.0.0/24")
+	cmd := exec.Command("fping", "-g", "-a", "-i 1", "-r 0", "192.168.0.0/24")
 	cmd.Run()
 	// Determines alive devices
 	cmd = exec.Command("bash", "-c", "arp -an | grep 'ether'")
