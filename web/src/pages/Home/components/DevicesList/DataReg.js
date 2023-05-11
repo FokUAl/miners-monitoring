@@ -86,7 +86,7 @@ function DataReg(devices) {
 				size: 1,
 				enableGrouping: false,
 				aggregationFn: 'sum',
-				AggregatedCell: ({ cell }) => <div>TH: {cell.getValue()}</div>,
+				AggregatedCell: ({ cell }) => <div>TotalHS: {cell.getValue()}</div>,
 			},
 			{
 				header: 'Fan Speed In',
@@ -105,14 +105,16 @@ function DataReg(devices) {
 				accessorKey: 'MinerStatus',
 				size: 1,
 				enableGrouping: false,
-				aggregationFn: ['sum', 'count'],
-				AggregatedCell: ({ cell }) => (
+				aggregationFn: ['unique', 'count'],
+				AggregatedCell: ({ cell, column, row }) => {
+					return (
 					<div>
-						<Box sx={{display:'inline'}}>{cell.getValue()[0]}</Box>
+						<Box sx={{display:'inline'}}>{row.getValue(column.id).filter(el => el[0] === 'online').length}</Box>
 						{'/'}
 						<Box sx={{display:'inline'}}>{cell.getValue()[1]}</Box>
+						{' '}
 					</div>
-				),
+				)},
 				Cell: ({ cell }) => {
 					return (
 						<div>
@@ -137,7 +139,7 @@ function DataReg(devices) {
 					return (
 						<a
 							className="table--link"
-							href={`${cell.getValue()}`}
+							href={`http://${cell.getValue()}`}
 							target="_blank"
 							rel="noreferrer"
 						>

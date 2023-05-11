@@ -18,9 +18,9 @@ const DataLog = ({ IP }) => {
 
     return (
         <Container>
-            <div className="data-log--container">
+            <pre className="data-log--container">
                 {log}
-            </div>
+            </pre>
         </Container>
     )
 }
