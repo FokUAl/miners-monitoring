@@ -233,7 +233,7 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	go pkg.ResponseToStruct(miner.IPAddress, channel)
 	miner.Characteristics = <-channel
 
-	if miner.Characteristics.MHSav == 0.0 {
+	if miner.Characteristics.THSav == 0.0 {
 		miner.MinerStatus = "offline"
 	}
 

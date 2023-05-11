@@ -20,18 +20,18 @@ func NewInfoPostgres(db *sqlx.DB) *InfoPostgres {
 }
 
 func (p *InfoPostgres) SaveMinerData(data app.MinerData, ip_address string) error {
-	query := `INSERT INTO miner_characteristics (elapsed, mhs_av, temperature, fan_speed1, 
+	query := `INSERT INTO miner_characteristics (elapsed, ths_av, temperature, fan_speed1, 
 		fan_speed2, fan_speed3, fan_speed4, power_mode, chip_temp_min, chip_temp_max, chip_temp_avg, 
 		creation_date, ip_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`
 
-	_, err := p.db.Exec(query, data.Elapsed, data.MHSav, data.Temperature, data.FanSpeed1,
+	_, err := p.db.Exec(query, data.Elapsed, data.THSav, data.Temperature, data.FanSpeed1,
 		data.FanSpeed2, data.FanSpeed3, data.FanSpeed4, data.PowerMode, data.ChipTempMin, data.ChipTempMax,
 		data.ChipTempAvg, time.Now(), ip_address)
 	return err
 }
 
 func (p *InfoPostgres) GetCharacteristicsHistory(device_ip string) ([]app.MinerData, error) {
-	query := `SELECT elapsed, mhs_av, temperature, fan_speed1, fan_speed2, 
+	query := `SELECT elapsed, ths_av, temperature, fan_speed1, fan_speed2, 
 		fan_speed3, fan_speed4, power_mode, chip_temp_min,
 		chip_temp_max, chip_temp_avg, creation_date FROM miner_characteristics
 		WHERE ip_address = $1 ORDER BY creation_date ASC`
@@ -47,7 +47,7 @@ func (p *InfoPostgres) GetCharacteristicsHistory(device_ip string) ([]app.MinerD
 	for rows.Next() {
 		var record app.MinerData
 
-		err = rows.Scan(&record.Elapsed, &record.MHSav, &record.Temperature, &record.FanSpeed1, &record.FanSpeed2,
+		err = rows.Scan(&record.Elapsed, &record.THSav, &record.Temperature, &record.FanSpeed1, &record.FanSpeed2,
 			&record.FanSpeed3, &record.FanSpeed4, &record.PowerMode, &record.ChipTempMin,
 			&record.ChipTempMax, &record.ChipTempAvg, &record.Time)
 		if err != nil {

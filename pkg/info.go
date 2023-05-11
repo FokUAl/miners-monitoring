@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math"
 	"net"
 	"regexp"
 	"strconv"
@@ -143,10 +144,12 @@ func ParsingDataNew(data string) (app.MinerData, error) {
 		return app.MinerData{}, fmt.Errorf("can't parse temperature: %s", err.Error())
 	}
 
-	minerData.MHSav, err = strconv.ParseFloat(data_map["MHS av"], 64)
+	minerData.THSav, err = strconv.ParseFloat(data_map["MHS av"], 64)
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse MHS av: %s", err.Error())
 	}
+
+	minerData.THSav = math.Round(minerData.THSav / 10000)
 
 	minerData.FanSpeed1, err = strconv.ParseInt(data_map["Fan Speed In"], 10, 64)
 	if err != nil {
@@ -265,7 +268,7 @@ func ParsingDataMiddle(data string) (app.MinerData, error) {
 		return app.MinerData{}, fmt.Errorf("can't parse GHSavg: %s", err.Error())
 	}
 
-	minerData.MHSav = GHSavg * 1000
+	minerData.THSav = math.Round(GHSavg / 1000)
 
 	return minerData, nil
 }
@@ -327,7 +330,7 @@ func ParsingDataOld(data string) (app.MinerData, error) {
 	if err != nil {
 		return app.MinerData{}, fmt.Errorf("can't parse GHS av: %s", err.Error())
 	}
-	minerData.MHSav = GHSav * 1000
+	minerData.THSav = math.Round(GHSav / 1000)
 
 	minerData.FanSpeed1, err = strconv.ParseInt(data_map["fan1"], 10, 64)
 	if err != nil {

@@ -5,7 +5,7 @@ import "time"
 type MinerData struct {
 	IP          string
 	Elapsed     int64
-	MHSav       float64
+	THSav       float64
 	Temperature float64
 	FanSpeed1   int64
 	FanSpeed2   int64

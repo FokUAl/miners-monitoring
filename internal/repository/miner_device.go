@@ -68,7 +68,7 @@ func (p *MinerPostgres) GetAllDevices() ([]app.MinerDevice, error) {
 			FROM miner_characteristics WHERE ip_address = $1`
 
 		err = p.db.QueryRow(query, device.IPAddress).Scan(&device.Characteristics.Elapsed,
-			&device.Characteristics.MHSav, &device.Characteristics.Temperature,
+			&device.Characteristics.THSav, &device.Characteristics.Temperature,
 			&device.Characteristics.FanSpeed1, &device.Characteristics.FanSpeed2,
 			&device.Characteristics.FanSpeed3, &device.Characteristics.FanSpeed4,
 			&device.Characteristics.PowerMode, &device.Characteristics.ChipTempMin,

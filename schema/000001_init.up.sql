@@ -24,7 +24,7 @@ CREATE TABLE miner_characteristics
     id SERIAL PRIMARY KEY,
     ip_address VARCHAR(255) NOT NULL,
     elapsed INTEGER DEFAULT 0,
-    mhs_av FLOAT DEFAULT 0.00,
+    ths_av FLOAT DEFAULT 0.00,
     temperature FLOAT DEFAULT 0.00,
     fan_speed1 INTEGER DEFAULT 0,
     fan_speed2 INTEGER DEFAULT 0,
