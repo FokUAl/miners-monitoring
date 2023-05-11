@@ -10,6 +10,7 @@ export default function Home({ isHidden, setIsHidden, role, username }) {
 	const [devices, setDevices] = useState();
 	const [time, setTime] = useState(Date.now())
 	const [delay, setDelay] = useState()
+	const [allUsers, setAllUsers] = useState()
 	useEffect(() => {
 		PageService.getHome().then(
 			(response) => {
@@ -29,6 +30,15 @@ export default function Home({ isHidden, setIsHidden, role, username }) {
 		}
 	}, [time]);
 
+    useEffect(() => {
+        PageService.getAllUsers().then((response)=> {
+            setAllUsers(response.data.AllUsers)
+            console.log('get all users', allUsers)
+        }, (error) => {
+            console.log('get all users', error)
+        })
+    }, [])
+
 	return (
 		<div>
 			<div className={isHidden ? 'nav-hidden' : 'nav-full'}>
@@ -41,7 +51,7 @@ export default function Home({ isHidden, setIsHidden, role, username }) {
 				{devices ? (
 					<div className="grid-hor">
 						<Dashboard devices={devices} />
-						<DevicesList devices={devices} setDevices={setDevices} delay={delay} setDelay={setDelay}/>
+						<DevicesList devices={devices} setDevices={setDevices} delay={delay} setDelay={setDelay} allUsers={allUsers}/>
 					</div>
 				) : (
 					<div className="grid-hor">

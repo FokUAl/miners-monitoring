@@ -24,11 +24,16 @@ const TableTheme = () => {
 			MuiInputBase: {
 				styleOverrides: {
 					input: {
-						backgroundColor: 'black',
+						backgroundColor: '#2f2f2f',
+						color: 'white',
+						'&:focus': {
+							backgroundColor: '#454545',
+							color: 'white',
+						},
 					},
                     root: {
 						'&.Mui-focused': {
-							backgroundColor: 'black',
+							backgroundColor: '#454545',
 						},
                     }
 				},
