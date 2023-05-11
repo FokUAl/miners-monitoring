@@ -104,3 +104,17 @@ func (p *InfoPostgres) SaveAvailableAddresses(list [][]string) error {
 
 	return nil
 }
+
+func (p *InfoPostgres) IsIPMapped(ip string) (bool, error) {
+	query := `SELECT id from miner_devices WHERE ip_address = $1`
+
+	var id string
+	err := p.db.QueryRow(query, ip).Scan(&id)
+	if err == sql.ErrNoRows {
+		return false, nil
+	} else if err != nil {
+		return false, fmt.Errorf("IsIPMapped: %w", err)
+	}
+
+	return true, nil
+}
