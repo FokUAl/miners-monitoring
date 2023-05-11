@@ -8,6 +8,8 @@ import PopupChat from '@components/PopupChat/PopupChat';
 
 export default function Home({ isHidden, setIsHidden, role, username }) {
 	const [devices, setDevices] = useState();
+	const [time, setTime] = useState(Date.now())
+	const [delay, setDelay] = useState()
 	useEffect(() => {
 		PageService.getHome().then(
 			(response) => {
@@ -18,7 +20,14 @@ export default function Home({ isHidden, setIsHidden, role, username }) {
 				console.log('home error: ', error);
 			}
 		);
-	}, []);
+		console.log('1')
+		if (delay && delay > 0) {
+			const interval = setInterval(() => {
+				setTime(Date.now())
+			}, delay);
+			return () => clearInterval(interval);
+		}
+	}, [time]);
 
 	return (
 		<div>
@@ -32,7 +41,7 @@ export default function Home({ isHidden, setIsHidden, role, username }) {
 				{devices ? (
 					<div className="grid-hor">
 						<Dashboard devices={devices} />
-						<DevicesList devices={devices} setDevices={setDevices} />
+						<DevicesList devices={devices} setDevices={setDevices} delay={delay} setDelay={setDelay}/>
 					</div>
 				) : (
 					<div className="grid-hor">

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Button from '@components/Button/Button';
 import Container from '@components/Container/Container';
 import './devicesList.scss';
@@ -9,10 +9,10 @@ import PageService from '@services/page.service';
 import DataReg from './DataReg';
 import TableTheme from './TableTheme';
 
-export default function DevicesList({ devices, setDevices }) {
+export default function DevicesList({ devices, setDevices, delay, setDelay }) {
 	const { columns, data } = DataReg(devices);
 
-	const tableTheme = TableTheme
+	const tableTheme = TableTheme;
 
 	const UpdateRequest = () => {
 		PageService.getHome().then(
@@ -28,8 +28,21 @@ export default function DevicesList({ devices, setDevices }) {
 
 	return (
 		<Container paddingRight paddingLeft>
-			<div className="m-bm">
+			<div className="grid-50-50 m-bm">
 				<Button size="m" value="Update Table" onClick={UpdateRequest} />
+				<div className="grid-50-50 align-items-center">
+					<label className="float-right m-rt">Auto Update</label>
+					<select
+						className="input--select size-m width-m color-primary float-left"
+						value={delay}
+						onChange={(e) => setDelay(e.target.value)}
+					>
+						<option value=""></option>
+						<option value="60000">1 min</option>
+						<option value="300000">5 min</option>
+						<option value="600000">10 min</option>
+					</select>
+				</div>
 			</div>
 			<ThemeProvider theme={tableTheme}>
 				<MaterialReactTable
@@ -88,7 +101,7 @@ export default function DevicesList({ devices, setDevices }) {
 					muiTopToolbarProps={{
 						sx: {
 							backgroundColor: '#353535',
-						}
+						},
 					}}
 					muiToolbarAlertBannerChipProps={{
 						sx: {

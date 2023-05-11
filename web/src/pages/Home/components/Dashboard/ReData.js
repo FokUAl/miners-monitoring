@@ -10,7 +10,7 @@ const ReData = (devices) => {
 				initialValue
 			)
 			.toFixed() + ' MHS';
-	const avgTemp = (
+	const avgTemperature = (
 		devices
 			.filter((device) => device.MinerStatus === 'online')
 			.reduce(
@@ -18,6 +18,7 @@ const ReData = (devices) => {
 				initialValue
 			) / onlineCount
 	).toFixed();
+	const avgTemp = isNaN(avgTemperature)? 0 : avgTemperature
 	let maxTemp = 0
 	devices.forEach(device => device.Characteristics.Temperature > maxTemp ? maxTemp = device.Characteristics.Temperature : '')
 	return { onlineCount, totalHashrate, avgTemp, maxTemp };
