@@ -49,7 +49,7 @@ function DataReg(devices) {
 				aggregationFn: ['max', 'min'],
 				AggregatedCell: ({ cell }) => (
 					<div className="table--temperature">
-						Max:
+						Max:{' '}
 						<Box
 							sx={{
 								display: 'inline',
@@ -62,8 +62,8 @@ function DataReg(devices) {
 							}}
 						>
 							{cell.getValue()[0]}
-						</Box>
-						Min:
+						</Box>{' '}
+						Min:{' '}
 						<Box
 							sx={{
 								display: 'inline',
@@ -85,6 +85,8 @@ function DataReg(devices) {
 				accessorKey: 'MHSav',
 				size: 1,
 				enableGrouping: false,
+				aggregationFn: 'sum',
+				AggregatedCell: ({ cell }) => <div>TH: {cell.getValue()}</div>,
 			},
 			{
 				header: 'Fan Speed In',
@@ -103,6 +105,14 @@ function DataReg(devices) {
 				accessorKey: 'MinerStatus',
 				size: 1,
 				enableGrouping: false,
+				aggregationFn: ['sum', 'count'],
+				AggregatedCell: ({ cell }) => (
+					<div>
+						<Box sx={{display:'inline'}}>{cell.getValue()[0]}</Box>
+						{'/'}
+						<Box sx={{display:'inline'}}>{cell.getValue()[1]}</Box>
+					</div>
+				),
 				Cell: ({ cell }) => {
 					return (
 						<div>
@@ -125,11 +135,16 @@ function DataReg(devices) {
 				enableGrouping: false,
 				Cell: ({ cell }) => {
 					return (
-						<a className="table--link" href={`${cell.getValue()}`} target="_blank" rel="noreferrer">
+						<a
+							className="table--link"
+							href={`${cell.getValue()}`}
+							target="_blank"
+							rel="noreferrer"
+						>
 							{cell.getValue()}
 						</a>
-					)
-				}
+					);
+				},
 			},
 			{
 				header: 'Link',

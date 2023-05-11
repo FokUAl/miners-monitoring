@@ -58,7 +58,7 @@ export default function DevicesList({ devices, setDevices, delay, setDelay }) {
 					enableColumnActions={false}
 					initialState={{
 						density: 'compact',
-						expanded: true,
+						expanded: false,
 						grouping: ['Owner', 'MinerType'],
 						pagination: { pageIndex: 0, PageSize: 100 },
 						sorting: [{ id: 'Owner', desc: false }],
