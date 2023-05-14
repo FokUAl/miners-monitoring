@@ -14,14 +14,29 @@ const TableTheme = () => {
 					}
 				}
 			},
-			MuiButtonBase: {
+			MuiIconButton: {
 				styleOverrides: {
 					root: {
-						'& *': {
-							color: 'white',
-						},
-					},
-				},
+						color: 'white'
+					}
+				}
+			},
+			MuiChip: {
+				styleOverrides: {
+					root: {
+						color: 'white'
+					}
+				}
+			},
+			MuiTableSortLabel: {
+				styleOverrides: {
+					root: {
+						color: 'white',
+						'&:Mui-active': {
+							color: 'white'
+						}
+					}
+				}
 			},
 			MuiInputBase: {
 				styleOverrides: {

@@ -85,6 +85,14 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 							borderColor: 'black',
 						},
 					}}
+					muiExpandButtonProps={{
+						sx: {
+							color: 'white',
+							'&.Mui-disabled': {
+								color: 'transparent'
+							}
+						}
+					}}
 					muiTableProps={{
 						sx: {
 							padding: '0px 0px 0px 0px',
