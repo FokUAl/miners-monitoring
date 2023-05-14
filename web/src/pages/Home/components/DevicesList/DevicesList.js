@@ -73,10 +73,8 @@ export default function DevicesList({
 							backgroundColor: '#2D2D2D',
 							color: 'white',
 							fontSize: '12px',
-							padding: '0 2px',
-							borderTop: 'none',
-							borderInline: 'none',
-							borderColor: '#1e1e1e',
+							padding: '0 0 0 5px',
+							border: 'none',
 						},
 					}}
 					muiTableBodyCellProps={{
@@ -84,7 +82,8 @@ export default function DevicesList({
 							backgroundColor: '#5a5a5a',
 							color: 'white',
 							fontSize: '12px',
-							padding: '0 2px',
+							fontWeight: '500',
+							padding: '0 0 0 5px',
 							borderTop: 'none',
 							borderRight: 'none',
 							borderColor: '#1e1e1e',
