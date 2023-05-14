@@ -12,14 +12,15 @@ function DataReg(devices, allUsers) {
 			ChipTempMax: el.Characteristics.ChipTempMax,
 			ChipTempMin: el.Characteristics.ChipTempMin,
 			Elapsed: el.Characteristics.Elapsed,
-			FanSpeeds: `${el.Characteristics.FanSpeed1}-${el.Characteristics.FanSpeed2}-${el.Characteristics.FanSpeed3}-${el.Characteristics.FanSpeed4}`,
+			FanSpeed1: el.Characteristics.FanSpeed1,
+			FanSpeed2: el.Characteristics.FanSpeed2,
+			FanSpeed3: el.Characteristics.FanSpeed3,
+			FanSpeed4: el.Characteristics.FanSpeed4,
 			MAC: el.Characteristics.MAC,
 			THSav: el.Characteristics.THSav,
 			PowerMode: el.Characteristics.PowerMode,
 			Temperature: el.Characteristics.Temperature,
-			Shelf: el.Shelf,
-			Level: el.Row,
-			Miner: el.Column,
+			Location: `${el.Shelf}-${el.Row}-${el.Column}`,
 			Characteristics: null,
 		};
 	});
@@ -39,28 +40,10 @@ function DataReg(devices, allUsers) {
 				size: 1,
 			},
 			{
-				header: 'Shelf',
-				accessorKey: 'Shelf',
+				header: 'Location',
+				accessorKey: 'Location',
 				size: 1,
 				enableGrouping: false,
-				filterVarian: 'range',
-				filterFn: 'betweenInclusive',
-			},
-			{
-				header: 'Level',
-				accessorKey: 'Level',
-				size: 1,
-				enableGrouping: false,
-				filterVarian: 'range',
-				filterFn: 'betweenInclusive',
-			},
-			{
-				header: 'Miner',
-				accessorKey: 'Miner',
-				size: 1,
-				enableGrouping: false,
-				filterVarian: 'range',
-				filterFn: 'betweenInclusive',
 			},
 			{
 				header: 'Temperature',
@@ -107,21 +90,37 @@ function DataReg(devices, allUsers) {
 				size: 1,
 				enableGrouping: false,
 				aggregationFn: 'sum',
-				AggregatedCell: ({ cell }) => <div>Total THS: {cell.getValue()}</div>,
+				AggregatedCell: ({ cell }) => <div>Total TH/s: {cell.getValue()}</div>,
 			},
 			{
-				header: 'Fan Speeds',
-				accessorKey: 'FanSpeeds',
+				header: 'Fan Speed 1',
+				accessorKey: 'FanSpeed1',
 				size: 1,
 				enableGrouping: false,
-				enableColumnFilter: false,
+			},
+			{
+				header: 'Fan Speed 2',
+				accessorKey: 'FanSpeed2',
+				size: 1,
+				enableGrouping: false,
+			},
+			{
+				header: 'Fan Speed 3',
+				accessorKey: 'FanSpeed3',
+				size: 1,
+				enableGrouping: false,
+			},
+			{
+				header: 'Fan Speed 4',
+				accessorKey: 'FanSpeed4',
+				size: 1,
+				enableGrouping: false,
 			},
 			{
 				header: 'Status',
 				accessorKey: 'MinerStatus',
 				size: 1,
 				enableGrouping: false,
-				enableColumnFilter: false,
 				aggregationFn: ['unique', 'count'],
 				AggregatedCell: ({ cell, column, row }) => {
 					return (
@@ -164,13 +163,11 @@ function DataReg(devices, allUsers) {
 						</a>
 					);
 				},
-				enableColumnFilter: false,
 			},
 			{
 				header: 'Link',
 				accessorKey: 'Link',
 				size: 1,
-				enableColumnFilter: false,
 				enableGrouping: false,
 				Cell: ({ cell }) => {
 					return (

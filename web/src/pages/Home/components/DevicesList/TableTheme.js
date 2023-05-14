@@ -6,11 +6,13 @@ const TableTheme = () => {
 			MuiTableRow: {
 				styleOverrides: {
 					root: {
-						'&:hover': {
-							backgroundColor: 'black',
-						},
-					},
-				},
+						'&.MuiTableRow-root:hover': {
+							td: {
+								backgroundColor: '#3d3d3d'
+							}
+						}
+					}
+				}
 			},
 			MuiButtonBase: {
 				styleOverrides: {
