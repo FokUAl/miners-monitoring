@@ -6,7 +6,7 @@ const ReData = (devices) => {
 	const totalHashrate =
 		devices
 			.reduce(
-				(accum, device) => accum + device.Characteristics.MHSav,
+				(accum, device) => accum + device.Characteristics.THSav,
 				initialValue
 			)
 			.toFixed() + ' TH/s';

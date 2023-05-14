@@ -33,7 +33,7 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 				<div className="grid-50-50 align-items-center">
 					<label className="float-right m-rt">Auto Update</label>
 					<select
-						className="input--select size-m width-m color-primary float-left"
+						className="input--select size-s width-m color-primary float-left"
 						value={delay}
 						onChange={(e) => setDelay(e.target.value)}
 					>
