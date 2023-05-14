@@ -89,7 +89,8 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 						sx: {
 							color: 'white',
 							'&.Mui-disabled': {
-								color: 'transparent'
+								color: 'transparent',
+								backgroundColor: 'transparent'
 							}
 						}
 					}}

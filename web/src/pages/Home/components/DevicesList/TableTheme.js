@@ -17,7 +17,7 @@ const TableTheme = () => {
 			MuiIconButton: {
 				styleOverrides: {
 					root: {
-						color: 'white'
+						color: 'white',
 					}
 				}
 			},
@@ -32,7 +32,7 @@ const TableTheme = () => {
 				styleOverrides: {
 					root: {
 						color: 'white',
-						'&:Mui-active': {
+						"&.Mui-active": {
 							color: 'white'
 						}
 					}
