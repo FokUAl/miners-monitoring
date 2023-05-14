@@ -9,7 +9,13 @@ import PageService from '@services/page.service';
 import DataReg from './DataReg';
 import TableTheme from './TableTheme';
 
-export default function DevicesList({ devices, setDevices, delay, setDelay, allUsers }) {
+export default function DevicesList({
+	devices,
+	setDevices,
+	delay,
+	setDelay,
+	allUsers,
+}) {
 	const { columns, data } = DataReg(devices, allUsers);
 
 	const tableTheme = TableTheme;
@@ -50,10 +56,8 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 					data={data}
 					enableGrouping
 					enableStickyHeader
-					enableStickyFooter
-					enableDensityToggle={false}
-					muiTableContainerProps={{ sx: { maxHeight: '600px' } }}
 					manualPagination
+					enableDensityToggle={false}
 					enableBottomToolbar={false}
 					enableColumnActions={false}
 					initialState={{
@@ -63,6 +67,7 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 						pagination: { pageIndex: 0, PageSize: 100 },
 						sorting: [{ id: 'Owner', desc: false }],
 					}}
+					muiTableContainerProps={{ sx: { maxHeight: '600px' } }}
 					muiTableHeadCellProps={{
 						sx: {
 							backgroundColor: '#2D2D2D',
@@ -71,7 +76,7 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 							padding: '0 2px',
 							borderTop: 'none',
 							borderInline: 'none',
-							borderColor: 'black',
+							borderColor: '#1e1e1e',
 						},
 					}}
 					muiTableBodyCellProps={{
@@ -81,8 +86,8 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 							fontSize: '12px',
 							padding: '0 2px',
 							borderTop: 'none',
-							borderInline: 'none',
-							borderColor: 'black',
+							borderRight: 'none',
+							borderColor: '#1e1e1e',
 						},
 					}}
 					muiExpandButtonProps={{
@@ -90,9 +95,9 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 							color: 'white',
 							'&.Mui-disabled': {
 								color: 'transparent',
-								backgroundColor: 'transparent'
-							}
-						}
+								backgroundColor: 'transparent',
+							},
+						},
 					}}
 					muiTableProps={{
 						sx: {
@@ -102,7 +107,6 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 					}}
 					muiTablePaperProps={{
 						sx: {
-							// color: 'white',
 							fontSize: '12px',
 							backgroundColor: '#353535',
 						},
@@ -115,7 +119,6 @@ export default function DevicesList({ devices, setDevices, delay, setDelay, allU
 					muiToolbarAlertBannerChipProps={{
 						sx: {
 							backgroundColor: '#5a5a5a',
-							// color: 'white',
 							fontSize: '12px',
 						},
 					}}
