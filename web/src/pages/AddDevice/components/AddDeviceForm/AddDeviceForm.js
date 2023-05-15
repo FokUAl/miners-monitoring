@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FormService from '@services/form.service';
 import Button from '@components/Button/Button';
 import Container from '@components/Container/Container';
+import MinersModels from '@assets/data/MinersModels';
 import Input from '@components/Input/Input';
 import './addDeviceForm.scss';
 
@@ -48,17 +49,20 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 	};
 
 	const addFormField = () => {
-		setData([...data, {
-			minerType: allTypes || '',
-			IP: '',
-			MAC: '',
-			shelf: '',
-			column: '',
-			row: '',
-			owner: allOwners || '',
-			allOwners: allOwners,
-			allTypes: allTypes,
-		}]);
+		setData([
+			...data,
+			{
+				minerType: allTypes || '',
+				IP: '',
+				MAC: '',
+				shelf: '',
+				column: '',
+				row: '',
+				owner: allOwners || '',
+				allOwners: allOwners,
+				allTypes: allTypes,
+			},
+		]);
 	};
 
 	const removeFormField = () => {
@@ -75,6 +79,12 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 		  })
 		: undefined;
 
+	const generateAllTypes = MinersModels
+		? MinersModels.map((model) => {
+				return <option value={model}>{model}</option>;
+		  })
+		: undefined;
+	
 	const handleAdd = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
@@ -155,26 +165,19 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 					</div>
 					<div className="form--inputs">
 						<div></div>
-						<input
-							type="text"
-							value={allTypes}
-							name="allTypes"
-							onChange={(e) => {
-								handleTypes(e);
-							}}
-						/>
+							<select
+								name="allTypes"
+								value={allTypes}
+								className={`input--select size-m width-fluid color-primary`}
+								onChange={(e) => handleTypes(e)}
+							>
+								<option value=""></option>
+								{generateAllTypes}
+							</select>
 						<div></div>
 						<div></div>
 						<div></div>
 						<div></div>
-						{/* <input
-							type="text"
-							value={allOwners}
-							name="allOwners"
-							onChange={(e) => {
-								handleOwners(e);
-							}}
-						/> */}
 						<select
 							name="allOwners"
 							className="input--select size-m width-fluid color-primary"
@@ -211,14 +214,18 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 					{data.map((data, index) => (
 						<div className="form--inputs" key={index}>
 							<label>{index + 1}</label>
-							<input
-								type="text"
+							<select
 								name="minerType"
 								value={data.allTypes ? data.allTypes : data.minerType}
 								disabled={data.allTypes}
+								className={`input--select size-m width-fluid color-primary ${
+									data.allOwners ? 'disabled' : ''
+								}`}
 								onChange={(e) => handleChange(index, e)}
-								required
-							/>
+							>
+								<option value="" disabled></option>
+								{generateAllTypes}
+							</select>
 							<input
 								type="text"
 								name="IP"
@@ -264,7 +271,9 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 								name="owner"
 								value={data.allOwners ? data.allOwners : data.owner}
 								disabled={data.allOwners}
-								className={`input--select size-m width-fluid color-primary ${data.allOwners ? 'disabled' : ''}`}
+								className={`input--select size-m width-fluid color-primary ${
+									data.allOwners ? 'disabled' : ''
+								}`}
 								onChange={(e) => handleChange(index, e)}
 							>
 								<option value="" disabled></option>

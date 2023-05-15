@@ -42,30 +42,6 @@ function DataReg(devices, allUsers) {
 				filterSelectOptions: MinersModels && MinersModels,
 			},
 			{
-				header: 'Shelf',
-				accessorKey: 'Shelf',
-				size: 1,
-				enableGrouping: false,
-				filterVariant: 'range',
-				filterFn: 'betweenInclusive',
-			},
-			{
-				header: 'Level',
-				accessorKey: 'Level',
-				size: 1,
-				enableGrouping: false,
-				filterVariant: 'range',
-				filterFn: 'betweenInclusive',
-			},
-			{
-				header: 'Miner',
-				accessorKey: 'Miner',
-				size: 1,
-				enableGrouping: false,
-				filterVariant: 'range',
-				filterFn: 'betweenInclusive',
-			},
-			{
 				header: 'Temperature',
 				accessorKey: 'Temperature',
 				size: 1,
@@ -149,6 +125,30 @@ function DataReg(devices, allUsers) {
 						</div>
 					);
 				},
+			},
+			{
+				header: 'Shelf',
+				accessorKey: 'Shelf',
+				size: 1,
+				enableGrouping: false,
+				filterVariant: 'range',
+				filterFn: 'betweenInclusive',
+			},
+			{
+				header: 'Level',
+				accessorKey: 'Level',
+				size: 1,
+				enableGrouping: false,
+				filterVariant: 'range',
+				filterFn: 'betweenInclusive',
+			},
+			{
+				header: 'Miner',
+				accessorKey: 'Miner',
+				size: 1,
+				enableGrouping: false,
+				filterVariant: 'range',
+				filterFn: 'betweenInclusive',
 			},
 			{
 				header: 'IP',
