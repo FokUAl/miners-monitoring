@@ -30,11 +30,16 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem('token'))
 }
 
+const getCurrentRole = () => {
+  return JSON.parse(localStorage.getItem('role'))
+}
+
 const AuthService = {
   signUp,
   signIn,
   logout,
   getCurrentUser,
+  getCurrentRole
 };
 
 export default AuthService

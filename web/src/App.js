@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Home from '@pages/Home';
 import AddDevice from '@pages/AddDevice';
@@ -23,13 +23,12 @@ function App() {
 	const location = useLocation();
 	const navigation = useNavigate();
 
-	console.log('role', role, typeof role, role === 'admin');
-
 	useEffect(() => {
 		PageService.userInfo().then(
 			(response) => {
 				setUsername(response.data.username);
 				setRole(response.data.role);
+				localStorage.setItem('role', JSON.stringify(response.data.role))
 				console.log('navbar ok ');
 			},
 			(error) => {
@@ -63,7 +62,7 @@ function App() {
 					path="/auth/signUp"
 					element={
 						<PrivateRoute>
-							<AdminRoute role={role}>
+							<AdminRoute>
 								<SignUp
 									isHidden={isHidden}
 									setIsHidden={setIsHidden}
@@ -78,7 +77,7 @@ function App() {
 				<Route
 					path="/"
 					element={
-						<PrivateRoute role={role}>
+						<PrivateRoute>
 							<Home
 								isHidden={isHidden}
 								setIsHidden={setIsHidden}
