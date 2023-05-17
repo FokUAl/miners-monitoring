@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import MinersModels from '@assets/data/MinersModels'
+import MinersModels from '@assets/data/MinersModels';
 import Button from '@components/Button/Button';
 
 function DataReg(devices, allUsers) {
@@ -104,13 +104,18 @@ function DataReg(devices, allUsers) {
 				aggregationFn: ['unique', 'count'],
 				AggregatedCell: ({ cell, column, row }) => {
 					return (
-					<div>
-						<Box sx={{display:'inline'}}>{row.getValue(column.id).filter(el => el[0] === 'online').length}</Box>
-						{'/'}
-						<Box sx={{display:'inline'}}>{cell.getValue()[1]}</Box>
-						{' '}
-					</div>
-				)},
+						<div>
+							<Box sx={{ display: 'inline' }}>
+								{
+									row.getValue(column.id).filter((el) => el[0] === 'online')
+										.length
+								}
+							</Box>
+							{'/'}
+							<Box sx={{ display: 'inline' }}>{cell.getValue()[1]}</Box>{' '}
+						</div>
+					);
+				},
 				Cell: ({ cell }) => {
 					return (
 						<div>
@@ -166,20 +171,6 @@ function DataReg(devices, allUsers) {
 						>
 							{cell.getValue()}
 						</a>
-					);
-				},
-			},
-			{
-				header: 'Link',
-				accessorKey: 'Link',
-				size: 1,
-				enableGrouping: false,
-				enableColumnFilter: false,
-				Cell: ({ cell }) => {
-					return (
-						<Link className="link" to={cell.getValue()}>
-							<Button size="s" value="Link"></Button>
-						</Link>
 					);
 				},
 			},

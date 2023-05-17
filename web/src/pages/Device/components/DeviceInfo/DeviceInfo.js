@@ -69,18 +69,6 @@ export default function DeviceInfo({ data }) {
 		);
 	};
 
-	const handleDelete = async (IP) => {
-		FormService.deleteDevice(IP).then(
-			(response) => {
-				navigate('/');
-				window.location.reload();
-			},
-			(error) => {
-				console.log('Add device ', error);
-			}
-		);
-	};
-
 	return (
 		<Container paddingRight>
 			<div
@@ -192,12 +180,6 @@ export default function DeviceInfo({ data }) {
 							</>
 						)}
 					</Container>
-					<Button
-						value="Delete Device"
-						size="m"
-						float="center"
-						onClick={() => handleDelete(data.IPAddress)}
-					/>
 				</div>
 			</div>
 		</Container>

@@ -1,13 +1,18 @@
 import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Button from '@components/Button/Button';
 import Container from '@components/Container/Container';
 import './devicesList.scss';
 import 'react-table-6/react-table.css';
 import MaterialReactTable from 'material-react-table';
 import { ThemeProvider } from '@mui/material';
+import { Box } from '@mui/material';
 import PageService from '@services/page.service';
+import FormService from '@services/form.service';
 import DataReg from './DataReg';
 import TableTheme from './TableTheme';
+import { IoEnter } from 'react-icons/io5';
+import { BsTrashFill } from 'react-icons/bs';
 
 export default function DevicesList({
 	devices,
@@ -30,6 +35,20 @@ export default function DevicesList({
 				console.log('update error: ', error);
 			}
 		);
+	};
+
+	const handleDelete = async (IP) => {
+		const confirmed = window.confirm("Delete device?");
+		if (confirmed) {
+			FormService.deleteDevice(IP).then(
+				(response) => {
+					UpdateRequest();
+				},
+				(error) => {
+					console.log('Add device ', error);
+				}
+			);
+		}
 	};
 
 	return (
@@ -67,6 +86,23 @@ export default function DevicesList({
 						pagination: { pageIndex: 0, PageSize: 100 },
 						sorting: [{ id: 'Owner', desc: false }],
 					}}
+					enableRowActions
+					positionActionsColumn="last"
+					renderRowActions={({ row, table }) => (
+						<Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
+							<Link
+								className="link"
+								to={`/device?shelf=${row.original.Shelf}&row=${row.original.Level}&column=${row.original.Miner}`}
+							>
+								<Button size="s" value={<IoEnter />} />
+							</Link>
+							<Button
+								size="s"
+								value={<BsTrashFill />}
+								onClick={() => handleDelete(row.original.IPAddress)}
+							/>
+						</Box>
+					)}
 					muiTableContainerProps={{ sx: { maxHeight: '600px' } }}
 					muiTableHeadCellProps={{
 						sx: {
