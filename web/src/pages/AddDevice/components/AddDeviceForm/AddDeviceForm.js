@@ -207,8 +207,8 @@ export default function AddDeviceForm({ allIP, allUsers }) {
 							/>
 						</div>
 						<label>Shelf</label>
-						<label>Row</label>
-						<label>Column</label>
+						<label>Level</label>
+						<label>Miner</label>
 						<label>Owner</label>
 					</div>
 					{data.map((data, index) => (
