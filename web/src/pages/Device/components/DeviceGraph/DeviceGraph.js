@@ -24,7 +24,7 @@ export default function DeviceGraph({ charHistory }) {
 		const stats = {
 			time: hoursAndMinutes,
 			temperature: charHistory[i].ChipTempMax,
-			hash: charHistory[i].MHSav,
+			hash: charHistory[i].THSav,
 			fan1: charHistory[i].FanSpeed1,
 			fan2: charHistory[i].FanSpeed2,
 			fan3: charHistory[i].FanSpeed3,

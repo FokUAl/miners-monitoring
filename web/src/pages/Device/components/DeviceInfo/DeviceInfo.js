@@ -21,7 +21,7 @@ export default function DeviceInfo({ data }) {
 			FanSpeed3: data.Miner.Characteristics.FanSpeed3,
 			FanSpeed4: data.Miner.Characteristics.FanSpeed4,
 			MAC: data.Miner.MACAddress,
-			MHSav: data.Miner.Characteristics.MHSav,
+			THSav: data.Miner.Characteristics.THSav,
 			PowerMode: data.Miner.Characteristics.PowerMode,
 			Temperature: data.Miner.Characteristics.Temperature,
 			IPAddress: data.Miner.IPAddress,
@@ -111,8 +111,8 @@ export default function DeviceInfo({ data }) {
 					<DataDisplay text={'MAC address'} data={data.MAC} />
 					<DataDisplay text={'Power Mode'} data={data.PowerMode} />
 					<DataDisplay
-						text={'Mega Hashrate per second Average'}
-						data={data.MHSav}
+						text={'Tera Hashrate per second Average'}
+						data={data.THSav}
 					/>
 					<Container borderTop borderBottom>
 						{isEdit ? (
