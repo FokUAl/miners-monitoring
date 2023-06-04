@@ -21,6 +21,7 @@ function DataReg(devices, allUsers) {
 			Shelf: el.Shelf,
 			Level: el.Row,
 			Miner: el.Column,
+			Shares: el.Characteristics.Share,
 			Characteristics: null,
 		};
 	});
@@ -83,6 +84,15 @@ function DataReg(devices, allUsers) {
 			{
 				header: 'TH/s',
 				accessorKey: 'THSav',
+				size: 1,
+				enableGrouping: false,
+				enableColumnFilter: false,
+				aggregationFn: 'sum',
+				AggregatedCell: ({ cell }) => <div>Total TH/s: {cell.getValue()}</div>,
+			},
+			{
+				header: 'Shares',
+				accessorKey: 'Shares',
 				size: 1,
 				enableGrouping: false,
 				enableColumnFilter: false,

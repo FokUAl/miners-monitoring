@@ -114,6 +114,10 @@ export default function DeviceInfo({ data }) {
 						text={'Tera Hashrate per second Average'}
 						data={data.THSav}
 					/>
+					<DataDisplay
+						text={'Shares'}
+						data={data.Characteristics.Share}
+					/>
 					<Container borderTop borderBottom>
 						{isEdit ? (
 							<>
