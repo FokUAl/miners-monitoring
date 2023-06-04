@@ -47,7 +47,7 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
-	deviceShare := make(chan struct {int; string})
+	deviceShare := make(chan pkg.ShareStruct)
 	deviceResponse := make(chan app.MinerData)
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
@@ -75,7 +75,7 @@ func (h *Handler) getHome(c *gin.Context) {
 	// reading data from channel app.MinerData
 	for i := 0; i < len(devices); i++ {
 		responseData := <-deviceResponse
-		pkg.UpdataDeviceInfo(&devices, responseData)
+		pkg.UpdateDeviceInfo(&devices, responseData)
 	}
 
 	// reading data from share channel
@@ -200,7 +200,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 	// reading data from channel
 	for i := 0; i < len(devicesInfo); i++ {
 		responseData := <-deviceResponse
-		pkg.UpdataDeviceInfo(&devices, responseData)
+		pkg.UpdateDeviceInfo(&devices, responseData)
 	}
 
 	newInfo := info{
@@ -255,6 +255,11 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, fmt.Sprintf("getMinersCharacteristics: %s\n", err.Error()))
 		return
 	}
+
+	deviceShare := make(chan pkg.ShareStruct)
+	go pkg.GetShare(miner.IPAddress, deviceShare)
+	shareValue := <-deviceShare
+	miner.Characteristics.Share = shareValue.Value
 
 	c.JSON(http.StatusOK, struct {
 		Miner                  app.MinerDevice

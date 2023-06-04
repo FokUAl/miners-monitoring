@@ -99,7 +99,7 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 			// reading data from channel
 			for i := 0; i < len(devicesInfo); i++ {
 				responseData := <-deviceResponse
-				pkg.UpdataDeviceInfo(&devices, responseData)
+				pkg.UpdateDeviceInfo(&devices, responseData)
 			}
 
 			// Saving data to database

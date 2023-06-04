@@ -16,6 +16,11 @@ import (
 	app "github.com/FokUAl/miners-monitoring"
 )
 
+type ShareStruct struct{
+	IP string
+	Value int64
+}
+
 // Sends request to cgminer interface and returns
 // response from it in string type.
 func GetAsicInfo(ip string, command string) (string, error) {
@@ -98,41 +103,43 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	downstream <- result
 }
 
-func GetShare(IP string, share chan struct{int64; string}) {
+func GetShare(IP string, share chan ShareStruct) {
 	response, err := GetAsicInfo(IP, "summary")
 	if err != nil {
-		share <- struct{int64; string}{0, ""}
+		share <- ShareStruct{IP: err.Error(), Value: 0}
+		return
 	}
 	shareInt, err := ShareParsing(response)
 	if err != nil {
-		share <- struct{int64; string}{0, ""}
+		share <- ShareStruct{IP: err.Error(), Value: 0}
+		return
 	}
-	share <- struct{int64; string}{shareInt, IP}
+	share <- ShareStruct{IP, shareInt}
 } 
 
-func UpdateDeviceShare(devices *[]app.MinerDevice, share struct {int64; string}) {
+func UpdateDeviceShare(devices *[]app.MinerDevice, share ShareStruct) {
 	for i := 0; i < len(*devices); i++ {
-		if (*devices)[i].IPAddress == share.string {
-			(*devices)[i].Characteristics.Share = share.int64
+		if (*devices)[i].IPAddress == share.IP {
+			(*devices)[i].Characteristics.Share = share.Value
 		}
 	}
 }
 
 func ShareParsing(data string) (int64, error) {
-		// Searches key and value pairs in data string
-		r, err := regexp.Compile(`"[A-Za-z0-9% ]+":("?[0-9A-Za-z:._ -]+"?)`)
-		if err != nil {
-			return 0, fmt.Errorf("can't compile regexp: %s", err.Error())
-		}
+	// Searches key and value pairs in data string
+	r, err := regexp.Compile(`"[A-Za-z0-9% ]+":("?[0-9A-Za-z:._ -]+"?)`)
+	if err != nil {
+		return 0, fmt.Errorf("can't compile regexp: %s", err.Error())
+	}
 	
-		arr := r.FindAllString(data, -1)
-		data_map := make(map[string]string)
-		for _, val := range arr {
-			keyvalue := strings.Split(val, "\":")
-			key := strings.Trim(keyvalue[0], "\"")
-			value := strings.Trim(keyvalue[1], "\"")
-			data_map[key] = value
-		}
+	arr := r.FindAllString(data, -1)
+	data_map := make(map[string]string)
+	for _, val := range arr {
+		keyvalue := strings.Split(val, "\":")
+		key := strings.Trim(keyvalue[0], "\"")
+		value := strings.Trim(keyvalue[1], "\"")
+		data_map[key] = value
+	}
 
 	share, err := strconv.ParseInt(data_map["Accepted"], 10, 64)
 	if err != nil {
@@ -142,7 +149,7 @@ func ShareParsing(data string) (int64, error) {
 }
 
 // Check device characteristics and set miner status
-func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
+func UpdateDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
 	for i := 0; i < len(*devices); i++ {
 		if (*devices)[i].IPAddress == newData.IP {
 			(*devices)[i].Characteristics = newData
