@@ -98,6 +98,49 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 	downstream <- result
 }
 
+func GetShare(IP string, share chan struct{int64; string}) {
+	response, err := GetAsicInfo(IP, "summary")
+	if err != nil {
+		share <- struct{int64; string}{0, ""}
+	}
+	shareInt, err := ShareParsing(response)
+	if err != nil {
+		share <- struct{int64; string}{0, ""}
+	}
+	share <- struct{int64; string}{shareInt, IP}
+} 
+
+func UpdateDeviceShare(devices *[]app.MinerDevice, share struct {int64; string}) {
+	for i := 0; i < len(*devices); i++ {
+		if (*devices)[i].IPAddress == share.string {
+			(*devices)[i].Characteristics.Share = share.int64
+		}
+	}
+}
+
+func ShareParsing(data string) (int64, error) {
+		// Searches key and value pairs in data string
+		r, err := regexp.Compile(`"[A-Za-z0-9% ]+":("?[0-9A-Za-z:._ -]+"?)`)
+		if err != nil {
+			return 0, fmt.Errorf("can't compile regexp: %s", err.Error())
+		}
+	
+		arr := r.FindAllString(data, -1)
+		data_map := make(map[string]string)
+		for _, val := range arr {
+			keyvalue := strings.Split(val, "\":")
+			key := strings.Trim(keyvalue[0], "\"")
+			value := strings.Trim(keyvalue[1], "\"")
+			data_map[key] = value
+		}
+
+	share, err := strconv.ParseInt(data_map["Accepted"], 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("can't parse Accepted: %s", err.Error())
+	}
+	return share, nil
+}
+
 // Check device characteristics and set miner status
 func UpdataDeviceInfo(devices *[]app.MinerDevice, newData app.MinerData) {
 	for i := 0; i < len(*devices); i++ {

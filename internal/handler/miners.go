@@ -47,6 +47,7 @@ func (h *Handler) getHome(c *gin.Context) {
 		return
 	}
 
+	deviceShare := make(chan struct {int; string})
 	deviceResponse := make(chan app.MinerData)
 	for _, elem := range devicesInfo {
 		var device app.MinerDevice
@@ -67,14 +68,20 @@ func (h *Handler) getHome(c *gin.Context) {
 		// start goroutune and
 		// send result to channel
 		go pkg.ResponseToStruct(device.IPAddress, deviceResponse)
-
+		go pkg.GetShare(device.IPAddress, deviceShare)
 		devices = append(devices, device)
 	}
 
-	// reading data from channel
+	// reading data from channel app.MinerData
 	for i := 0; i < len(devices); i++ {
 		responseData := <-deviceResponse
 		pkg.UpdataDeviceInfo(&devices, responseData)
+	}
+
+	// reading data from share channel
+	for i := 0; i < len(devices); i++ {
+		share := <-deviceShare
+		pkg.UpdateDeviceShare(&devices, share)
 	}
 
 	var formedDeviceData map[string][]app.MinerData = make(map[string][]app.MinerData)
