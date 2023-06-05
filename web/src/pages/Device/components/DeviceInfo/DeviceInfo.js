@@ -25,6 +25,7 @@ export default function DeviceInfo({ data }) {
 			PowerMode: data.Miner.Characteristics.PowerMode,
 			Temperature: data.Miner.Characteristics.Temperature,
 			IPAddress: data.Miner.IPAddress,
+			Shares: data.Miner.Characteristics.Share,
 		};
 	}
 
@@ -116,7 +117,7 @@ export default function DeviceInfo({ data }) {
 					/>
 					<DataDisplay
 						text={'Shares'}
-						data={data.Characteristics.Share}
+						data={data.Shares}
 					/>
 					<Container borderTop borderBottom>
 						{isEdit ? (

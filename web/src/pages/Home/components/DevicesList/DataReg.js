@@ -97,7 +97,7 @@ function DataReg(devices, allUsers) {
 				enableGrouping: false,
 				enableColumnFilter: false,
 				aggregationFn: 'sum',
-				AggregatedCell: ({ cell }) => <div>Total TH/s: {cell.getValue()}</div>,
+				AggregatedCell: ({ cell }) => <div>Total Shares: {cell.getValue()}</div>,
 			},
 			{
 				header: 'Fans Speed',
