@@ -11,12 +11,13 @@ const MinersModels = () => {
 		'Avalon 1166 Pro 81TH',
 		'Avalon 1246 83TH',
 		'Avalon 1246 85TH',
-		'Watsminer M10',
-		'Watsminer M10 New PSU',
-		'Watsminer M20s',
-		'Watsminer M21s',
-		'Watsminer M31s',
-		'Watsminer M31s68TH',
+		'Whatsminer M10',
+		'Whatsminer M10 New PSU',
+		'Whatsminer M20s',
+		'Whatsminer M21s',
+		'Whatsminer M31s',
+		'Whatsminer M31s68TH',
+		'Whatsminer M32'
 	];
 };
 
