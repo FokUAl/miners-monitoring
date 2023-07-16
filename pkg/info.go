@@ -16,8 +16,8 @@ import (
 	app "github.com/FokUAl/miners-monitoring"
 )
 
-type ShareStruct struct{
-	IP string
+type ShareStruct struct {
+	IP    string
 	Value int64
 }
 
@@ -56,7 +56,7 @@ func GetAsicInfo(ip string, command string) (string, error) {
 
 // Func for getting data by IP and
 // transforming data to MinerData struct
-func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
+func ResponseToStruct(ip_address string, minerType string, downstream chan app.MinerData) {
 	var result app.MinerData
 
 	response, err := GetAsicInfo(ip_address, "summary")
@@ -73,32 +73,44 @@ func ResponseToStruct(ip_address string, downstream chan app.MinerData) {
 		return
 	}
 
-	result, err = ParsingDataNew(response)
-	if err != nil {
-		log.Printf("ResponseToStruct: %s", err.Error())
+	minerType = strings.Split(minerType, " ")[0]
+	if minerType == "" {
+		log.Println("ResponseToStruct: can't determine type of miner")
+		downstream <- result
+		return
+	}
+
+	//need to check
+	switch minerType {
+	case "Whatsminer":
+		//right
+		result, err = ParsingDataNew(response)
+		if err != nil {
+			log.Printf("ResponseToStruct: %s", err.Error())
+		}
+	case "Antminer":
 		response, err := GetAsicInfo(ip_address, "stats")
 		if err != nil {
 			log.Printf("ResponseToStruct: %s", err.Error())
-			downstream <- result
-			return
-		}
-
-		err = CheckResponse(response)
-		if err != nil {
-			log.Printf("ResponseToStruct: %s", err.Error())
-			downstream <- result
-			return
 		}
 
 		result, err = ParsingDataOld(response)
 		if err != nil {
 			log.Printf("ResponseToStruct: %s", err.Error())
-			result, err = ParsingDataMiddle(response)
-			if err != nil {
-				log.Printf("ResponseToStruct: %s", err.Error())
-			}
+		}
+
+	case "Avalon":
+		response, err := GetAsicInfo(ip_address, "stats")
+		if err != nil {
+			log.Printf("ResponseToStruct: %s", err.Error())
+		}
+
+		result, err = ParsingDataMiddle(response)
+		if err != nil {
+			log.Printf("ResponseToStruct: %s", err.Error())
 		}
 	}
+
 	result.IP = ip_address
 	downstream <- result
 }
@@ -115,7 +127,7 @@ func GetShare(IP string, share chan ShareStruct) {
 		return
 	}
 	share <- ShareStruct{IP, shareInt}
-} 
+}
 
 func UpdateDeviceShare(devices *[]app.MinerDevice, share ShareStruct) {
 	for i := 0; i < len(*devices); i++ {
@@ -131,7 +143,7 @@ func ShareParsing(data string) (int64, error) {
 	if err != nil {
 		return 0, fmt.Errorf("can't compile regexp: %s", err.Error())
 	}
-	
+
 	arr := r.FindAllString(data, -1)
 	data_map := make(map[string]string)
 	for _, val := range arr {

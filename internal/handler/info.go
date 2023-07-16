@@ -33,6 +33,9 @@ func (h *Handler) FindDeviceIP(c *gin.Context) {
 			log.Printf("check response %s: %s", value, err.Error())
 			continue
 		}
+		deviceType := h.services.DefineType(response)
+		value = append(value, deviceType)
+
 		isMapped, err := h.services.IsIPMapped(value[1])
 		if err != nil {
 			log.Printf("check response %s: %s", value, err.Error())
@@ -91,7 +94,7 @@ func (h *Handler) SaveMinerData(c *gin.Context, exitChan chan bool) {
 
 				// start goroutune and
 				// send result to channel
-				go pkg.ResponseToStruct(elem.IP, deviceResponse)
+				go pkg.ResponseToStruct(elem.IP, device.MinerType, deviceResponse)
 
 				devices = append(devices, device)
 			}
