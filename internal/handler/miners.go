@@ -67,7 +67,7 @@ func (h *Handler) getHome(c *gin.Context) {
 
 		// start goroutune and
 		// send result to channel
-		go pkg.ResponseToStruct(device.IPAddress, deviceResponse)
+		go pkg.ResponseToStruct(device.IPAddress, device.MinerType, deviceResponse)
 		go pkg.GetShare(device.IPAddress, deviceShare)
 		devices = append(devices, device)
 	}
@@ -192,7 +192,7 @@ func (h *Handler) minersGrid(c *gin.Context) {
 
 		// start goroutune and
 		// send result to channel
-		go pkg.ResponseToStruct(address, deviceResponse)
+		go pkg.ResponseToStruct(address, device.MinerType, deviceResponse)
 
 		devices = append(devices, device)
 	}
@@ -237,7 +237,7 @@ func (h *Handler) getMinerCharacteristics(c *gin.Context) {
 	}
 
 	channel := make(chan app.MinerData)
-	go pkg.ResponseToStruct(miner.IPAddress, channel)
+	go pkg.ResponseToStruct(miner.IPAddress, miner.MinerType, channel)
 	miner.Characteristics = <-channel
 
 	if miner.Characteristics.THSav == 0.0 {
