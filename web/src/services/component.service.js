@@ -25,10 +25,10 @@ const sendMessage = async (message, receiver) => {
 	);
 };
 
-const postLog = async (IP) => {
+const postLog = async (IP, MinerType) => {
 	return axios.post(
 		API_URL + 'get-kernel-log',
-		{ IP },
+		{ IP, MinerType },
 		{ headers: authHeader()}
 	)
     .then((response) => {

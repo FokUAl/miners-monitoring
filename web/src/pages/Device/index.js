@@ -56,7 +56,7 @@ export default function Device({ isHidden, setIsHidden, role, username }) {
 					handleActive={handleActive}
 				/>
 				{data.Miner && active === 0 && <DeviceInfo data={data} />}
-				{data.Miner && active === 1 && <DataLog IP={data.Miner.IPAddress}/>}
+				{data.Miner && active === 1 && <DataLog IP={data.Miner.IPAddress} MinerType={data.Miner.MinerType} />}
 				{data.CharacteristicsHistory && (
 					<DeviceGraph charHistory={data.CharacteristicsHistory} />
 				)}

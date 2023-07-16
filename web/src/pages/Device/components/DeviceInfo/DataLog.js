@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import ComponentService from '@services/component.service'
 import Container from '@components/Container/Container'
 
-const DataLog = ({ IP }) => {
+const DataLog = ({ IP, MinerType }) => {
     const [log, setLog] = useState()
     useEffect(() => {
-        ComponentService.postLog(IP).then(
+        ComponentService.postLog(IP, MinerType).then(
             (response) => {
                 setLog(response)
             },
