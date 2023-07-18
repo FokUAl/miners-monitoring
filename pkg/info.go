@@ -211,7 +211,7 @@ func ParsingDataNew(data string) (app.MinerData, error) {
 		return app.MinerData{}, fmt.Errorf("can't parse MHS av: %s", err.Error())
 	}
 
-	minerData.THSav = math.Round(minerData.THSav / 10000)
+	minerData.THSav = math.Round(minerData.THSav / 1000000)
 
 	minerData.FanSpeed1, err = strconv.ParseInt(data_map["Fan Speed In"], 10, 64)
 	if err != nil {
